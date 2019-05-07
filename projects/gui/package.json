@@ -1,6 +1,6 @@
 {
   "name": "@ha4us/ng-gui",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "an angular gui for the ha4us system",
   "main": ".dist/index.html",
   "author": "ulfalfa",

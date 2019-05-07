@@ -1,6 +1,6 @@
 {
   "name": "ha4us",
-  "version": "0.28.0",
+  "version": "0.28.1",
   "description": "Base modules for running a ha4us client",
   "main": "index.js",
   "author": "ulfalfa",
