@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.28.2](/compare/ha4us@0.28.1...ha4us@0.28.2) (2019-05-07)
+
+**Note:** Version bump only for package ha4us
+
+
+
+
+
 ## 0.28.1 (2019-05-07)
 
 **Note:** Version bump only for package ha4us

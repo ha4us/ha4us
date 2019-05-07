@@ -1,6 +1,6 @@
 {
   "name": "@ha4us/ng-gui",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "an angular gui for the ha4us system",
   "main": ".dist/index.html",
   "author": "ulfalfa",
@@ -9,6 +9,6 @@
     "build": "ng build --prod"
   },
   "dependencies": {
-    "ha4us": "0.x"
+    "ha4us": "^0.28.2"
   }
 }
