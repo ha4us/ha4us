@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-beta.1](https://github.com/ha4us/ha4us/compare/@ha4us/adapter.rest@1.0.0-beta.0...@ha4us/adapter.rest@1.0.0-beta.1) (2019-05-07)
+
+
+### Bug Fixes
+
+* awilix and mongodb libraries were missing for clean compile ([635c973](https://github.com/ha4us/ha4us/commit/635c973))
+
+
+
+
+
 # [1.0.0-beta.0](/compare/@ha4us/adapter.rest@0.5.3...@ha4us/adapter.rest@1.0.0-beta.0) (2019-05-07)
 
 
