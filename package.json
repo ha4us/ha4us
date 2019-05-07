@@ -2,8 +2,7 @@
   "name": "ng-ha4us",
   "version": "0.0.0",
   "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
+    "start": "lerna run watch  --parallel --ignore ha4us",
     "build": "lerna run build",
     "test": "ng test",
     "lint": "ng lint",

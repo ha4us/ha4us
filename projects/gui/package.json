@@ -6,7 +6,8 @@
   "author": "ulfalfa",
   "license": "MIT",
   "scripts": {
-    "build": "ng build --prod"
+    "build": "ng build --prod",
+    "watch": "ng serve"
   },
   "dependencies": {
     "ha4us": "^0.28.2"
