@@ -1,6 +1,6 @@
 import { createSelector, combineReducers } from '@ngrx/store'
 
-import { Ha4usObject, Ha4usObjectSearch } from 'ha4us/core'
+import { Ha4usObject, Ha4usObjectSearch } from '@ha4us/core'
 import * as Actions from './actions'
 import { Types } from './actions'
 import { Dictionary, EntitySelectors } from '@ngrx/entity/src/models'

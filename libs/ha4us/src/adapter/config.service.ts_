@@ -1,6 +1,0 @@
-import { AbstractConfigService } from '../core'
-import { ObjectService } from './object.service'
-
-export class ConfigService {
-    constructor($objects: ObjectService) {}
-}

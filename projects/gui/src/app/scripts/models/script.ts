@@ -1,4 +1,4 @@
-import { Ha4usObject, Ha4usRole } from 'ha4us/core'
+import { Ha4usObject, Ha4usRole } from '@ha4us/core'
 
 export class Ha4usScript {
   name: string

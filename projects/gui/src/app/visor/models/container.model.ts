@@ -1,4 +1,4 @@
-import { uuid, randomString } from 'ha4us/core'
+import { uuid, randomString } from '@ha4us/core'
 export enum VisorEntityType {
     'Container' = 'visor',
     'Widget' = 'widget',

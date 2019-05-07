@@ -1,5 +1,5 @@
 import { InjectionToken } from '@angular/core'
-import { defaultsDeep } from 'ha4us/core'
+import { defaultsDeep } from '@ha4us/core'
 
 import { Type } from '@angular/core'
 import {

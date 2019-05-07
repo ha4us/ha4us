@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core'
 
 import { MapService } from '../services/map.service'
-import { ValueMap } from 'ha4us/core'
+import { ValueMap } from '@ha4us/core'
 
 @Pipe({
     name: 'map',

@@ -9,7 +9,7 @@ import {
   ContentChildren,
 } from '@angular/core'
 
-import { Ha4usObject, MqttUtil } from 'ha4us/core'
+import { Ha4usObject, MqttUtil } from '@ha4us/core'
 
 import { ClipboardService } from '@ulfalfa/ng-util'
 

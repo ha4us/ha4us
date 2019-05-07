@@ -6,7 +6,7 @@ import {
   EventEmitter,
 } from '@angular/core'
 import { ObjectService } from '../../services/object.service'
-import { Ha4usObject, MqttUtil } from 'ha4us/core'
+import { Ha4usObject, MqttUtil } from '@ha4us/core'
 import {
   MatTreeFlatDataSource,
   MatTreeFlattener,

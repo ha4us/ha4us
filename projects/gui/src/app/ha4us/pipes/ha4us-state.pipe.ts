@@ -9,7 +9,7 @@ import {
 import { Observable, Subscription, Subject } from 'rxjs'
 
 import { scan } from 'rxjs/operators'
-import { Ha4usMessage } from 'ha4us/core'
+import { Ha4usMessage } from '@ha4us/core'
 import { StatesService } from '../services/state.service'
 @Pipe({
   name: 'ha4usState',

@@ -17,7 +17,7 @@ import {
 
 import { State, mediaAdapter } from './state'
 
-import { Ha4usMedia } from 'ha4us/core'
+import { Ha4usMedia } from '@ha4us/core'
 import { getMedia } from '../store'
 
 

@@ -20,7 +20,7 @@ import { Subscription } from 'rxjs'
 
 import { debounceTime, filter } from 'rxjs/operators'
 
-import { Ha4usMedia } from 'ha4us/core'
+import { Ha4usMedia } from '@ha4us/core'
 
 import { MediaService } from '../../services/media.service'
 

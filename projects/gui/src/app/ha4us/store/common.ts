@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store'
-import { Ha4usError } from 'ha4us/core'
+import { Ha4usError } from '@ha4us/core'
 export class Ha4usAction<T = any> implements Action {
     readonly type: string
     constructor(public payload: T) {}

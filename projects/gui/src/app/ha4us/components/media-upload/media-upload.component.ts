@@ -20,7 +20,7 @@ import { MatButtonToggleChange } from '@angular/material'
 
 import { MediaService } from '../../services/media.service'
 
-import { Ha4usMedia } from 'ha4us/core'
+import { Ha4usMedia } from '@ha4us/core'
 import * as Cropper from 'cropperjs/dist/cropper'
 
 import { bindCallback, of, Observable } from 'rxjs'

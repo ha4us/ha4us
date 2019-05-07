@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core'
 import { Observable } from 'rxjs'
 import { map, tap, filter } from 'rxjs/operators'
 import { ObjectService } from '@ha4us/ng'
-import { Ha4usRole, Ha4usObject, MqttUtil } from 'ha4us/core'
+import { Ha4usRole, Ha4usObject, MqttUtil } from '@ha4us/core'
 import { Ha4usScript } from '../models'
 
 export * from '../models'

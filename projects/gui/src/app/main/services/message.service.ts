@@ -4,7 +4,7 @@ import { pluck } from 'rxjs/operators'
 import { MatSnackBar, MatDialog } from '@angular/material'
 
 import { ConfirmDialogComponent } from '../components/confirm-dialog/confirm-dialog.component'
-import { Ha4usError } from 'ha4us'
+import { Ha4usError } from '@ha4us/core'
 import { sprintf } from 'sprintf-js'
 
 import { Msg } from '../models/msg'
@@ -80,7 +80,7 @@ export class MessageService {
     message = message || _messages[Msg.NOTEXISTING]
 
     const sRef = this.sb.open(sprintf(message.msg, args), 'Upps!', {
-      duration: duration,
+      duration,
       panelClass: ['snack', MessageType[message.type]],
     })
     return sRef

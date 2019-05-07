@@ -29,7 +29,7 @@ import {
   Ha4usObjectQuery,
   Ha4usError,
   Ha4usRole,
-} from 'ha4us/core'
+} from '@ha4us/core'
 import { Ha4usApiService } from './ha4us-api.service'
 import { MatDialog } from '@angular/material'
 import { ObjectEditDialogComponent } from '../components/object-edit-dialog/object-edit-dialog.component'

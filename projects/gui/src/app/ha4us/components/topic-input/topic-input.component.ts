@@ -34,7 +34,7 @@ import { tap, debounceTime, mergeMap, map, filter } from 'rxjs/operators'
 
 import { SPACE } from '@angular/cdk/keycodes'
 
-import { MqttUtil } from 'ha4us/core'
+import { MqttUtil } from '@ha4us/core'
 
 import { Ha4usFormControl } from '@ulfalfa/ng-util'
 

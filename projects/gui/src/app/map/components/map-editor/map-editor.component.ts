@@ -24,7 +24,7 @@ import {
   ValueMap,
   ValueCondition,
   TValueOperator,
-} from 'ha4us/core'
+} from '@ha4us/core'
 
 export interface MapEditorResponse {
   action: 'delete' | 'save' | 'cancel'

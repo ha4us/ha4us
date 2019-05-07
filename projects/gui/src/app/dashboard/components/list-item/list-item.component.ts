@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core'
 import { Observable } from 'rxjs'
-import { Ha4usObject } from 'ha4us/core'
+import { Ha4usObject } from '@ha4us/core'
 
 import { ObjectService, Ha4usRoleDefinition } from '@ha4us/ng'
 @Component({

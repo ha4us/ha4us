@@ -7,7 +7,7 @@ import {
   Output,
 } from '@angular/core'
 import { FormBuilder, FormGroup } from '@angular/forms'
-import { Ha4usObject, Ha4usRole } from 'ha4us/core'
+import { Ha4usObject, Ha4usRole } from '@ha4us/core'
 import { Subscription } from 'rxjs'
 import { debounceTime, filter } from 'rxjs/operators'
 import { ObjectService } from '../../services/object.service'

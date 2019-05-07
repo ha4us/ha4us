@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, NgZone, OnInit, ViewChild } from '@angular/core'
 import { MatDialog, MatPaginator, MatSort } from '@angular/material'
 import { ActivatedRoute } from '@angular/router'
-import { Ha4usMessage, MqttUtil } from 'ha4us/core'
+import { Ha4usMessage, MqttUtil } from '@ha4us/core'
 import { Observable, Subject } from 'rxjs'
 import { debounceTime, map, scan, switchMap, take, tap } from 'rxjs/operators'
 import { StatesService } from '@ha4us/ng'

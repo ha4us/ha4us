@@ -1,4 +1,4 @@
-import { Ha4usObjectDisplay } from 'ha4us/core'
+import { Ha4usObjectDisplay } from '@ha4us/core'
 export interface Ha4usRoleDefinition extends Ha4usObjectDisplay {
   selector: string
 }

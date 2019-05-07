@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core'
 
 import { ConfigService } from '@ha4us/ng'
 
-import { MqttUtil, ValueMap, IValueMap, TValueOperator } from 'ha4us/core'
-import { Ha4usError } from 'ha4us/core/ha4us-error'
+import { MqttUtil, ValueMap, IValueMap, TValueOperator } from '@ha4us/core'
+import { Ha4usError } from '@ha4us/core'
 
 const MAP_PREFIX = 'maps'
 

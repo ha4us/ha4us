@@ -10,7 +10,7 @@ import {
   MAT_DIALOG_DATA,
   MatDialogConfig,
 } from '@angular/material'
-import { Ha4usObject } from 'ha4us'
+import { Ha4usObject } from '@ha4us/core'
 export interface Ha4usObjectEditDialogData extends MatDialogConfig {
   topic: Ha4usObject
 }

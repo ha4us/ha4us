@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core'
-import { convertWildcarded } from 'ha4us/core'
+import { convertWildcarded } from '@ha4us/core'
 
 @Pipe({
   name: 'wildcard',

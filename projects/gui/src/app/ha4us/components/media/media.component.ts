@@ -17,7 +17,7 @@ import { SafeHtml } from '@angular/platform-browser'
 
 import { MediaService } from '../../services/media.service'
 
-import { Ha4usMedia, Ha4usError } from 'ha4us/core'
+import { Ha4usMedia, Ha4usError } from '@ha4us/core'
 
 import {
   Observable,

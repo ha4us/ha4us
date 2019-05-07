@@ -1,4 +1,4 @@
-import { Ha4usObject, MqttUtil } from 'ha4us/core'
+import { Ha4usObject, MqttUtil } from '@ha4us/core'
 import { VisorEntity, VisorId } from './container.model'
 import { VisorConfig } from './config'
 

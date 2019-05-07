@@ -10,6 +10,7 @@
     "watch": "ng serve"
   },
   "dependencies": {
-    "ha4us": "^0.28.2"
+    "@ha4us/adapter": "0.x",
+    "@ha4us/core": "0.x"
   }
 }

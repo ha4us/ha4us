@@ -13,7 +13,7 @@ import { MediaService } from '../../services/media.service'
 
 import chunk from 'lodash/chunk'
 
-import { Ha4usMedia } from 'ha4us/core'
+import { Ha4usMedia } from '@ha4us/core'
 
 import { Subject, Subscription, combineLatest, Observable } from 'rxjs'
 

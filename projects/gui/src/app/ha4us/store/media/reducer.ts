@@ -17,7 +17,7 @@ import {
 
 import { mediaAdapter, State, MediaState } from './state'
 
-import { Ha4usMedia, IPager } from 'ha4us/core'
+import { Ha4usMedia, IPager } from '@ha4us/core'
 import * as Actions from './actions'
 import { Types } from './actions'
 

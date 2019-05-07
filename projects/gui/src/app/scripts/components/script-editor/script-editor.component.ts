@@ -6,7 +6,7 @@ import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { Subscription, Observable } from 'rxjs';
 import { map, tap, mergeMap, filter, take } from 'rxjs/operators';
 
-import { MqttUtil } from 'ha4us/core';
+import { MqttUtil } from '@ha4us/core';
 import { ScriptService } from '../../services/script.service';
 
 import { MonacoConfig } from './monaco-config';

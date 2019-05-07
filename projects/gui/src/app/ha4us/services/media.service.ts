@@ -28,7 +28,7 @@ import {
   Ha4usError,
   Ha4usMedia,
   Ha4usMediaDefinition,
-} from 'ha4us/core'
+} from '@ha4us/core'
 
 import { Ha4usApiService } from './ha4us-api.service'
 import { MediaSearchEvent } from '../models'

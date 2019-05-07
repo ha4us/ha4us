@@ -6,7 +6,7 @@ import {
   IClientSubscribeOptions,
   ClientSubscribeCallback,
   IClientPublishOptions,
-} from 'ha4us/core/types'
+} from '@ha4us/core'
 import { EventEmitter } from 'events'
 
 import { Observable, fromEvent, of } from 'rxjs'

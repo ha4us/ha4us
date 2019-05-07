@@ -34,7 +34,7 @@ import {
 } from '@angular/material'
 
 import { MapService } from '../../services/map.service'
-import { IValueMap, ValueMap } from 'ha4us/core'
+import { IValueMap, ValueMap } from '@ha4us/core'
 import {
   MapEditorComponent,
   MapEditorResponse,

@@ -1,4 +1,4 @@
-import { Ha4usUser } from 'ha4us/core'
+import { Ha4usUser } from '@ha4us/core'
 
 export interface AuthInfo {
     exp: number

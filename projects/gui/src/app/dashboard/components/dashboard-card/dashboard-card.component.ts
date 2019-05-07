@@ -6,7 +6,7 @@ import {
   OnInit,
 } from '@angular/core'
 import { ObjectService } from '@ha4us/ng'
-import { Ha4usObject } from 'ha4us/core'
+import { Ha4usObject } from '@ha4us/core'
 
 @Component({
   selector: 'ha4us-dashboard-card',

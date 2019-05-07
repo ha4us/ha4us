@@ -3,8 +3,8 @@ import {
   Ha4usSuccessAction,
   Ha4usFailureAction,
 } from '../common'
-import { Ha4usError } from 'ha4us/core'
-import { Ha4usMedia, Ha4usMediaDefinition } from 'ha4us/core'
+import { Ha4usError } from '@ha4us/core'
+import { Ha4usMedia, Ha4usMediaDefinition } from '@ha4us/core'
 import { MediaSearchEvent } from '../../models'
 import { SafeHtml } from '@angular/platform-browser'
 export enum Types {

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core'
 import { HttpClient, HttpParams } from '@angular/common/http'
 import { Headers, RequestOptions } from '@angular/http'
 
-import { Ha4usConfig, Ha4usError, MqttUtil } from 'ha4us/core'
+import { Ha4usConfig, Ha4usError, MqttUtil } from '@ha4us/core'
 const debug = require('debug')('ha4us:gui:config:service')
 @Injectable({
   providedIn: 'root',

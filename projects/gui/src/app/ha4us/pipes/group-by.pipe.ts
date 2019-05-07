@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core'
-import { groupBy } from 'ha4us/core'
+import { groupBy } from '@ha4us/core'
 @Pipe({
   name: 'groupBy'
 })

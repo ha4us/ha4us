@@ -1,10 +1,10 @@
 import { Pipe, PipeTransform, OnDestroy } from '@angular/core'
-import { MqttUtil } from 'ha4us/core'
+import { MqttUtil } from '@ha4us/core'
 
 import { Observable, Subscription, Subject } from 'rxjs'
 
 import { scan } from 'rxjs/operators'
-import { Ha4usObject } from 'ha4us/core'
+import { Ha4usObject } from '@ha4us/core'
 import { ObjectService } from '../services/object.service'
 
 const debug = require('debug')('ha4us:object:object-pipe')

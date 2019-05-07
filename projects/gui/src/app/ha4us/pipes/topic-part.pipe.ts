@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core'
-import { MqttUtil } from 'ha4us/core'
+import { MqttUtil } from '@ha4us/core'
 @Pipe({
   name: 'topicPart',
 })

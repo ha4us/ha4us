@@ -1,5 +1,5 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity'
-import { Ha4usObject, Ha4usObjectSearch } from 'ha4us/core'
+import { Ha4usObject, Ha4usObjectSearch } from '@ha4us/core'
 
 export interface ObjectState extends EntityState<Ha4usObject> {}
 

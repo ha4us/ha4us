@@ -1,4 +1,4 @@
-import { Ha4usMedia } from 'ha4us/core'
+import { Ha4usMedia } from '@ha4us/core'
 
 export interface Ha4usMediaCaching extends Ha4usMedia {
     cache?: string

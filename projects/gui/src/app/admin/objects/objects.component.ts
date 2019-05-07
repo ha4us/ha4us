@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { Ha4usObject, MqttUtil } from 'ha4us/core';
+import { Component, OnInit } from '@angular/core'
+import { Ha4usObject, MqttUtil } from '@ha4us/core'
 
-import { Observable, combineLatest } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs'
 import {
   withLatestFrom,
   map,
@@ -9,23 +9,23 @@ import {
   refCount,
   take,
   mergeMap,
-} from 'rxjs/operators';
-import { ObjectService, StatesService } from '@ha4us/ng';
+} from 'rxjs/operators'
+import { ObjectService, StatesService } from '@ha4us/ng'
 
-import { MessageService, Msg } from '@app/main';
-import { TreeNodeEvent } from '@ha4us/ng/components/object-tree/object-tree.component';
-import { Ha4usObjectCollectionEvent } from '@ha4us/ng/components/object-list/object-list.component';
+import { MessageService, Msg } from '@app/main'
+import { TreeNodeEvent } from '@ha4us/ng/components/object-tree/object-tree.component'
+import { Ha4usObjectCollectionEvent } from '@ha4us/ng/components/object-list/object-list.component'
 
-const debug = require('debug')('ha4us:gui:admin');
+const debug = require('debug')('ha4us:gui:admin')
 @Component({
   selector: 'ha4us-objects',
   templateUrl: './objects.component.html',
   styleUrls: ['./objects.component.scss'],
 })
 export class ObjectsComponent implements OnInit {
-  newTopic: Observable<string>;
+  newTopic: Observable<string>
 
-  selectedObject: Ha4usObject;
+  selectedObject: Ha4usObject
   constructor(
     protected os: ObjectService,
     protected states: StatesService,
@@ -43,53 +43,53 @@ export class ObjectsComponent implements OnInit {
       ),
       publishReplay(1),
       refCount()
-    );
+    )
   }
 
   newObject($event) {
     this.newTopic.pipe(take(1)).subscribe(topic => {
-      this.os.create(topic);
-    });
+      this.os.create(topic)
+    })
   }
 
   objectChanged($event: Ha4usObject) {
-    this.os.upsert($event);
+    this.os.upsert($event)
   }
 
   doAction($event: Ha4usObjectCollectionEvent) {
-    debug('Doing Action', $event);
+    debug('Doing Action', $event)
 
     switch ($event.type) {
       case 'add_child':
-        this.os.upsert($event.source);
-        break;
+        this.os.upsert($event.source)
+        break
       case 'delete':
         this.ms.confirm(Msg.DeleteReally).subscribe(result => {
           if (result) {
-            this.os.remove($event.source.topic);
+            this.os.remove($event.source.topic)
           }
-        });
-        break;
+        })
+        break
       case 'watch':
-        const topicToObserve = MqttUtil.join($event.source.topic, '#');
-        debug('Observing', topicToObserve);
-        this.states.goAndObserve(topicToObserve);
-        break;
+        const topicToObserve = MqttUtil.join($event.source.topic, '#')
+        debug('Observing', topicToObserve)
+        this.states.goAndObserve(topicToObserve)
+        break
       default:
-        this.selectedObject = $event.source;
+        this.selectedObject = $event.source
     }
   }
 
   observeState(topic: string, event: any) {
-    event.stopPropagation();
+    event.stopPropagation()
 
-    const topicToObserve = MqttUtil.join(topic, '#');
-    debug('Observing', topicToObserve);
-    this.states.goAndObserve(topicToObserve);
+    const topicToObserve = MqttUtil.join(topic, '#')
+    debug('Observing', topicToObserve)
+    this.states.goAndObserve(topicToObserve)
   }
 
   add(event: any) {
-    debug('Adding object', event);
-    this.os.upsert(this.os.new(event));
+    debug('Adding object', event)
+    this.os.upsert(this.os.new(event))
   }
 }

@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core'
-import { get } from 'ha4us/core'
+import { get } from '@ha4us/core'
 
 @Pipe({
   name: 'get'

@@ -2,7 +2,7 @@
   "name": "ng-ha4us",
   "version": "0.0.0",
   "scripts": {
-    "start": "lerna run watch  --parallel --ignore ha4us",
+    "start": "lerna run watch  --parallel --ignore @ha4us/core --ignore @ha4us/adapter",
     "build": "lerna run build",
     "test": "ng test",
     "lint": "ng lint",
@@ -83,7 +83,7 @@
     "ngx-gauge": "^1.0.0-beta.7",
     "ngx-moment": "^3.3.0",
     "ngx-monaco-editor": "^6.0.0",
-    "rxjs": "6.4.x",
+    "rxjs": "6.3.x",
     "sprintf-js": "^1.1.1",
     "tslib": "^1.9.0",
     "zone.js": "~0.8.26"

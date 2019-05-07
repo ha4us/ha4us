@@ -9,7 +9,7 @@ import {
   Ha4usObjectEvent,
   Ha4usError,
   Ha4usObjectQuery,
-} from 'ha4us/core'
+} from '@ha4us/core'
 
 // import { Search as SearchModel } from './models'
 import { Ha4usRoleDefinition } from '../../models'

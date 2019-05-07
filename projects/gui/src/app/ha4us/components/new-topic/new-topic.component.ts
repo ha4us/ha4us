@@ -17,7 +17,7 @@ import { map, tap, first, filter } from 'rxjs/operators'
 
 import { ObjectService } from '../../services/object.service'
 
-import { MqttUtil } from 'ha4us/core'
+import { MqttUtil } from '@ha4us/core'
 
 const debug = require('debug')('ha4us:gui:object:new-topic')
 @Component({

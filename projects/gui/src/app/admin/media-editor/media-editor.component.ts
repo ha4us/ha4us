@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
-import { Ha4usMedia } from 'ha4us/core'
+import { Ha4usMedia } from '@ha4us/core'
 
 import { Observable, Subscription } from 'rxjs'
 import { filter, take } from 'rxjs/operators'

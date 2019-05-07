@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core'
 import { Observable } from 'rxjs'
 import { take, map } from 'rxjs/operators'
-import { Ha4usObject } from 'ha4us/core'
+import { Ha4usObject } from '@ha4us/core'
 
 import { Ha4usWidget } from '@app/widgets'
 

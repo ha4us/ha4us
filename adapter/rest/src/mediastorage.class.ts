@@ -1,12 +1,12 @@
-import { StorageEngine } from 'multer'
-import { Request, Express } from 'express'
+import { StorageEngine } from 'multer';
+import { Request, Express } from 'express';
 
-import { DBMediaService } from 'ha4us/adapter'
-import { Ha4usLogger } from 'ha4us'
+import { DBMediaService } from '@ha4us/adapter';
+import { Ha4usLogger } from '@ha4us/core';
 
 export class MediaStorageEngine implements StorageEngine {
   constructor(protected $log: Ha4usLogger, protected _media: DBMediaService) {
-    $log.debug('Installing Storage Engine')
+    $log.debug('Installing Storage Engine');
   }
 
   _handleFile(
@@ -14,7 +14,7 @@ export class MediaStorageEngine implements StorageEngine {
     file: any,
     callback: (error?: any, info?: Partial<Express.Multer.File>) => void
   ): void {
-    this.$log.debug('Handle File', req.body, file)
+    this.$log.debug('Handle File', req.body, file);
 
     const ws = this._media.getWriteStream(file.originalname, {
       contentType: file.mimetype,
@@ -24,21 +24,21 @@ export class MediaStorageEngine implements StorageEngine {
         ? req.body.tags.split(',').map(tag => tag.trim())
         : [],
       dtl: req.body.dtl ? parseInt(req.body.dtl, 10) : undefined,
-    })
+    });
 
-    file.stream.pipe(ws)
+    file.stream.pipe(ws);
 
     ws.once('finish', aFile => {
-      this.$log.debug('gridfs-storage-engine: saved', aFile)
-      callback(null, aFile)
-    })
+      this.$log.debug('gridfs-storage-engine: saved', aFile);
+      callback(null, aFile);
+    });
   }
   _removeFile(
     req: Request,
     file: Express.Multer.File,
     callback: (error: Error) => void
   ): void {
-    this.$log.warn('Delete File not implemented', req.body, file)
+    this.$log.warn('Delete File not implemented', req.body, file);
     /*   delete file.buffer;
     if (file._id) {
        this._media.delete(file.);

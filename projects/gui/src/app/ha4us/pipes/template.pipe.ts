@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core'
 
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser'
-import { compile, render, Ha4usMessage, isEqual } from 'ha4us/core'
+import { compile, render, Ha4usMessage, isEqual } from '@ha4us/core'
 
 @Pipe({
     name: 'template',

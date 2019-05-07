@@ -1,7 +1,0 @@
-import { AbstractMapService } from '../core'
-import { ConfigService } from './services'
-export class MapService extends AbstractMapService {
-    constructor($config: ConfigService) {
-        super($config)
-    }
-}

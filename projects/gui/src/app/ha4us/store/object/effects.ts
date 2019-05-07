@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { Actions as FxActions, Effect, ofType } from '@ngrx/effects'
 import { select, Store } from '@ngrx/store'
-import { Ha4usObjectEvent } from 'ha4us/core'
+import { Ha4usObjectEvent } from '@ha4us/core'
 import { of } from 'rxjs'
 import {
   catchError,

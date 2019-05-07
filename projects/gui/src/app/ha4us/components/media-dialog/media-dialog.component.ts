@@ -8,7 +8,7 @@ import {
 } from '@angular/material'
 import { Subscription } from 'rxjs'
 import { map, skip } from 'rxjs/operators'
-import { Ha4usMedia } from 'ha4us/core'
+import { Ha4usMedia } from '@ha4us/core'
 import { MediaObserver } from '@angular/flex-layout'
 export interface Ha4usMediaDialogData extends MatDialogConfig {
     media: Ha4usMedia

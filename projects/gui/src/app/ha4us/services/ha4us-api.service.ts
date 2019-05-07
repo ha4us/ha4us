@@ -17,7 +17,7 @@ import {
   HA4US_OBJECT,
   Ha4usMedia,
   Ha4usMediaDefinition,
-} from 'ha4us/core'
+} from '@ha4us/core'
 
 import { MediaSearchEvent } from '../models'
 import { MediaService } from './media.service'

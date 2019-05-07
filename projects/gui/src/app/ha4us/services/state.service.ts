@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { Router } from '@angular/router'
 import { IOClient } from './ioclient.class'
-import { MqttService } from 'ha4us/core'
+import { MqttService } from '@ha4us/core'
 
 @Injectable({
   providedIn: 'root',

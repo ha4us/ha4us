@@ -1,0 +1,6 @@
+import { AbstractConfigService } from '@ha4us/core'
+import { ObjectService } from './object.service'
+
+export class ConfigService {
+    constructor($objects: ObjectService) {}
+}

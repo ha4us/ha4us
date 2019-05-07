@@ -7,7 +7,7 @@ import {
 
 import { MediaSearchEvent } from '../../models'
 
-import { Ha4usMedia, IPager } from 'ha4us/core'
+import { Ha4usMedia, IPager } from '@ha4us/core'
 
 import { SafeHtml } from '@angular/platform-browser'
 export interface MediaState extends EntityState<Ha4usMedia> {

@@ -1,23 +1,11 @@
-import { Stream } from 'stream';
-import * as multer from 'multer';
-
-import { MediaStorageEngine } from '../mediastorage.class';
-import { Db } from 'mongodb';
-import {
-  UserService,
-  ObjectService,
-  DBMediaService,
-  fileToHa4usMedia,
-  mediaToFile,
-} from 'ha4us/adapter';
-
-import { WebService, Request, Response, Router } from '../web.service';
-import { Ha4usError, Ha4usLogger, Ha4usMedia } from 'ha4us/core';
-import * as Express from 'express';
-
+import { DBMediaService, fileToHa4usMedia } from '@ha4us/adapter';
+import { Ha4usError, Ha4usLogger, Ha4usMedia } from '@ha4us/core';
 import axios from 'axios';
-
+import { Db } from 'mongodb';
+import * as multer from 'multer';
 import * as hash from 'object-hash';
+import { MediaStorageEngine } from '../mediastorage.class';
+import { Request, Response, Router, WebService } from '../web.service';
 
 module.exports = exports = function(
   route: Router,
@@ -105,7 +93,7 @@ module.exports = exports = function(
           );
 
           return axios.get(uri, { responseType: 'stream' }).then(response => {
-            //media.contentType = response.headers['content-type']
+            // media.contentType = response.headers['content-type']
 
             $log.debug(
               'Response header from voicrss %s',

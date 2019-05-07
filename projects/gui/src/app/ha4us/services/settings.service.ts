@@ -11,7 +11,7 @@ import {
 } from 'rxjs/operators'
 import set from 'lodash/set'
 
-import { Ha4usObjectType, MqttUtil } from 'ha4us/core'
+import { Ha4usObjectType, MqttUtil } from '@ha4us/core'
 import { ObjectService } from './object.service'
 import { AuthService } from './auth.service'
 

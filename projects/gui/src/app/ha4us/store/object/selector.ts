@@ -6,12 +6,12 @@ import {
   ActionReducer,
 } from '@ngrx/store'
 
-import { MqttUtil, Matcher, unique, convertWildcarded } from 'ha4us/core'
+import { MqttUtil, Matcher, unique, convertWildcarded } from '@ha4us/core'
 
 import * as fromObject from './reducer'
 import { State, objectAdapter } from './state'
 
-import { Ha4usObjectQuery, Ha4usObjectSearch, Ha4usRole } from 'ha4us/core'
+import { Ha4usObjectQuery, Ha4usObjectSearch, Ha4usRole } from '@ha4us/core'
 import { getObjects } from '../store'
 
 export const objects = createSelector(
