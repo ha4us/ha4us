@@ -1,6 +1,6 @@
 {
   "name": "@ha4us/core",
-  "version": "0.28.2",
+  "version": "1.0.0-beta.0",
   "description": "Core modules for all ha4us modules",
   "main": "dist/index.js",
   "author": "ulfalfa",
@@ -77,22 +77,21 @@
     "temp-directory": "./build/nyc_output"
   },
   "dependencies": {
-
     "debug": "~2.6.8",
     "lodash": "^4.17.10",
     "luxon": "^1.6.2",
     "mqtt": "^2.18.2"
   },
   "devDependencies": {
-    "@types/luxon": "^1.4.1",
     "@types/debug": "^0.0.30",
     "@types/lodash": "^4.14.109",
     "@types/lolex": "^2.1.2",
+    "@types/luxon": "^1.4.1",
     "@types/node": "^10.0.10",
     "@types/sinon": "^5.0.1",
     "ava": "1.0.0-beta.6",
-    "lolex": "^2.1.2",
     "gh-pages": "^1.2.0",
+    "lolex": "^2.1.2",
     "nyc": "11.0.3",
     "opn-cli": "^3.1.0",
     "sinon": "^6.0.1",
