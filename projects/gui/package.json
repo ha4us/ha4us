@@ -4,5 +4,11 @@
   "description": "an angular gui for the ha4us system",
   "main": ".dist/index.html",
   "author": "ulfalfa",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "build": "ng build --prod"
+  },
+  "dependencies": {
+    "ha4us": "0.x"
+  }
 }
