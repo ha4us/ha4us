@@ -1,0 +1,38 @@
+.uploadarea {
+    border: 3px dashed gray;
+    background-color: lightgray;
+    overflow: hidden;
+    border-radius: 10%;
+
+    min-width: 200px;
+
+    img {
+        max-width: 100%; /* This rule is very important, please do not ignore this! */
+    }
+
+    &.invalid-drag {
+        border: dotted 3px red;
+    }
+    &.valid-drag {
+        border: dotted 3px green;
+    }
+}
+.uploadarea:before {
+    content: '';
+    display: block;
+    padding-top: 100%;
+    float: left;
+}
+.audio {
+    position: relative;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    button {
+        position: absolute;
+    }
+    mat-progress-spinner {
+        position: absolute;
+    }
+}

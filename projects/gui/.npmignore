@@ -1,0 +1,7 @@
+src
+*.tgz
+ts*.json
+proxy.conf.json
+angular.json
+browserlist
+karma.conf.json

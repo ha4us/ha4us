@@ -1,0 +1,9 @@
+@import '~@angular/material/theming';
+
+// Create a config with the default typography levels.
+$config: mat-typography-config();
+
+.virtual-node {
+  @include mat-typography-level-to-styles($config, title);
+  color: lightgray;
+}

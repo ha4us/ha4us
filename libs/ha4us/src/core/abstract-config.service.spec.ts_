@@ -1,0 +1,140 @@
+import anyTest, { serial, Macro, TestInterface } from 'ava'
+
+import { TestMongo } from '../test/mongo-db.mock'
+import { Db } from 'mongodb'
+import { LoggerMock } from '../test/logger.mock'
+
+import { ObjectService } from '../adapter/object.service'
+import {
+  Ha4usConfigLike,
+  Ha4usConfig,
+  AbstractConfigService,
+} from './abstract-config.service'
+
+interface Context {
+  cs: ConfigService
+  mongo: TestMongo
+  db?: Db
+  os: ObjectService
+}
+
+const test = anyTest as TestInterface<Context>
+
+const SYS_CFG_IN: Ha4usConfigLike<any> = {
+  name: 'SYSCFG',
+  value: 'systemvalue',
+}
+
+const SYS_CFG_OUT: Ha4usConfig<any> = {
+  name: 'SYSCFG',
+  value: 'systemvalue',
+  tags: [],
+  type: 'string',
+  user: '_system_',
+}
+const USR_CFG_IN: Ha4usConfigLike<any> = {
+  name: 'USRCFG',
+  value: 'uservalue',
+  type: 'ANYOTHERSUSERTYPE',
+  tags: ['TEST'],
+}
+
+const TESTUSER = 'testuser'
+const USR_CFG_OUT: Ha4usConfig<any> = {
+  name: 'USRCFG',
+  value: 'uservalue',
+  user: TESTUSER,
+  type: 'ANYOTHERSUSERTYPE',
+  tags: ['TEST'],
+}
+
+class ConfigService extends AbstractConfigService {}
+
+test.before(() => {})
+
+test.beforeEach(async t => {
+  const mongo = new TestMongo()
+  const db = await mongo.getDb()
+  const log = LoggerMock('test')
+  const os = new ObjectService(log, db, { name: 'test' })
+
+  t.log(`Database ${mongo.getUrl()} created`)
+
+  t.context = {
+    os,
+    cs: new ConfigService(os),
+    mongo,
+  }
+})
+
+test.afterEach.always(async t => {
+  t.context.mongo.drop()
+})
+
+test('Create configs', async t => {
+  t.log(`Database ${t.context.mongo.getUrl()} created`)
+  let result = await t.context.cs.set(SYS_CFG_IN)
+  t.deepEqual(result, SYS_CFG_OUT)
+  result = await t.context.cs.set(USR_CFG_IN, TESTUSER)
+  t.deepEqual(result, USR_CFG_OUT)
+
+  result = await t.context.cs.set(SYS_CFG_IN, TESTUSER)
+  t.is(result.user, TESTUSER)
+  t.is(result.name, SYS_CFG_OUT.name)
+})
+
+test('Get configs incl. fallback to system config', async t => {
+  t.log(`Database ${t.context.mongo.getUrl()} created`)
+  await t.throws(t.context.cs.getOne('notexisting'), /404/)
+  await t.throws(t.context.cs.getOne('notexisting', 'anyuser'), /404/)
+
+  await t.context.cs.set(SYS_CFG_IN)
+  let result = await t.context.cs.getOne(SYS_CFG_IN.name)
+  t.deepEqual(result, SYS_CFG_OUT)
+  result = await t.context.cs.getOne(SYS_CFG_IN.name, '_system_')
+  t.deepEqual(result, SYS_CFG_OUT)
+  result = await t.context.cs.getOne(SYS_CFG_IN.name, TESTUSER)
+  t.deepEqual(result, SYS_CFG_OUT)
+
+  await t.context.cs.set(USR_CFG_IN, TESTUSER)
+
+  result = await t.context.cs.getOne(USR_CFG_IN.name, TESTUSER)
+  t.is(result.user, TESTUSER)
+  await t.throws(t.context.cs.getOne(USR_CFG_IN.name), /404/)
+})
+
+test('List existing', async t => {
+  t.log(`Database ${t.context.mongo.getUrl()} created`)
+  // systemconfig are always returned
+  await t.context.cs.set(SYS_CFG_IN)
+  await t.context.cs.set(USR_CFG_IN)
+  await t.context.cs.set(USR_CFG_IN, TESTUSER)
+
+  let result = await t.context.cs.get()
+  t.is(result.length, 2) //the first 2
+
+  result = await t.context.cs.get('USRCFG')
+  t.is(result.length, 1) //only the system one
+
+  result = await t.context.cs.get('#', TESTUSER)
+  t.is(result.length, 2) //the first an the last
+
+  result = await t.context.cs.get('USRCFG', TESTUSER)
+  t.is(result.length, 1) //the third
+
+  result = await t.context.cs.get('#', 'anyotheruser')
+  t.is(result.length, 2) //the first 2
+})
+
+test('Delete existing', async t => {
+  t.log(`Database ${t.context.mongo.getUrl()} created`)
+  // systemconfig are always returned
+  await t.context.cs.set(SYS_CFG_IN)
+  await t.context.cs.set(USR_CFG_IN, TESTUSER)
+
+  await t.context.cs.delete(SYS_CFG_IN.name)
+  await t.context.cs.delete(USR_CFG_IN.name, TESTUSER)
+
+  await t.throws(t.context.cs.getOne(USR_CFG_IN.name, TESTUSER), /404/)
+  await t.throws(t.context.cs.getOne(SYS_CFG_IN.name), /404/)
+})

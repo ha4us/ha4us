@@ -1,0 +1,12 @@
+<div *ngIf="tab$|async as tabs" fxLayout="row" fxLayoutAlign="start center">
+  <button fxFlex="10" mat-icon-button (click)="createVisor()">
+    <mat-icon>add</mat-icon>
+  </button>
+  <mat-tab-group fxFlex="90" (selectedTabChange)="select($event)" [selectedIndex]="tabs.selectedIndex">
+    <mat-tab *ngFor="let visor of (tabs.visors)">
+      <ng-template mat-tab-label>
+        {{visor.label}}
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+</div>

@@ -1,0 +1,7 @@
+<div matPrefix class="colorpreview mat-elevation-z2" (click)="openPicker($event)" #anchor>
+  <div [style.backgroundColor]="colorStyle"></div>
+</div>
+<ng-template cdkPortal>
+  <color-chrome [disableAlpha]="!alpha" (onChange)="handleChange($event)" [color]="color"> </color-chrome>
+  <button *ngIf="delete" mat-button (click)="clear()">Löschen</button>
+</ng-template>

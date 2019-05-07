@@ -1,0 +1,7 @@
+<mat-form-field>
+  <ha4us-color-picker matPrefix [(ngModel)]="color"> </ha4us-color-picker>
+  <input matInput [placeholder]="placeholder" [required]="required" [(ngModel)]="color" readonly
+  />
+  <mat-error *ngIf="formControl.hasError('required')">Erforderlich</mat-error>
+  <mat-error *ngIf="formControl.hasError('pattern')">Falsches Format</mat-error>
+</mat-form-field>

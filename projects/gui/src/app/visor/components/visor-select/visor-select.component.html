@@ -1,0 +1,7 @@
+<mat-form-field>
+  <mat-label>{{placeholder || 'Visor'}}</mat-label>
+  <mat-select [(ngModel)]="visor" [required]="required">
+    <mat-option *ngFor="let visor of visors|async" [value]="visor.id">{{visor.label}}</mat-option>
+  </mat-select>
+  <mat-error *ngIf="formControl.hasError('required')">Erforderlich</mat-error>
+</mat-form-field>

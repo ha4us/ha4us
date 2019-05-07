@@ -1,0 +1,26 @@
+<mat-card>
+
+  <mat-card-header *ngIf="object | ha4usRole as display">
+    <ha4us-media [color]="display.color" [backgroundColor]="display.backgroundColor" mat-card-avatar avatar size="48"
+      [media]="display.image" [alt]="object.role" [matTooltip]="object.topic">
+    </ha4us-media>
+    <mat-card-title [matTooltip]="object.label || object.topic | topicPart">
+      {{ object.label || object.topic | topicPart}}
+    </mat-card-title>
+    <mat-card-subtitle>
+      <span [matTooltip]="ts | date:'medium'"
+        *ngIf="object.topic+'/+' | ha4usState | get:'ts' as ts; else never">{{ts | amTimeAgo}}</span>
+      <ng-template #never><span>niemals</span></ng-template>
+    </mat-card-subtitle>
+
+    <span fxFlex></span>
+    <ng-content select="[ha4us-card-control]"></ng-content>
+    <button mat-icon-button (click)="edit($event, object.topic)">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+
+  </mat-card-header>
+  <mat-card-content fxLayout="column" fxLayoutAlign="start stretch">
+    <ng-content select="[ha4us-card-content]"></ng-content>
+  </mat-card-content>
+</mat-card>

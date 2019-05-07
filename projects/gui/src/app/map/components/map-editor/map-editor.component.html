@@ -1,0 +1,86 @@
+<form fxLayout="column" fxLayoutAlign="start" class="mat-typography" [formGroup]="mapForm">
+  <h1 mat-dialog-title>
+        Map Editor
+      </h1>
+  <div fxFlex="noshrink" mat-dialog-content [style.overflow]="'scroll'" fxLayout="column" fxLayoutGap="15px"
+    fxLayoutAlign="start">
+    <p>
+      Hier kannst Du eigene Mappings erstellen. Bedingungen sind optional. In den Ausgabewerten kannst Du mit
+      Templatestring <code>%1.2f</code> arbeiten.
+    </p>
+    <div fxFlex="noshrink" fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="start">
+      <mat-form-field fxFlex>
+        <input matInput placeholder="Name" formControlName="name">
+      </mat-form-field>
+      <mat-form-field *ngIf="!data.type">
+        <mat-select formControlName="type">
+          <mat-option value="string">Zeichenkette</mat-option>
+          <mat-option value="number">Zahl</mat-option>
+          <mat-option value="boolean">Wahrheitswert</mat-option>
+          <mat-option value="color">Farbe</mat-option>
+          <mat-option value="svg">SVG Icon</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <input *ngIf="data.type" type="hidden" formControlName="type" />
+    </div>
+    <!--<mat-form-field>
+      <textarea matInput matTextareaAutosize matAutosizeMinRows="1" placeholder="Standardergebnis" formControlName="elseVal"></textarea>
+    </mat-form-field>-->
+    <us-form-control [control]="{type:mapForm.value.type, label: 'Standardergebnis', id:'else'}"></us-form-control>
+    <mat-form-field>
+      <textarea matInput matTextareaAutosize placeholder="Beschreibung" formControlName="description"></textarea>
+    </mat-form-field>
+    <h2>Bedingungen</h2>
+    <p>
+      Bedingungen sind optional und werden der Reihenfolge nach ausgewertet. Wenn keine Bedingung zutrifft,
+      wird der Standardwert genommen.
+    </p>
+    <div class="layout-padding" fxFlex="noshrink" fxLayout="column" fxLayoutAlign="start" fxLayoutGap="5px">
+      <cdk-drop-list  lockAxis="y" (cdkDropListDropped)="drop($event)" [cdkDropListEnterPredicate]="enter" [cdkDropListData]="mapForm.get('ifthens')['controls']">
+      <div cdkDrag fxLayout="row" fxLayoutAlign="start center" class="ifthenclause" formArrayName="ifthens"
+        *ngFor="let ifthen of mapForm.get('ifthens')['controls']; let i = index;">
+            <mat-icon fxFlex="10" cdkDragHandle >menu</mat-icon>
+         
+        <div fxFlex="90" fxLayout="column" [formGroupName]="i">
+          <div fxLayout="row" formGroupName="if">
+            <mat-form-field fxFlex="15">
+              <mat-select placeholder="Operator" formControlName="op" (selectionChange)="selectOperator($event,i)">
+                <mat-option *ngFor="let op of operators" [value]="op.op">
+                  {{ op.label || op.op }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field [fxFlex]="70 / ifthen.get('if.value')['controls'].length" formArrayName="value" *ngFor="let myControl of ifthen.get('if.value')['controls']; first as first; last as showAnd; let j = index;">
+              <input matInput [formControlName]="j" placeholder="Vergleichswert">
+              <span *ngIf="!first && showAnd" matPrefix>und&nbsp;</span>
+            </mat-form-field>
+            <div fxFlex="15" fxLayout="row" fxLayoutAlign="center">
+              <ng-container>
+                <button mat-icon-button (click)="addCondition(i)">
+                  <mat-icon>add</mat-icon>
+                </button>
+                <button matButton mat-icon-button (click)="deleteCondition(i)">
+                  <mat-icon >delete</mat-icon>
+                </button>
+              </ng-container>
+            </div>
+          </div>
+          <us-form-control [control]="{type:mapForm.value.type, label: 'Ergebnis', id:'then'}">
+          </us-form-control>
+        </div>
+      </div>
+      </cdk-drop-list>
+      <div fxLayoutAlign="center">
+        <button mat-button (click)="addCondition()">
+          <mat-icon>add</mat-icon><span>Füge eine <span *ngIf="mapForm.get('ifthens')['controls'].length === 0">erste</span>          Bedingung hinzu</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-action fxLayout="row" fxLayoutAlign="end">
+    <button mat-button (click)="cancel()">Abbrechen</button>
+    <button mat-raised-button color="warn" (click)="delete()">Löschen</button>
+    <button mat-button [disabled]="!mapForm.valid" (click)="submitForm()">Speichern</button>
+  </div>
+  {{data.type}}
+</form>

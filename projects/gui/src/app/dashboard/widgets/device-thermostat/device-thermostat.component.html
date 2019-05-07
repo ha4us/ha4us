@@ -1,0 +1,60 @@
+<ha4us-dashboard-card *ngIf="topic+'/+'|ha4usObject|groupBy:'role' as dps" [object]="topic | ha4usObject">
+
+  <ha4us-widget ha4us-card-control class="big-temp" fxFlexAlign="center"
+    *ngIf="dps|get:'Value/Climate/Temperature' as controlObject" [widget]="controlObject.role"
+    [props]="controlObject | ha4usRole"></ha4us-widget>
+
+
+  <div ha4us-card-content fxLayout="column">
+
+    <div fxLayout="row" fxLayoutAlign="start center" *ngIf="dps|get:'Range/Heating/Temperature' as object">
+      <ha4us-widget fxFlex class="big-temp" [widget]="object.role" [props]="object">
+      </ha4us-widget>
+      <ha4us-value class="big-temp" [template]="'${$format(\'%,1f\',val)} °C'" [topic]="object.topic">
+      </ha4us-value>
+      <ha4us-value fxFlexAlign="start" *ngIf="dps|get:'Value/ValveLevel' as object" [topic]="object.topic"
+        [template]="'${val}%'">
+      </ha4us-value>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="center center"
+      *ngIf="dps|get:'Range/Heating/Temperature.topic'|ha4usState as temp">
+      <mat-button-toggle-group *ngIf="dps|get:'Value/Heating/Mode.topic' | ha4usState as state"
+        #group="matButtonToggleGroup" [value]="state.val">
+        <mat-button-toggle *ha4us="dps|get:'Action/Heating/Auto.topic'; ha4us as ha4us" [value]="0"
+          (click)="ha4us.set(true)">
+          Auto
+        </mat-button-toggle>
+        <mat-button-toggle *ha4us="dps|get:'Action/Heating/Boost.topic'; ha4us as ha4us" [value]="1"
+          (click)="ha4us.set(temp.val)">
+          Manuell
+        </mat-button-toggle>
+        <mat-button-toggle *ha4us="dps|get:'Action/Heating/Boost.topic'; ha4us as ha4us" [value]="3"
+          (click)="ha4us.set(true)">
+          Boost
+        </mat-button-toggle>
+
+      </mat-button-toggle-group>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="start center">
+      <ha4us-button *ngIf="dps|get:'Action/Heating/Comfort' as object" [topic]="object.topic" label="Tag">
+      </ha4us-button>
+      <ha4us-button *ngIf="dps|get:'Action/Heating/Lowering' as object" [topic]="object.topic" label="Nacht">
+      </ha4us-button>
+      <span fxFlex></span>
+      <ha4us-switch *ngIf="dps|get:'Toggle/System/Lock' as object" [topic]="object.topic" label="Gesperrt">
+      </ha4us-switch>
+    </div>
+
+
+
+
+  </div>
+
+
+
+
+
+
+</ha4us-dashboard-card>

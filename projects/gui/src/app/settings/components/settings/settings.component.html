@@ -1,0 +1,13 @@
+<ha4us-toolbar noShadow [back]='back'>
+  <span title>Einstellungen</span>
+</ha4us-toolbar>
+<ng-container *ngIf="settings$ | async as settings">
+  <mat-tab-group [selectedIndex]="selectedTab | async" backgroundColor="primary" color="accent">
+    <mat-tab label="Dashboard">
+      <ha4us-dashboard-settings [settings]="settings.user.dashboard" (changed)="saveSettings('user.dashboard',$event)"></ha4us-dashboard-settings>
+    </mat-tab>
+    <mat-tab label="Objektrollen">
+      <ha4us-role-list [roles]="settings.user.roles" (changed)="saveSettings('user.roles', $event)"></ha4us-role-list>
+    </mat-tab>
+  </mat-tab-group>
+</ng-container>

@@ -1,0 +1,14 @@
+<div class="visor" [ngClass]="{'selected':isSelected, 'editmode':editMode }" 
+    [style.width.px]="width" [style.height.px]="height" 
+    ghostElementPositioning="absolute" 
+    
+     mwlResizable [enableGhostResize]="true"  [resizeEdges]="resizeEdges" (resizeStart)="resizeStart($event)" (resizeEnd)="resizeEnd($event)"
+
+     mwlDroppable (dragEnter)="dragEnd($event)"  (dragLeave)="dragLeave($event)" (drop)="drop($event)" (dragOver)="dragOver($event)" 
+ [ha4usStyle]="(config|async)"
+>
+    <ha4us-visor-widget *ngFor="let child of (config|async)?.children" [id]="child" class="child" [parent]="id">
+    </ha4us-visor-widget >
+   
+
+</div>

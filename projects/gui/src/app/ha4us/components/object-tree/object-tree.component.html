@@ -1,0 +1,29 @@
+<button fxFlexAlign="start" mat-button (click)="treeControl.collapseAll()">Alle Einklappen</button>
+
+<mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+
+  <mat-tree-node matRipple *matTreeNodeDef="let node" matTreeNodePadding class="example-tree-node" (click)="edit(node)">
+    <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'toggle ' + node.filename"
+      [style.visibility]="node.children.length>0 ? 'visible' : 'hidden'">
+      <mat-icon class="mat-icon-rtl-mirror">
+        {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+      </mat-icon>
+    </button>
+    <div *ngIf="node.data; else virtual" fxFlex fxLayoutAlign="start center">
+      <mat-checkbox (change)="toggle(node)" [checked]="selection.isSelected(node.data)"></mat-checkbox>
+      <ha4us-object fxFlex [object]="node.data" [alt]="node.name" (action)="doAction($event)"></ha4us-object>
+    </div>
+    <ng-template #virtual>
+      <div class="virtual-node">{{node.name}}</div><span fxFlex></span><button mat-icon-button (click)="add(node)">
+        <mat-icon>add</mat-icon>
+      </button>
+    </ng-template>
+  </mat-tree-node>
+
+</mat-tree>
+<!--
+  
+   admin  
+  [checked]="descendantsAllSelected(node)"
+    [indeterminate]="descendantsPartiallySelected(node)"
+-->

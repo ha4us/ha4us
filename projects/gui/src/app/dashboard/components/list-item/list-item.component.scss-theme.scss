@@ -1,0 +1,41 @@
+@import '~@angular/material/theming';
+
+// Create a config with the default typography levels.
+
+// mixin name will be used in main style.scss
+@mixin listitem-widget-theme($theme) {
+
+  // retrieve variables from theme 
+  // (all possible variables, use only what you really need)
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+  $foreground: map-get($theme, foreground);
+  $background: map-get($theme, background);
+
+  $config: mat-typography-config();
+
+  // all of these variables contain many additional variables
+
+  ha4us-listitem-widget {
+
+    // retrieve particular color from variable, rg: text, base, divider, ...
+    color: mat-color($foreground, text);
+    background-color: mat-color($background, card);
+
+    .label {
+      font-size: mat-font-size($config, body-1);
+    }
+
+    .mat-time-ago {
+      color: mat-color($foreground, hint-text);
+
+      font: {
+        family: mat-font-family($config, caption);
+        size: mat-font-size($config, caption);
+        weight: mat-font-weight($config, caption);
+      }
+    }
+
+  }
+}

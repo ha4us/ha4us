@@ -1,0 +1,15 @@
+@import '~@angular/material/theming';
+:host {
+    flex: 1 1 100%;
+    display: flex;
+    flex-direction: column;
+}
+.newTopicPicker {
+    padding: 15px;
+    @include mat-elevation(4);
+    background-color: white;
+}
+.error {
+    color: red;
+    white-space: pre;
+}

@@ -1,0 +1,15 @@
+{
+  "/socket.io": {
+    "target": "http://localhost:8081",
+    "secure": false,
+    "ws":true
+  },
+  "/api": {
+    "target": "http://localhost:8081",
+    "secure": false
+  },
+  "/public": {
+    "target": "http://localhost:8081",
+    "secure": false
+  }
+}

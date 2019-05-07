@@ -1,0 +1,29 @@
+<p>
+  query-statistic works!
+</p>
+
+<form>
+  <mat-form-field>
+    <mat-placeholder>Topic</mat-placeholder>
+    <input matInput />
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput [matDatepicker]="pickerFrom" placeholder="Von">
+    <mat-datepicker-toggle matSuffix [for]="pickerFrom"></mat-datepicker-toggle>
+    <mat-datepicker #pickerFrom></mat-datepicker>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput [matDatepicker]="pickerTo" placeholder="Bis">
+    <mat-datepicker-toggle matSuffix [for]="pickerTo"></mat-datepicker-toggle>
+    <mat-datepicker #pickerTo></mat-datepicker>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder="Aggregation">
+      <mat-option value="hour">Stunden</mat-option>
+      <mat-option value="day">Tage</mat-option>
+      <mat-option value="week">Woche</mat-option>
+      <mat-option value="month">Monate</mat-option>
+      <mat-option value="year">Jahre</mat-option>
+    </mat-select>
+  </mat-form-field>
+</form>

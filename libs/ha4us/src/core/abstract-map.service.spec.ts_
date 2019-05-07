@@ -1,0 +1,106 @@
+import anyTest, { serial, Macro, TestInterface } from 'ava'
+
+import { TestMongo } from '../test/mongo-db.mock'
+import { Db } from 'mongodb'
+import { LoggerMock } from '../test/logger.mock'
+
+import { ObjectService } from '../adapter/object.service'
+import { ConfigService } from '../adapter/config.service'
+import { AbstractMapService, IValueMap } from '.'
+import { ValueMap } from './valuemap.class'
+
+const mongo = new TestMongo()
+
+interface Context {
+	ms: MapService
+	db?: Db
+}
+
+class MapService extends AbstractMapService {
+	constructor(db: Db) {
+		super(
+			new ConfigService(
+				new ObjectService(LoggerMock('objects'), db, {
+					name: 'maptest',
+				})
+			)
+		)
+	}
+}
+const test = serial as TestInterface<Context>
+
+test.beforeEach(async t => {
+	const db = await mongo.getDb()
+	t.log(`Database ${mongo.getUrl()} created`)
+
+	t.context = {
+		ms: new MapService(db),
+		db,
+	}
+})
+
+test.after(async t => {
+	mongo.drop()
+})
+
+const TESTMAP = {
+	name: 'OpenClose',
+	description: 'True means open!',
+	ifthens: [
+		{
+			if: {
+				op: '=',
+				value: [undefined],
+			},
+			then: 'Unknown',
+		},
+		{
+			if: {
+				op: '=',
+				value: [true],
+			},
+			then: 'Open',
+		},
+	],
+	else: 'Close',
+}
+
+test('Put new map', async t => {
+	t.log(`Database ${mongo.getUrl()} created`)
+	await t.context.ms.put(<IValueMap<boolean, string>>TESTMAP)
+	t.is(t.context.ms.count, 1)
+})
+
+test('Get a single map and cache', async t => {
+	t.is(t.context.ms.count, 0)
+	const myMap = await t.context.ms.get(TESTMAP.name)
+
+	t.is(t.context.ms.count, 1)
+	t.is(myMap.map(true), 'Open')
+})
+
+test('Loads and caches all maps', async t => {
+	t.is(t.context.ms.count, 0)
+	const maps = await t.context.ms.loadAll()
+	t.is(t.context.ms.count, 1)
+	const myMap = await t.context.ms.get(TESTMAP.name)
+	t.is(myMap.map(true), 'Open')
+	t.is(maps.length, 1)
+})
+
+test('Provides a sync map facility based on cache', async t => {
+	t.is(t.context.ms.map(TESTMAP.name, false), false)
+	await t.context.ms.loadAll()
+	t.is(t.context.ms.map(TESTMAP.name, false), 'Close')
+
+	const maps = t.context.ms.maps
+	t.is(maps.length, 1)
+})
+test('Delete a map', async t => {
+	await t.context.ms.delete(TESTMAP.name)
+	t.is(t.context.ms.count, 0)
+	await t.context.ms.delete(TESTMAP.name)
+	t.is(t.context.ms.count, 0)
+	await t.throws(t.context.ms.get(TESTMAP.name), /404/)
+	t.deepEqual(await t.context.ms.loadAll(), [])
+})

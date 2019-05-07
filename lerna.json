@@ -1,0 +1,11 @@
+{
+  "packages": [
+    "projects/**",
+    "adapter/**",
+    "libs/**"
+  ],
+  "version": "independent",
+  "conventionalCommits": true,
+  "message": "chore(release): %s",
+  "npmClient": "yarn"
+}

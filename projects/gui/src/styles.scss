@@ -1,0 +1,77 @@
+/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet');
+@import '~cropperjs/dist/cropper.css';
+@import '~@angular/material/theming';
+@include mat-core();
+
+//@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+//@import '~@angular/material/prebuilt-themes/pink-bluegrey.css';
+//@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+//@import '~@angular/material/prebuilt-themes/purple-green.css';
+
+html,
+body,
+ha4us-root {
+  height: 100vh;
+  display: block;
+  min-height: 100vh;
+  box-sizing: border-box;
+  font-family: Roboto, Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+
+
+@import './app/dashboard/components/list-item/list-item.component.scss-theme.scss';
+@import './app/ha4us/components/media/media.component.scss-theme.scss';
+
+
+
+@mixin custom-components-theme($theme) {
+  @include listitem-widget-theme($theme);
+  @include ha4us-media-theme($theme);
+}
+
+@import './themes/default.theme.scss';
+
+
+.snack.warn {
+  background-color: mat-color($default-theme-accent);
+}
+
+.snack.error {
+  background-color: mat-color($default-theme-warn);
+}
+
+/*.dark-theme {
+  @include angular-material-theme($default-dark-theme);
+}*/
+
+
+.whitebox-z2 {
+  @include mat-elevation(2);
+  background-color: white;
+  margin: 15px;
+  padding: 15px;
+}
+
+router-outlet+* {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.scroll-content {
+  overflow-x: hidden;
+  overflow-y: scroll;
+  padding: 5px;
+
+}
+
+//@import './app/ha4us-dark.theme.scss';
+//.ha4us-dark {
+//    @include angular-material-theme($ha4us-dark);
+//}
+//

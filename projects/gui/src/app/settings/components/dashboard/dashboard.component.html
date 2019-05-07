@@ -1,0 +1,4 @@
+<form *ngIf="form" [formGroup]="form">
+  <us-tag-input [availableTags]="allTags|async" formControlName="tags" placeholder="Tags für Dashboard...">
+  </us-tag-input>
+</form>

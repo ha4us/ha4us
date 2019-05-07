@@ -1,0 +1,6 @@
+<mat-form-field>
+  <ha4us-media [ha4usPick]="mimeType" matPrefix [(ngModel)]="media"> </ha4us-media>
+  <input matInput [placeholder]="placeholder" [required]="required" [(ngModel)]="media" readonly />
+  <mat-error *ngIf="formControl.hasError('required')">Erforderlich</mat-error>
+  <mat-error *ngIf="formControl.hasError('pattern')">Falsches Format</mat-error>
+</mat-form-field>

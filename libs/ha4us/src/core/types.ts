@@ -1,0 +1,3 @@
+// deprecated
+//
+export * from './model'

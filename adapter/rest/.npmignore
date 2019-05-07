@@ -1,0 +1,10 @@
+!/dist
+/server
+/src
+/example
+/e2e
+.editorconfig
+*.json
+*.yml
+*.conf.js
+.angular-cli.json

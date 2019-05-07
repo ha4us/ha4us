@@ -1,0 +1,10 @@
+<ng-container *ngFor="let item of widgets">
+  <div *ngIf="item.selector | ha4usRole as role" class="lib-entry" [style.backgroundColor]="role.backgroundColor"
+    mwlDraggable [dropData]="toVisorWidget(item)" (dragEnd)="dragEnd($event)" (dragStart)="dragStart($event)"
+    [ghostDragEnabled]="true" [dragCursor]="'alias'">
+    <span>{{item.selector}}</span>
+    <ha4us-media size="48" [media]="role.icon"></ha4us-media>
+    <div class="label">{{item.label || item.name}}
+    </div>
+  </div>
+</ng-container>

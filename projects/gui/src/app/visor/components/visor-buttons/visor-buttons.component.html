@@ -1,0 +1,3 @@
+<mat-button-toggle-group name="Visoren" aria-label="Visoren" (change)="go($event)" [value]="(curVisor|async)" [vertical]="vertical"  >
+  <mat-button-toggle *ngFor="let button of buttons" [value]="button.visor" >{{button.label}}</mat-button-toggle>
+</mat-button-toggle-group>

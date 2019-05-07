@@ -1,0 +1,41 @@
+<ha4us-toolbar>
+  <span title>Objekteditor</span>
+</ha4us-toolbar>
+
+<div class="whitebox-z2" fxFlex fxLayout="column" fxLayoutGap="15px">
+
+  <!--<h2>Filter</h2>
+  <p>Hier kannst du nach einem Topic oder verschiedenen Tags suchen</p>-->
+  <ha4us-object-search></ha4us-object-search>
+  <!--<h2>Objektliste</h2>-->
+  <mat-button-toggle-group fxFlexAlign="end" #displaystyle="matButtonToggleGroup" name="displaystyle"
+    aria-label="Anzeigeart">
+    <mat-button-toggle value="tree" [checked]="true">
+      <mat-icon>share</mat-icon>
+      Baum
+    </mat-button-toggle>
+    <mat-button-toggle value="list">
+      <mat-icon>format_list_bulleted</mat-icon>
+      Liste
+    </mat-button-toggle>
+
+  </mat-button-toggle-group>
+
+  <mat-drawer-container fxLayout="column" fxFlex>
+
+    <mat-drawer-content fxFlex fxLayout="column">
+
+      <ha4us-object-list *ngIf="displaystyle.value === 'list'" fxFlex (action)="doAction($event)">
+      </ha4us-object-list>
+      <ha4us-object-tree *ngIf="displaystyle.value === 'tree'" (action)="doAction($event)" fxFlex>
+      </ha4us-object-tree>
+    </mat-drawer-content>
+
+    <mat-drawer class="edit-panel" mode="side" [opened]="selectedObject" position="end" fxLayout="column">
+
+      <ha4us-object-edit [object]="selectedObject" (objectChange)="objectChanged($event)"></ha4us-object-edit>
+
+    </mat-drawer>
+  </mat-drawer-container>
+
+</div>

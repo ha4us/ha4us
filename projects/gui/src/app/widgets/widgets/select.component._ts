@@ -1,0 +1,20 @@
+import { Component, Input, OnInit } from '@angular/core'
+import { Ha4usWidget, WidgetCategory } from '../models'
+
+@Component({
+  selector: 'ha4us-select',
+  template: `
+  <mat-select [ha4usState]="data.topic" #mqtt='ha4usState' [(ngModel)]="mqtt.state.val"   (change)="mqtt.set($event.value) ">
+   <mat-option *ngFor="let states of data.values" [value]="states.value">{{ states.key }}</mat-option>
+</mat-select>
+  `,
+})
+@Ha4usWidget({
+  name: 'material/select',
+  label: 'Werteliste',
+  category: WidgetCategory.Control,
+})
+export class SelectComponent {
+  public topic: string
+  public values: string[]
+}

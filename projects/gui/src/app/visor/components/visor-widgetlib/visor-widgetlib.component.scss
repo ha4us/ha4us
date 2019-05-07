@@ -1,0 +1,40 @@
+:host {
+    //min-width: 300px;
+    overflow: scroll;
+}
+
+.lib-entry {
+    position: relative;
+    height: 100px;
+    width: 100px;
+    margin: 10px;
+
+    &.control {
+        background-color: #e53935;
+    }
+
+    &.structure {
+        background-color: #ffab00;
+    }
+    &.indicator {
+        background-color: #e53935;
+    }
+    &.value {
+        background-color: #2979ff;
+    }
+    &.view {
+        background-color: #ffab00;
+    }
+
+    .label {
+        position: absolute;
+        color: #fff;
+        background-color: rgba(0, 0, 0, 0.2);
+        bottom: 0px;
+        width: 100%;
+        text-align: center;
+        vertical-align: center;
+        line-height: 24px;
+        font-size: 20px;
+    }
+}

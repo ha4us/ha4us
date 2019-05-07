@@ -1,0 +1,26 @@
+<ng-container *ngIf="media$ | async as media; else nomedia">
+  <ng-container [ngSwitch]="media.type">
+    <img *ngSwitchCase="'image'" src="{{media.url}}" />
+    <div class="audio" *ngSwitchCase="'audio'">
+      <audio #audio [src]="media.url" loop preload="none" on-timeupdate="progress=(audio.currentTime/audio.duration)*100"></audio>
+      <mat-progress-spinner *ngIf="!audio.paused" mode="determinate" [value]="progress" [diameter]="50" [strokeWidth]="5">
+      </mat-progress-spinner>
+      <button mat-icon-button>
+        <mat-icon *ngIf="audio.paused" (click)="audio.play();$event.stopPropagation()">play_arrow</mat-icon>
+        <mat-icon *ngIf="!audio.paused" (click)="audio.pause();$event.stopPropagation()">pause</mat-icon>
+      </button>
+    </div>
+    <div [style.fill]="color" class="svg" *ngSwitchCase="'svg'" [innerHtml]="media.content | async">
+    </div>
+    <!--<div *ngSwitchDefault ><mat-icon color="warn">warning</mat-icon><span>Kein Medium gewählt</span></div>-->
+    <div *ngSwitchDefault class="empty" fxLayout="column" fxLayoutAlign="center center" [style.color]="color">
+      <ng-content></ng-content>
+    </div>
+  </ng-container>
+</ng-container>
+<ng-template #nomedia>
+  <div class="alternate" fxLayout="column" fxLayoutAlign="center center">
+    <img *ngIf="altImg" [src]="altImg" />
+    <div [style.fontSize.px]="(avatar && height)? height*.5:undefined" [style.color]="color">{{noMediaText}}</div>
+  </div>
+</ng-template>

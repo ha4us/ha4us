@@ -1,0 +1,41 @@
+<form [formGroup]="objectEditForm" [style.padding.px]="15" fxLayout="column" fxLayoutGap="15px">
+  <div fxLayout="row">
+    <ha4us-media altImg="/assets/images/Sonos_Default_AlbumArt.png" alt="Wähle ein Bild" ha4usPick="image/*"
+      formControlName="image" size="128"></ha4us-media>
+    <h1 class="mat-h1" class="ellipsis">{{objectEditForm.value.topic}}</h1>
+  </div>
+  <mat-form-field>
+    <input matInput placeholder="Bezeichnung" formControlName="label">
+  </mat-form-field>
+  <us-tag-input formControlName="tags" [availableTags]="os.allTags$|async" placeholder="Tags..."></us-tag-input>
+  <mat-form-field>
+    <mat-select placeholder="Typ" formControlName="type">
+      <mat-option *ngFor="let type of types" [value]="type">
+        {{type}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <div formGroupName="can" fxLayoutAlign="space-between">
+    <mat-checkbox formControlName="read">Lesen</mat-checkbox>
+    <mat-checkbox formControlName="write">Schreiben</mat-checkbox>
+    <mat-checkbox formControlName="trigger">Statustrigger</mat-checkbox>
+  </div>
+  <mat-divider></mat-divider>
+  <div fxLayout="row">
+    <mat-form-field fxFlex="50">
+      <input matInput type="number" placeholder="Minimum" formControlName="min">
+    </mat-form-field>
+    <mat-form-field fxFlex="50">
+      <input matInput type="number" placeholder="Maximum" formControlName="max">
+    </mat-form-field>
+  </div>
+
+  <mat-form-field>
+    <input matInput placeholder="Format" formControlName="template">
+  </mat-form-field>
+  <mat-checkbox formControlName="hidden">Ausgeblendet</mat-checkbox>
+  <mat-form-field>
+    <input matInput placeholder="Role" formControlName="role">
+  </mat-form-field>
+
+</form>

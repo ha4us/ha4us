@@ -1,0 +1,58 @@
+<div fxLayout="column">
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="Rolle" aria-label="Rolle" [matAutocomplete]="auto" [formControl]="searchRole">
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option *ngFor="let role of filteredRoles | async" [value]="role">
+        <span>{{role}}</span>
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+  <form fxFlex>
+    <div class="rolelist" fxLayout="column" fxLayoutAlign="start" fxLayoutGap="15px" cdkDropList (cdkDropListDropped)="drop($event)">
+      <ng-container *ngFor="let role of rolesForm?.controls; let i = index;">
+        <div [ngClass]="{'matched':(searchRole.value|wildcard:role.value.selector)}" class="editpanel" fxLayout="row"
+          fxLayoutAlign="start center" cdkDrag [formGroup]="role">
+
+          <ha4us-media cdkDragHandle avatar ha4usPick="image/*" formControlName="image" size="64"></ha4us-media>
+          <div fxFlex fxLayout="column" fxLayoutAlign="start stretch">
+            <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="5px">
+              <mat-form-field fxFlex>
+                <mat-label>Rolle</mat-label>
+                <input matInput formControlName="selector" />
+              </mat-form-field>
+              <mat-form-field fxFlex>
+                <mat-label>Bezeichnung</mat-label>
+                <input matInput formControlName="label" />
+              </mat-form-field>
+
+              <mat-form-field fxFlex>
+                <mat-label>Vordergrund</mat-label>
+                <ha4us-color-picker matPrefix formControlName="color"> </ha4us-color-picker>
+                <input matInput formControlName="color" />
+              </mat-form-field>
+              <mat-form-field fxFlex>
+                <mat-label>Hintergrund</mat-label>
+                <ha4us-color-picker matPrefix formControlName="backgroundColor"> </ha4us-color-picker>
+                <input matInput formControlName="backgroundColor" />
+              </mat-form-field>
+              <mat-form-field fxFlex>
+                <mat-label>Template</mat-label>
+                <input matInput formControlName="template" />
+              </mat-form-field>
+              <mat-checkbox formControlName="hidden">Ausgeblendet</mat-checkbox>
+            </div>
+          </div>
+          <div fxLayout="column">
+            <button mat-icon-button (click)="addRole(i)">
+              <mat-icon>add</mat-icon>
+            </button>
+            <button mat-icon-button (click)="removeRole(i)">
+              <mat-icon>remove</mat-icon>
+            </button>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+
+  </form>
+</div>

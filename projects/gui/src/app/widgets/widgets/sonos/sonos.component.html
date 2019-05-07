@@ -1,0 +1,34 @@
+<div fxLayout="column" *ngIf="topic+'/+'|ha4usObject|groupBy:'role' as dps">
+  <ng-container *ha4us="let info of dps|get:'Value/Sonos/Info.topic'">
+    <div fxFlex class="info">
+      <ha4us-img [topic]="dps|get:'Media/Image/Raster/Coverart.topic'"></ha4us-img>
+      <div fxLayout="column" fxLayoutAlign="center center" class="track-info">
+        <span class="mat-body">{{info|get:'val.currentTrack.artist'}}</span>
+        <span class="mat-h2">{{info|get:'val.currentTrack.title'}}</span>
+        <span class="mat-body">{{info|get:'val.currentTrack.album'}}</span>
+      </div>
+
+    </div>
+    <!-- <ha4us-progress [duration]="info|get:'val.currentTrack.duration'" [elapsed]="info|get:'val.elapsedTime'"></ha4us-progress>-->
+  </ng-container>
+  <div class="actions" fxLayout="row" fxLayoutAlign="center center">
+    <button mat-icon-button *ha4us="dps|get:'Action/Media/Previous.topic'; ha4us as previous" (click)="previous.set(true)">
+      <mat-icon>skip_previous</mat-icon>
+    </button>
+    <button mat-fab *ha4us="let state of dps|get:'Toggle/Media/Pause.topic'; ha4us as playstate" (click)="playstate.set(!state.val)">
+      <mat-icon>{{state.val?'play_arrow':'pause'}}</mat-icon>
+    </button>
+    <button mat-icon-button *ha4us="dps|get:'Action/Media/Next.topic'; ha4us as next" (click)="next.set(true)">
+      <mat-icon>skip_next</mat-icon>
+    </button>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="center center">
+    <button mat-icon-button *ha4us="let state of dps|get:'Toggle/Speaker/Mute.topic'; ha4us as mutestate" (click)="mutestate.set(!state.val)">
+      <mat-icon>{{!state.val?'volume_mute':'volume_off'}}</mat-icon>
+    </button>
+    <ha4us-slider fxFlex *ngIf="dps|get:'Range/Speaker/Volume' as volumeObj" [topic]="volumeObj.topic" [min]="volumeObj.min"
+      [max]="volumeObj.max"></ha4us-slider>
+  </div>
+
+
+</div>

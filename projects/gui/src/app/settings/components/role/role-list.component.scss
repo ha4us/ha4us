@@ -1,0 +1,20 @@
+@import '~@angular/material/theming';
+
+[cdkDragHandle] {
+  cursor: grab;
+}
+
+.rolelist {
+  padding: 15px;
+}
+
+.editpanel {
+  //@include mat-elevation();
+  @include mat-elevation-transition;
+  background-color: white;
+  padding: 15px;
+}
+
+.matched {
+  @include mat-elevation(8);
+}

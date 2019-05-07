@@ -1,0 +1,28 @@
+:host {
+  height: 100vh;
+  width: 100vw;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.logo {
+
+  height: 30px;
+  border-radius: 100%;
+
+  padding: 5px;
+
+  img {}
+}
+
+hr {
+  display: block;
+  margin: 10px 0 10px 0;
+  border-top: 1px solid rgba(0, 0, 0, .12);
+  width: 100%
+}
+
+.content {
+  overflow: auto;
+}

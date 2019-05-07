@@ -1,0 +1,11 @@
+<cdk-virtual-scroll-viewport fxflex [itemSize]="60" #viewport (scrolledIndexChange)="scrolled(viewport, $event)">
+  <ha4us-object matRipple [object]="object" [ngClass]="{'marked':(selection.isSelected(object))}"
+    *cdkVirtualFor="let object of filteredObjects; let idx=index" (click)="selection.toggle(object)"
+    (action)="doAction($event)">
+
+  </ha4us-object>
+
+
+
+
+</cdk-virtual-scroll-viewport>

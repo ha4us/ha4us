@@ -1,0 +1,7 @@
+<div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px" *ngIf="authInfo$ | async as authInfo">
+  <ha4us-media avatar size="64" backgroundColor="blue" color="white" [media]="authInfo.user.avatarUrn" [alt]="authInfo.user.fullName"></ha4us-media>
+  <div>
+    <span class="mat-title">{{authInfo.user.fullName}}</span>
+    <span class="mat-caption">{{authInfo.user.username}}</span>
+  </div>
+</div>

@@ -1,0 +1,48 @@
+<div fxFlex fxLayout="column" fxLayoutGap="15px" fxLayoutAlign="space-between stretch">
+
+  <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="start center" fxLayoutAlign.lt-sm="start stretch"
+    fxLayoutGap="15px">
+    <div fxFlex="30" fxLayout="column" fxLayoutAlign="center center">
+      <div class="uploadarea" ngfSelect multiple="1" ngfDrop (fileChange)="fileSelected($event)" [accept]="mimeFilter"
+        [(validDrag)]="dragIsValid" [class.invalid-drag]="dragIsValid===false" [class.valid-drag]="dragIsValid"
+        fxLayout="row" fxLayoutAlign="center center" [ngSwitch]="type">
+
+        <img *ngSwitchCase="'image'" [src]="mediaSrc" #croppingArea />
+        <img *ngSwitchCase="'svg'" [src]="mediaSrc" />
+        <div class="audio" *ngSwitchCase="'audio'">
+          <audio #audio [src]="mediaSrc" loop preload="none" on-timeupdate="progress=(audio.currentTime/audio.duration)*100"></audio>
+          <mat-progress-spinner *ngIf="!audio.paused" mode="determinate" [value]="progress" [diameter]="50"
+            [strokeWidth]="5">
+          </mat-progress-spinner>
+          <button mat-icon-button>
+            <mat-icon *ngIf="audio.paused" (click)="audio.play();$event.stopPropagation()">play_arrow</mat-icon>
+            <mat-icon *ngIf="!audio.paused" (click)="audio.pause();$event.stopPropagation()">pause</mat-icon>
+          </button>
+        </div>
+        <div *ngSwitchDefault class="empty" fxLayout="column" fxLayoutAlign="center center">
+          <mat-icon>add_a_photo</mat-icon>
+          <div>Lege eine Datei per Drag and Drop ab oder klicke</div>
+        </div>
+
+      </div>
+
+      <mat-button-toggle-group *ngIf="type==='image'" name="cropStyle" aria-label="Crop-Style" (change)="changeCrop($event)"
+        value="nocrop">
+        <mat-button-toggle value="crop">
+          <mat-icon>crop</mat-icon>
+        </mat-button-toggle>
+        <mat-button-toggle value="avatar">
+          <mat-icon>account_circle</mat-icon>
+        </mat-button-toggle>
+        <mat-button-toggle value="nocrop">
+          <mat-icon>crop_free</mat-icon>
+        </mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+    <ha4us-media-edit fxFlex [(media)]="media"></ha4us-media-edit>
+  </div>
+  <mat-progress-bar *ngIf="uploadProgress" mode="determinate" [value]="uploadProgress"></mat-progress-bar>
+  <div fxLayout="row" fxLayoutAlign="end">
+    <button color="primary" [disabled]="!saveable" mat-button (click)="save()">HOCHLADEN</button>
+  </div>
+</div>

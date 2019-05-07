@@ -1,0 +1,21 @@
+:host {
+    flex: 1 0 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    // overflow: hidden;
+    position: relative;
+}
+
+button[mat-fab] {
+    position: absolute;
+    bottom: 50px;
+    right: 100px;
+}
+
+.edit-panel {
+    padding: 15px;
+    max-width: 375px;
+}
+

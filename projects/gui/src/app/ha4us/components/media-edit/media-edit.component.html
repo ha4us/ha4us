@@ -1,0 +1,17 @@
+<form fxLayout="column" fxLayoutAlign="start stretch" [formGroup]="editForm">
+  <mat-form-field [ngStyle.lt-md]="{'font-size.px': 24}">
+    <mat-label>URN</mat-label>
+    <input matInput formControlName="urn" readonly />
+  </mat-form-field>
+  <mat-form-field [ngStyle.lt-md]="{'font-size.px': 24}">
+    <mat-label>Dateiname</mat-label>
+    <input required matInput formControlName="filename" />
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Beschreibung</mat-label>
+    <textarea matInput formControlName="description">
+    </textarea>
+  </mat-form-field>
+  <us-tag-input [availableTags]="allTags|async" formControlName="tags" placeholder="Tags..."></us-tag-input>
+</form>

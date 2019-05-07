@@ -1,0 +1,46 @@
+@import '~@angular/material/theming';
+
+// Create a config with the default typography levels.
+$config: mat-typography-config();
+
+:host {
+  padding: 6px;
+  height: 60px;
+  display: block;
+  box-sizing: border-box;
+}
+
+.text {
+  padding-left: 16px;
+  overflow: hidden;
+
+  .line {
+    margin: 0;
+    padding: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    box-sizing: border-box;
+  }
+
+  .mat-basic-chip.mat-chip {
+
+    @include mat-typography-level-to-styles($config, caption);
+    background-color: lightgray;
+    border-radius: 25%;
+    margin-left: 2px;
+    margin-right: 2px;
+    padding-left: 3px;
+    padding-right: 3px;
+
+    line-height: 32px;
+
+  }
+}
+
+.newTopicPicker {
+  padding: 15px;
+  @include mat-elevation(4);
+  background-color: white;
+}

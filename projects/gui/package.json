@@ -1,0 +1,8 @@
+{
+  "name": "@ha4us/ng-gui",
+  "version": "0.0.1",
+  "description": "an angular gui for the ha4us system",
+  "main": ".dist/index.html",
+  "author": "ulfalfa",
+  "license": "MIT"
+}

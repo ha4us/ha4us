@@ -1,0 +1,31 @@
+@import '~@angular/material/theming';
+
+// Create a config with the default typography levels.
+$config: mat-typography-config();
+
+:host {
+  overflow: hidden;
+}
+
+cdk-virtual-scroll-viewport {
+  height: 100%;
+  overflow: scroll;
+  position: relative;
+}
+
+
+.mat-basic-chip.mat-chip {
+  @include mat-typography-level-to-styles($config, caption);
+  background-color: lightgray;
+  border-radius: 25%;
+  margin-left: 2px;
+  margin-right: 2px;
+  padding-left: 3px;
+  padding-right: 3px;
+
+  line-height: 32px;
+}
+
+.marked {
+  background-color: darkgrey;
+}

@@ -1,0 +1,11 @@
+:host {
+    position: absolute;
+}
+
+div.visor.editmode {
+    border: 3px gray dashed;
+
+    &.selected {
+        border: 3px black dashed;
+    }
+}

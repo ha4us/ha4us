@@ -1,0 +1,17 @@
+.info {
+  position: relative;
+
+  .track-info {
+    height: 100px;
+    width: 100%;
+    position: absolute;
+    bottom: 0px;
+    text-align: center;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5)
+  }
+}
+
+.actions {
+  margin: 15px;
+}

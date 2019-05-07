@@ -1,0 +1,24 @@
+<mat-sidenav-container class="default-theme" fxFlex>
+  <mat-sidenav mode="side" [opened]="showMenu$|async">
+    <div [style.width.px]="300" [style.margin.px]="15" fxLayout="column" fxLayoutGap="15px">
+      <div fxLayout="row" fxLayoutAlign="start center">
+        <img class="logo" src="assets/logo.png" />
+        <span class="mat-display-1" [style.margin.px]="0">Ha4us</span>
+        <span fxFlex></span>
+        <button mat-icon-button (click)="showMenu(false)">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+      </div>
+      <ha4us-userinfo></ha4us-userinfo>
+      <hr />
+      <ha4us-menu fxFlex></ha4us-menu>
+    </div>
+  </mat-sidenav>
+
+  <mat-sidenav-content fxLayout="column" fxLayoutAlign="start stretch">
+
+    <div fxFlex fxLayout class="content mat-app-background">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

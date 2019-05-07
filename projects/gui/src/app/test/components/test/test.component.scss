@@ -1,0 +1,25 @@
+:host {
+  width: 100%;
+}
+
+.scrollbox {
+  width: 100px;
+  height: 60px;
+  border: 1px red dashed;
+  position: relative;
+  overflow: hidden;
+
+  .panes {
+    position: relative;
+    border: 1px green dashed;
+    display: block;
+    height: 1000%;
+    width: 100%;
+    transition: top 1s;
+
+
+    div {
+      height: 10%
+    }
+  }
+}

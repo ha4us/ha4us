@@ -1,0 +1,17 @@
+<mat-form-field>
+  <mat-label>Topic</mat-label>
+  <span matPrefix *ngIf="showFixed">{{topicPrefix}}/</span>
+  <input [formControl]="topicControl" matInput (keyup.enter)="onEnter()" />
+  <mat-error *ngIf="topicControl.hasError('topicExists')">
+    Topic wird bereits im Ha4us verwendet
+  </mat-error>
+  <mat-error *ngIf="topicControl.hasError('invalidTopic')">
+    Pattern sind nicht erlaubt
+  </mat-error>
+  <mat-error *ngIf="topicControl.hasError('required')">
+    Du musst einen Topicnamen wählen
+  </mat-error>
+  <mat-error *ngIf="topicControl.hasError('minlength')">
+    Du musst einen gültigen Topicnamen wählen
+  </mat-error>
+</mat-form-field>

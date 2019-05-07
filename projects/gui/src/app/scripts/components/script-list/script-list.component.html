@@ -1,0 +1,33 @@
+<ha4us-toolbar>
+  <span title>Automatisierung</span>
+</ha4us-toolbar>
+<div fxFlex class="mat-elevation-z2" [style.margin.px]="15">
+  <mat-nav-list *ngFor="let adapter of scripts.adapterScripts$|async">
+    <div matSubheader>{{adapter.topic}}<span fxFlex></span><button mat-icon-button [usPopupTrigger]="newTopic"
+        position="before">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+
+    <mat-list-item *ngFor="let script of adapter.scripts | async">
+      <h2 matLine (click)="goDetail(script)">{{script.name}}</h2>
+      <mat-slide-toggle *ha4us="let state of script.name+'/state'; ha4us as ha4us" [checked]="state.val"
+        (change)="state.val=true;ha4us.set($event.checked)"></mat-slide-toggle>
+    </mat-list-item>
+
+    <ng-template usPortal #newTopic="usPortal">
+      <div class="newTopicPicker">
+        <p class="mat-caption">Wie soll das neue Script heißen?</p>
+        <ha4us-new-topic [topic]="adapter.topic" (topicChange)="scripts.create($event);newTopic.close()" fixed="1"
+          showFixed></ha4us-new-topic>
+      </div>
+    </ng-template>
+  </mat-nav-list>
+</div>
+
+
+
+<ng-template #loadin>
+  <div>LOADING!</div>
+  <mat-spinner></mat-spinner>
+</ng-template>

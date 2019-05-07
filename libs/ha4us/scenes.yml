@@ -1,0 +1,40 @@
+Fernsehen:
+  content:
+    - object:     harmony/activity
+      true:       'Fernsehen'
+      false:      'off'
+    - object:     hm/Wohnzimmer/Deckenlampe
+      true:       '0'
+    - object:     hue/Wohnzimmer/bri
+      false:      30
+Treppenhauslicht:
+  content:
+      - object:   hm/Treppenhaus/Licht/STATE
+        value:    true
+      - object:   hm/Treppenhaus/Licht/STATE
+        value:    false
+        delay:    10
+OffeneFenster:
+  content:
+      tags:       ['#Contact']
+      pattern:    'hm/#'
+  read:           true
+  write:          false
+  trigger:        true
+  aggregation:    or
+Billig Tanken:
+  content:
+      tags:       ['#Benzing']
+      pattern:    'scripts/#'
+  read:           true
+  write:          false
+  trigger:        true
+  aggregation:    min
+WarmStellen:
+  content:
+    tags:         ['#Heating']
+  write:          true
+  read:           true
+  trigger:        false
+  value:          23
+  aggregation:    avg

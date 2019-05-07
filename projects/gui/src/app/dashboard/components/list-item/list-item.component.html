@@ -1,0 +1,18 @@
+<ng-container *ngIf="object | ha4usRole as role">
+  <div *ngIf="!role.hidden" class="control-card-content" fxLayout="row" fxLayoutAlign="start center">
+    <ng-container *ha4us="let state of object.topic; ha4us as ha4us">
+      <div class=label>
+        <div [matTooltip]="object.role+'('+object.topic+')'">{{ role.label || object.topic | topicPart}}
+        </div>
+        <div *ngIf="state.ts" class="mat-time-ago" [matTooltip]="state.ts | date:'medium'">{{state.ts| amTimeAgo}}</div>
+      </div>
+      <span fxFlex></span>
+
+      <ha4us-widget [widget]="object.role" [props]="object | ha4usRole"></ha4us-widget>
+    </ng-container>
+    <button mat-icon-button (click)="edit($event, object.topic)">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+  </div>
+</ng-container>
+<!-- [media]="'urn:ha4us:media:48413455535f333437376339'" icon="role:plug" -->

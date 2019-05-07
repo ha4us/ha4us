@@ -1,0 +1,74 @@
+import { AbstractConfigService } from './abstract-config.service'
+import { ValueMap, IValueMap } from './valuemap.class'
+import { MqttUtil } from './utility'
+
+const MAP_PREFIX = 'maps'
+
+export abstract class AbstractMapService {
+    protected _maps: Map<string, ValueMap<any, any>>
+
+    public get count(): number {
+        return this._maps.size
+    }
+
+    constructor(protected cs: AbstractConfigService) {
+        this._maps = new Map()
+    }
+
+    public async loadAll(): Promise<any[]> {
+        return this.cs
+            .get<IValueMap<any, any>>(MqttUtil.join(MAP_PREFIX, '#'))
+            .then(maps => {
+                maps.forEach(map => {
+                    this._maps.set(
+                        MqttUtil.strip(map.name, 0, 1),
+                        ValueMap.from(map.value)
+                    )
+                })
+                return maps
+            })
+    }
+
+    public get maps(): ValueMap<any, any>[] {
+        return Array.from(this._maps.values())
+    }
+
+    public async put(map: IValueMap<any, any>): Promise<ValueMap<any, any>> {
+        const resultMap = ValueMap.from(map)
+        this._maps.set(map.name, resultMap)
+        await this.cs.set({
+            name: MqttUtil.join(MAP_PREFIX, map.name),
+            value: resultMap.toJSON(),
+        })
+
+        return resultMap
+    }
+
+    public async get(name: string): Promise<ValueMap<any, any>> {
+        const resultMap = this._maps.get(name)
+        if (resultMap) {
+            return Promise.resolve(resultMap)
+        } else {
+            const loadedMap = await this.cs.getOne<IValueMap<any, any>>(
+                MqttUtil.join(MAP_PREFIX, name)
+            )
+            this._maps.set(name, ValueMap.from(loadedMap.value))
+            return this.get(name)
+        }
+    }
+
+    public async delete(name: string): Promise<void> {
+        return this.cs.delete(MqttUtil.join(MAP_PREFIX, name)).then(() => {
+            this._maps.delete(name)
+        })
+    }
+
+    public map(name: string, value: any): any {
+        const map = this._maps.get(name)
+        if (map) {
+            return map.map(value)
+        } else {
+            return value
+        }
+    }
+}

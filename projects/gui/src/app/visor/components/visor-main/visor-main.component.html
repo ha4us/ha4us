@@ -1,0 +1,13 @@
+<ha4us-visor-tab></ha4us-visor-tab>
+<mat-sidenav-container fxFlex>
+  <mat-sidenav fxLayout="column" mode="side" [opened]="editmode">
+    <ha4us-visor-widgetlib fxFlex></ha4us-visor-widgetlib>
+  </mat-sidenav>
+  <mat-sidenav-content fxLayout="column" fxLayoutAlign="start stretch" fxFlex>
+    <ha4us-visor-canvas fxFlex [ngClass]="{'checkerboard':editmode}"></ha4us-visor-canvas>
+  </mat-sidenav-content>
+  <mat-sidenav [style.max-width.px]="300" mode="side" [opened]="(selected|async) && (editmode)" position="end" fxLayout="column" >
+    <ha4us-widget-edit [entity]="selected|async" (change)="updateWidget($event)"></ha4us-widget-edit>
+    <button [style.margin.px]="15" mat-raised-button color="warn" (click)="removeSelected($event)">Entfernen</button>
+  </mat-sidenav>
+</mat-sidenav-container>

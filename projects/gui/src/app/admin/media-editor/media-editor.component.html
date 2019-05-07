@@ -1,0 +1,24 @@
+<ha4us-toolbar shadow="false">
+  <span title>Medien</span>
+</ha4us-toolbar>
+<mat-tab-group backgroundColor="primary" fxFlex>
+  <mat-tab label="Gallerie">
+    <mat-drawer-container [style.height]="'100%'">
+      <mat-drawer [style.min-width.px]="300" mode="over" position="end" [opened]="selectedMedia | async">
+        <div fxLayout="column" fxLayoutAlign="start stretch" [style.padding.px]="15">
+          <ha4us-media fxFlexAlign="center" [style.margin-bottom.px]="20" size="100" avatar color="black"
+            backgroundColor="lightgray" [media]="(selectedMedia|async)?.urn"></ha4us-media>
+          <ha4us-media-edit [media]="selectedMedia | async" (mediaChange)="updateMedia($event)"></ha4us-media-edit>
+          <button mat-raised-button color="warn" (click)="deleteSelected()">Löschen</button>
+        </div>
+      </mat-drawer>
+      <mat-drawer-content fxFlexLayout="column">
+        <ha4us-media-gallery fxFlex [cols]='3' [mimeType]="mimeType" (select)="onSelect($event)"></ha4us-media-gallery>
+      </mat-drawer-content>
+    </mat-drawer-container>
+  </mat-tab>
+  <mat-tab label="Hochladen">
+    <ha4us-media-upload (upload)="onUpload($event)" [mimeType]="mimeType" fxFlex></ha4us-media-upload>
+
+  </mat-tab>
+</mat-tab-group>

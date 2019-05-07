@@ -1,0 +1,18 @@
+ha4us-dashboard-card {
+
+  .big {
+    font-size: 24px;
+    white-space: nowrap
+  }
+
+  .mat-card-header-text {
+    overflow: hidden;
+  }
+
+  .mat-card-title {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+  }
+}

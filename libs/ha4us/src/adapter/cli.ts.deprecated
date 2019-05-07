@@ -1,0 +1,445 @@
+#!/usr/bin/node
+import * as yargs from 'yargs'
+import * as path from 'path'
+import { asValue, asFunction, AwilixContainer } from 'awilix'
+import { YamlService, StateService, ObjectService } from './services'
+import { Ha4usObject, MqttUtil } from '../core'
+import { MongoClient } from 'mongodb'
+import { Observable, from, empty } from 'rxjs'
+import { timeoutWith, mergeMap, map, toArray, take } from 'rxjs/operators'
+
+import { Ha4usOperators } from '../core/ha4us-operators'
+
+import { createHa4usContainer } from './container.factory'
+
+import { Ha4usLogger, Ha4usOptions } from './types'
+
+;(async function() {
+  const CLI_OPTIONS: Ha4usOptions = {
+    name: 'ha4uscli',
+    path: __dirname + '/..',
+    args: {},
+    imports: ['$log', '$db', '$yaml', '$states', '$objects'],
+  }
+
+  const container = await createHa4usContainer(CLI_OPTIONS)
+
+  const pkg = require(path.resolve(__dirname, '../package.json'))
+  yargs
+    .usage(
+      pkg.name +
+        ' ' +
+        pkg.version +
+        '\n' +
+        pkg.description +
+        '\n\nUsage: $0 <command> [$options]'
+    )
+    .describe('loglevel', 'possible values: "error", "warn", "info", "debug"')
+    .describe('help', 'show help')
+    .describe(
+      'mqtt-url',
+      'mqtt broker url. See https://github.com/mqttjs/MQTT.js#connect-using-a-url'
+    )
+    .describe(
+      'db-url',
+      'mongodb url. See https://docs.mongodb.com/manual/reference/connection-string'
+    )
+    .describe('name', 'base name of mqtt')
+    .alias({
+      l: 'loglevel',
+      h: 'help',
+      m: 'mqtt-url',
+      d: 'db-url',
+      n: 'name',
+    })
+    .default({
+      loglevel: 'info',
+      'mqtt-url': 'mqtt://test:password@127.0.0.1',
+      name: 'cli',
+    })
+    .demandCommand(1, 'please specify a command')
+    .env('HA4US')
+    .version()
+    .help('help')
+
+    .command(['* [command]', 'states'], 'operate on states on mqtt', function(
+      subyargs
+    ) {
+      return subyargs
+        .describe('db-url', 'mongodb url')
+        .alias({ d: 'db-url' })
+        .default('db-url', 'mongoDb://127.0.0.1/ha4us')
+        .command(
+          ['* <topicpattern>', 'get <topicpattern>'],
+          'get the last retained states of an object',
+          {
+            filename: {
+              alias: 'f',
+              demandOption: false,
+              describe: 'write yml file',
+              type: 'string',
+              requiresArg: true,
+              normalize: true,
+              group: 'Optionen <states get>',
+            },
+            topics: {
+              alias: 't',
+              demandOption: false,
+              describe: 'write only topics',
+              implies: 'f',
+              type: 'boolean',
+              group: 'Optionen <states get>',
+            },
+          },
+          registerCommand(getStates)
+        )
+        .command(
+          'set <topic> <value>',
+          'sets the states of an object',
+          {},
+          registerCommand(setState)
+        )
+        .command(
+          'delete [topicpattern]',
+          'deletes all retained message with given pattern ',
+          {
+            filename: {
+              alias: 'f',
+              demandOption: false,
+              describe: 'get topics from yml file (array of topics)',
+              type: 'string',
+              requiresArg: true,
+              normalize: true,
+              group: 'Optionen <states delete>',
+            },
+          },
+          registerCommand(deleteStates)
+        )
+        .command(
+          'observe <topicpattern>',
+          'observes the messages of topicpattern',
+          {},
+          registerCommand(observeState)
+        )
+        .demandCommand(1, 'please specify a subcommand for accessing states')
+    })
+    .command('objects', 'operate on objects in database', function(suby) {
+      return suby
+        .command(
+          ['* <pattern>', 'get <pattern>'],
+          'get objects from database',
+          {
+            filename: {
+              alias: 'f',
+              demandOption: false,
+              describe: 'export to yml file',
+              type: 'string',
+              requiresArg: true,
+              normalize: true,
+            },
+          },
+          registerCommand(getObjects)
+        )
+        .command(
+          'import <filename>',
+          'import objects from a file on objects',
+          {
+            update: {
+              alias: 'u',
+              demandOption: false,
+              default: false,
+              describe:
+                'update objects (otherwise command fails, if object already present)',
+              type: 'boolean',
+            },
+          },
+          registerCommand(insertObjects)
+        )
+        .command(
+          'delete [pattern]',
+          'deletes some object from database',
+          {},
+          registerCommand(deleteObjects)
+        )
+        .command(
+          'tag [topicpattern] [tags]',
+          'add or removes some tag from objects in database',
+          {
+            a: {
+              alias: 'add',
+              describe: 'tags to add',
+              type: 'array',
+              conflicts: 'r',
+            },
+            r: {
+              alias: 'remove',
+              describe: 'tags to remove',
+              type: 'array',
+              conflicts: 'a',
+            },
+            list: {
+              describe: 'list all tags',
+              type: 'boolean',
+              conflicts: ['a', 'r'],
+              default: undefined,
+            },
+          },
+          registerCommand(tagObject)
+        )
+        .command(
+          'set [topicpattern]',
+          'update some object in database',
+          {
+            tags: {
+              alias: 't',
+              demandOption: false,
+              describe: 'add tags',
+              type: 'array',
+            },
+            label: {
+              demandOption: false,
+              describe: 'set label / name',
+              type: 'boolean',
+            },
+            actions: {
+              demandOption: false,
+              describe:
+                'sets R(eadable), W(ritable), T(rigger) - not set values will be removed',
+              type: 'string',
+            },
+          },
+          registerCommand(notImplemented)
+        )
+        .demandCommand(1, 'please specify a subcommand for accessing objects')
+    })
+    .wrap(yargs.terminalWidth())
+
+  const argv = yargs.argv
+  container.register('$args', asValue(argv))
+
+  let db = null
+  if (argv._[0] === 'objects') {
+    db = (await container.resolve('$dbConnect')) as Promise<MongoClient | null>
+    const admin = await db.admin()
+    const state = await admin.serverStatus()
+    console.log(state.version)
+    if (db) {
+      container.register({
+        $db: asValue(db),
+      })
+    }
+  }
+
+  // now resolve and execute the command
+  const resultOfCommand = container.resolve('command') as Promise<any>
+
+  resultOfCommand
+    .catch(e => {
+      console.error('Unhandled error', e)
+    })
+    .then(() => {
+      if (db) {
+        return db.close()
+      }
+    })
+
+  function registerCommand(commandFunction: (...any) => void) {
+    return (args: object) => {
+      container.register('command', asFunction(commandFunction))
+    }
+  }
+
+  // ------ COMMAND FUNCTIONS BELOW THIS LINE -------
+
+  async function notImplemented($log: Ha4usLogger) {
+    throw new Error('Not implemented yet')
+  }
+
+  async function getStates(
+    $log: Ha4usLogger,
+    $args: any,
+    $states: StateService,
+    $yaml: YamlService
+  ) {
+    return $states
+      .connect()
+      .then(() => {
+        $log.debug('Observing', $args.topicpattern)
+        let states: Observable<any> = $states.observe($args.topicpattern).pipe(
+          Ha4usOperators.onlyRetained,
+          map(msg => {
+            delete msg.match
+            delete msg.retain
+            return msg
+          }),
+          timeoutWith(2000, empty())
+        )
+
+        if ($args.hasOwnProperty('f')) {
+          if ($args.topics) {
+            states = states.pipe(Ha4usOperators.pickTopic)
+          } else {
+            states = states.pipe(
+              map(msg => {
+                const object: any = { topic: MqttUtil.strip(msg.topic, 1, 1) }
+                object.type = typeof msg.val
+                object.tags = []
+                object.can = {
+                  read: true,
+                  write: true,
+                  trigger: true,
+                }
+                return object
+              })
+            )
+          }
+          $log.info('Writing', $args.f)
+          return states
+            .pipe(
+              toArray(),
+              take(1)
+            )
+            .toPromise()
+            .then(result => $yaml.save(result, $args.f))
+            .then(() => $states.disconnect())
+        } else {
+          states.subscribe(console.log, console.error, () => {
+            $states.disconnect()
+            console.log($args.filename)
+          })
+          return
+        }
+      })
+      .catch(console.error)
+  }
+
+  async function deleteStates(
+    $log: Ha4usLogger,
+    $args: any,
+    $states: StateService,
+    $yaml: YamlService
+  ) {
+    return $states.connect().then(() => {
+      let states
+      if ($args.hasOwnProperty('f')) {
+        $log.info('Loading topics to delete from file', $args.f)
+        states = from($yaml.load($args.f)).pipe(
+          mergeMap(topicArr => from(topicArr))
+        )
+      } else {
+        states = $states.observe($args.topicpattern).pipe(
+          Ha4usOperators.onlyRetained,
+          Ha4usOperators.pickTopic,
+          timeoutWith(1000, empty())
+        )
+      }
+
+      states
+        .flatMap(topic => {
+          $log.info('Delete', topic)
+          return $states.delete(topic)
+        })
+        .subscribe(console.log, console.error, () => $states.disconnect())
+    })
+  }
+
+  async function observeState(
+    $log: Ha4usLogger,
+    $args: any,
+    $states: StateService
+  ) {
+    return $states.connect().then(() => {
+      return $states
+        .observe($args.topicpattern)
+        .pipe(
+          map(msg => {
+            delete msg.match
+            return msg
+          })
+        )
+        .subscribe(console.log, console.error, () => $states.disconnect())
+    })
+  }
+
+  async function setState(
+    $log: Ha4usLogger,
+    $args: any,
+    $states: StateService
+  ) {
+    $log.debug('Setting %s to %s', $args.topic, $args.value)
+    return $states
+      .connect()
+      .then(() => $states.set($args.topic, $args.value))
+      .then(() => $states.disconnect())
+  }
+
+  async function getObjects(
+    $log: Ha4usLogger,
+    $args: any,
+    $objects: ObjectService,
+    $yaml: YamlService
+  ) {
+    $log.debug('Getting objects with %s', $args.pattern)
+    return $objects
+      .observe($args.pattern)
+      .pipe(
+        map((obj: Ha4usObject) => {
+          delete obj._id
+          return obj
+        }),
+        toArray()
+      )
+      .toPromise()
+      .then(result => {
+        $log.debug($args)
+        if ($args.hasOwnProperty('f')) {
+          $yaml.save(result, $args.filename)
+          return 'ok'
+        } else {
+          $log.info('Result', result)
+          return result
+        }
+      })
+  }
+
+  async function insertObjects(
+    $log: Ha4usLogger,
+    $args: any,
+    $objects: ObjectService,
+    $yaml: YamlService
+  ) {
+    $log.debug('Inserting objects with', $args)
+    const objects = await $yaml.load($args.filename)
+    if ($args.u) {
+      return $objects.update(objects).then($log.info)
+    } else {
+      return $objects.insert(objects).then($log.info)
+    }
+  }
+
+  async function deleteObjects($args: any, $objects: ObjectService) {
+    return $objects.delete($args.pattern)
+  }
+
+  async function tagObject(
+    $log: Ha4usLogger,
+    $args: any,
+    $objects: ObjectService
+  ) {
+    $log.debug(
+      'Tagging "%s" +%s -%s',
+      $args.topicpattern,
+      $args.add,
+      $args.remove
+    )
+    if ($args.add) {
+      return $objects.addTags($args.topicpattern, $args.add)
+    } else {
+      if ($args.remove) {
+        return $objects.removeTags($args.topicpattern, $args.remove)
+      } else if ($args.list) {
+        return $objects.allTags($args.topicpattern).then(tags => console.log)
+      }
+    }
+  }
+})()

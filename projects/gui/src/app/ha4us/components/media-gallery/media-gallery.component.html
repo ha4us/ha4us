@@ -1,0 +1,24 @@
+<form [formGroup]="searchForm" fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="start stretch">
+  <mat-form-field [style.fontSize.px]="20">
+    <mat-label>MIME Typ</mat-label>
+    <input matInput formControlName="mimeType" />
+    <span matPrefix *ngIf="!this.mime && this.mimeType">{{this.mimeType}}/</span>
+    <mat-hint>* dient als Wildcard</mat-hint>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Dateiname</mat-label>
+    <input matInput formControlName="fileName" />
+  </mat-form-field>
+  <us-tag-input [availableTags]="allTags|async" formControlName="tags" placeholder="Tags bitte"></us-tag-input>
+</form>
+
+<cdk-virtual-scroll-viewport fxFlex [itemSize]="300" #viewport>
+
+  <div class="gallery" fxLayout="column">
+    <div class="row" fxLayout="row" fxLayoutAlign="start start" *cdkVirtualFor="let row of medias">
+      <div fxFlex class="cell" *ngFor="let item of row">
+        <ha4us-media (click)="select.emit(item)" size="300" [media]="item.urn"></ha4us-media>
+      </div>
+    </div>
+  </div>
+</cdk-virtual-scroll-viewport>

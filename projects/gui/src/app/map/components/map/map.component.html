@@ -1,0 +1,27 @@
+<div fxLayout="row">
+<mat-form-field>
+  <mat-select [formControl]="fc" [placeholder]="placeholder || 'Choose an map'" [required]="required">
+    <mat-option>
+      <i>keine ausgewählt</i>
+    </mat-option>
+    <mat-option *ngFor="let map of filteredMaps" [value]="map.name">
+      <div>
+        {{map.name}}
+        <span *ngIf="!type" class="mat-caption">
+          (<i>{{map.type}}</i>)
+        </span>
+      </div>
+
+
+    </mat-option>
+  </mat-select>
+  <button *ngIf="fc.value && !fc.hasError('notExist')" [disabled]="fc.hasError('notExist')" matSuffix mat-icon-button (click)="edit($event)">
+    <mat-icon>edit</mat-icon>
+  </button>
+  <button *ngIf="!fc.value || fc.hasError('notExist')"  matSuffix mat-icon-button (click)="edit($event)">
+    <mat-icon [style.fontSize.px]="24" [style.color]="'gray'" >add_circle</mat-icon>
+  </button>
+  <mat-error *ngIf="fc.hasError('required')">Erforderlich</mat-error>
+  <mat-error *ngIf="fc.hasError('notExist')">Map {{fc.value}} existiert nicht</mat-error>
+  </mat-form-field>
+</div>

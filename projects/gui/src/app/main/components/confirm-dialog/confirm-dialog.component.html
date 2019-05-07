@@ -1,0 +1,26 @@
+<ng-container [ngSwitch]="data.msg">
+  <ng-container *ngSwitchCase="Msg.CancelEdit">
+    <mat-dialog-content>Bearbeitungen verwerfen?</mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <button mat-button color="primary" mat-dialog-close>Abbruch</button>
+      <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
+      <button mat-button color="primary" [mat-dialog-close]="true">Verwerfen</button>
+    </mat-dialog-actions>
+  </ng-container>
+  <ng-container *ngSwitchCase="Msg.DeleteReally">
+    <mat-dialog-content>Wirklich Löschen?</mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <button mat-button color="primary" mat-dialog-close>Abbruch</button>
+      <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
+      <button mat-button color="primary" [mat-dialog-close]="true">Löschen</button>
+    </mat-dialog-actions>
+  </ng-container>
+  <ng-container *ngSwitchDefault>
+    <mat-dialog-content>Wirklich?</mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <button mat-button color="primary" mat-dialog-close>Nein</button>
+      <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
+      <button mat-button color="primary" [mat-dialog-close]="true">Ja</button>
+    </mat-dialog-actions>
+  </ng-container>
+</ng-container>

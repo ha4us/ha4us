@@ -1,0 +1,19 @@
+<form class="login-box mat-elevation-z2" fxLayout="column" fxLayoutAlign="center" [formGroup]="loginForm"  (ngSubmit)="onSubmit()" autocomplete="off">
+  <img class="imagecircle mat-elevation-z2" src="assets/logo.png"/>
+  <h3>Willkommen in Deinem Ha4us!</h3>
+
+  <p>Bitte melde Dich an, um das Ha4us zu betreten</p>
+
+  <mat-form-field>
+    <mat-label>Benutzername</mat-label>
+    <input matInput formControlName="username" autofocus/>
+    <mat-error *ngIf="loginForm.get('username').hasError('required')">Benutzername ist erforderlich</mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Kennwort</mat-label>
+    <input type="password"  matInput formControlName="password"/>
+    <mat-error *ngIf="loginForm.get('password').hasError('required')">Kennwort ist erforderlich</mat-error>
+  </mat-form-field>
+  <button [disabled]="loginForm.pristine || loginForm.invalid" type="submit" mat-raised-button color="primary">Login!</button>
+
+</form>

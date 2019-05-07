@@ -1,0 +1,38 @@
+:host {
+    position: absolute;
+    z-index: 1;
+    pointer-events: all;
+}
+
+div.widgetcontainer {
+    position: relative;
+    // border: 3px red dashed;
+}
+
+div.widgetcontainer.editmode {
+    border: 1px gray dashed;
+
+    &::after {
+        z-index: 2;
+        position: absolute;
+        pointer-events: all;
+        content: '';
+        height: 100%;
+        width: 100%;
+    }
+
+    &.selected {
+        border: 1px black dashed;
+
+        .removeIcon {
+            z-index: 3;
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            // height: 30px;
+            // width: 30px;
+            // border-radius: 100%;
+            // background-color: lightgray;
+        }
+    }
+}

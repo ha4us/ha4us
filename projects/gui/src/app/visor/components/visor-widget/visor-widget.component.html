@@ -1,0 +1,13 @@
+<div class="widgetcontainer" [ngClass]="{'selected':isSelected, 'editmode':editMode }" [style.width.px]="width" [style.height.px]="height" 
+fxLayout="column" fxLayoutAlign="center center" [style.position]="'relative'"
+  mwlDraggable (dragEnd)="dragEnd($event)" (dragStart)="dragStart($event)" [validateDrag]="dragValid.bind(this)" 
+
+
+  
+ mwlResizable [enableGhostResize]="true"  [resizeEdges]="resizeEdges" (resizeStart)="resizeStart($event)" (resizeEnd)="resizeEnd($event)"
+
+[ha4usStyle]="(config|async)"
+  >
+  <ng-template #anchor></ng-template> 
+  <button (click)="remove()" *ngIf="isSelected && editMode" mat-mini-fab class="removeIcon"><mat-icon>delete</mat-icon></button>
+ </div>

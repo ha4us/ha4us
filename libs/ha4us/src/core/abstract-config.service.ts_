@@ -1,0 +1,114 @@
+import { AbstractObjectService } from './abstract-object.service'
+import { Ha4usObject, Ha4usObjectType } from './types'
+import { MqttUtil } from './utility'
+import { Matcher } from './matcher'
+import { Ha4usError } from './ha4us-error'
+
+import * as Debug from 'debug'
+const debug = Debug('ha4us:core:abstract-config')
+
+export abstract class AbstractConfigService {
+    constructor(protected $object: AbstractObjectService) {}
+
+    init(user?: string): Promise<void> {}
+
+    /**
+     * gets a config entry - if a user is specified, the user specific
+     * config overrides the system config.
+     * If no user is given, the system config will be returned
+     * In case of no config, an error 404 is thrown
+     * @param                 configTopic the topic of the config item
+     * @param                  user       the user
+     * @return The config item
+     * @throws 404 if no config found
+     */
+    public getOne<T>(name: string, user?: string): Promise<Ha4usConfig<T>> {
+        const topic = AbstractConfigService.topic(name, user)
+        return this.$object
+            .getOne<Ha4usConfigObject<T>>(topic)
+            .then(AbstractConfigService.obj2conf)
+            .catch((e: Ha4usError) => {
+                if (e.code === 404 && user && user !== CONFIG_SYSTEM) {
+                    debug('Retry', user, name)
+                    return this.getOne<T>(name)
+                }
+                throw e
+            })
+    }
+    /*
+        const topic = AbstractConfigService.topic(name, user)
+        console.log('Get', name, user)
+        return Promise.resolve(true) //
+        //.then(AbstractConfigService.obj2conf)
+        /* .catch((e: Ha4usError) => {
+                if (false && e.code === 404 && user && user !== CONFIG_SYSTEM) {
+                    debug('Retry', user, name)
+                    return this.getOne<T>(name)
+                }
+                throw e
+            })
+    }*/
+
+    /**
+     * set an config entry either system wide (no user) or user specific
+     * @param  {string}                configTopic [description]
+     * @param  {string}                user        [description]
+     * @return {Promise<Ha4usConfig>}             [description]
+     */
+    public async set<T>(
+        config: Ha4usConfigLike<T>,
+        user?: string
+    ): Promise<Ha4usConfig<T>> {
+        const myObj = AbstractConfigService.conf2obj(config, user)
+        return this.$object
+            .put<Ha4usConfigObject<T>>(myObj)
+            .catch(e => {
+                /* istanbul ignore else */
+                if (e.code === 404) {
+                    return this.$object.post<Ha4usConfigObject<T>>(myObj)
+                } else {
+                    throw e
+                }
+            })
+            .then(AbstractConfigService.obj2conf)
+    }
+
+    public async delete(configTopic: string, user: string = CONFIG_SYSTEM) {
+        return this.$object.delete(
+            AbstractConfigService.topic(configTopic, user)
+        )
+    }
+    /**
+     * get all configs defined for a user or the system
+     * @param             user optional the user
+     * @return     an array of string
+     */
+    public async get<T>(
+        pattern: string = '#',
+        user?: string
+    ): Promise<Ha4usConfig<T>[]> {
+        const sysObjects = (await (<Promise<Ha4usConfigObject<T>[]>>(
+            this.$object.get(
+                AbstractConfigService.topic(pattern, CONFIG_SYSTEM)
+            )
+        ))).map(AbstractConfigService.obj2conf)
+
+        if (user && user !== CONFIG_SYSTEM) {
+            const userObjects = (await (<Promise<Ha4usConfigObject<T>[]>>(
+                this.$object.get(AbstractConfigService.topic(pattern, user))
+            ))).map(AbstractConfigService.obj2conf)
+            sysObjects.forEach(sysConf => {
+                if (
+                    userObjects.findIndex(
+                        userConf => sysConf.name === userConf.name
+                    ) < 0
+                ) {
+                    userObjects.push(sysConf)
+                }
+            })
+            return userObjects
+        } else {
+            return sysObjects
+        }
+    }
+}

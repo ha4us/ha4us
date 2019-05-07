@@ -1,0 +1,30 @@
+<form class="mat-typography" fxFlex [formGroup]="form" (ngSubmit)="save($event)" fxLayout="column" *ngIf="(script$ | async) as script">
+  <mat-toolbar>
+    <button mat-icon-button type="button" (click)="goToList()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+
+    <h1>{{script.name}}</h1>
+    <span fxFlex></span>
+    <mat-slide-toggle formControlName="autostart">Autostart</mat-slide-toggle>
+  </mat-toolbar>
+  <div fxFlex fxLayout="column">
+    <div fxFlex="80" class="editor">
+      <ngx-monaco-editor class="mat-elevation-z4" [style.fontsize.px]="24" [options]="editorOptions" formControlName="source"
+        (onInit)="setEditor($event)"></ngx-monaco-editor>
+      <!--(objectChange)="objectChanged($event)"-->
+      <ng-container *ha4us="let state of script.name+'/error'">
+        <div *ngIf="state && state.val !== ''" class="error" (click)="selectError(state.val)"> {{state.val}} </div>
+      </ng-container>
+    </div>
+    <div class="errors" fxFlex="20">
+      <div fxLayout="row" fxLayoutGap="15px" *ngFor="let log of (script.name+'/log' | ha4usState:20)">
+        <span>{{log.ts|date:'short'}}</span>
+        <span fxFlex>{{log.val | json}}</span>
+      </div>
+    </div>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="end">
+    <button type="submit" mat-button>Speichern</button>
+  </div>
+</form>

@@ -1,0 +1,32 @@
+<ng-template usPortal #newTopic="usPortal">
+  <div class="newTopicPicker">
+    <ha4us-new-topic [topic]="object.topic" (topicChange)="add($event);newTopic.close($event)" fixed="999" showFixed>
+    </ha4us-new-topic>
+  </div>
+</ng-template>
+<mat-menu #menu="matMenu">
+  <button mat-menu-item (click)="copy(object.topic,$event)">Topic in Zwischenablage</button>
+  <mat-divider></mat-divider>
+  <button mat-menu-item (click)="emitAction('edit', $event)">Ändere Objekt</button>
+  <button mat-menu-item (click)="emitAction('delete', $event)">
+    <mat-icon>delete</mat-icon>Lösche
+  </button>
+  <!--<button mat-menu-item [usPopupTrigger]="newTopic">Kindobjekt
+    anlegen</button>-->
+  <mat-divider></mat-divider>
+  <button mat-menu-item (click)="emitAction('watch', $event)">Beobachte Status</button>
+</mat-menu>
+
+<div fxLayout="row" fxLayoutAlign="start center" *ngIf="object | ha4usRole as display">
+
+  <ha4us-media fxFlex="none" [media]="display.image" avatar size="48" [color]="display.color"
+    [backgroundColor]="display.backgroundColor" [alt]="display.label || display.role || display.topic"></ha4us-media>
+  <div fxFlex="nogrow" class="text">
+    <h2 class="line mat-h3">{{object.label || object.topic | topicPart}}</h2>
+    <p class="mat-small line">{{display.topic}}</p>
+  </div>
+  <span fxFlex></span>
+  <button *ngIf="menu" mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+</div>
