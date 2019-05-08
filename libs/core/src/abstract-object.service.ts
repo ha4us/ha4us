@@ -13,8 +13,8 @@ export abstract class AbstractObjectService {
   public abstract getOne<T extends Ha4usObject>(topic: string): Promise<T>
   /**
    * get
-   * @param  {Ha4usObjectQuery} topic [description]
-   * @return {Ha4usObject[]}          [description]
+   * @param   topic [description]
+   * @return       [description]
    */
   public abstract get(query: Ha4usObjectQuery): Promise<Ha4usObject[]>
   public abstract get(

@@ -59,7 +59,7 @@ export class MqttService {
    * The observable will only emit messages matching the filter.
    * The first one subscribing to the resulting observable executes a mqtt subscribe.
    * The last one unsubscribing this filter executes a mqtt unsubscribe.
-   * @param                   filter
+   * @param       filterInput filter as string
    * @return      the observable you can subscribe to
    */
   public observe(
@@ -136,7 +136,7 @@ export class MqttService {
   /**
    * observe multipe topics and picks all latest ones.
    * be aware the every topic has to emit at least once
-   * @param  ...pattern list of pattern
+   * @param  pattern list of pattern
    * @return            observable of the combined latest emits
    */
   public observeLatest(...pattern: string[]): Observable<Ha4usMessage[]> {
@@ -151,10 +151,10 @@ export class MqttService {
    * This method publishes a message for a topic with optional options.
    * The returned observable will complete, if publishing was successful
    * and will throw an error, if the publication fails
-   * @param  {string}           topic
-   * @param  {any}              message
-   * @param  {PublishOptions}   options
-   * @return {Observable<void>}
+   * @param           topic the topic
+   * @param              message the message
+   * @param    options options
+   * @return a promise of the result
    */
 
   public publish(

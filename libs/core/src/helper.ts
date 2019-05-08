@@ -52,9 +52,8 @@ export function convertBuffer(message: Uint8Array): any {
 
   try {
     retVal = JSON.parse(retVal)
-  } finally {
-    return retVal
-  }
+  } catch {}
+  return retVal
 }
 
 export function sprintf(format: string, ...args: any[]): string {
@@ -71,8 +70,8 @@ export function sprintf(format: string, ...args: any[]): string {
       case 'f':
         let precision
         let separator
-        result = parseFloat(result)
-          ; [, separator, precision] = params.match(SPRINTF_PAR_F)
+        result = parseFloat(result);
+        [, separator, precision] = params.match(SPRINTF_PAR_F)
         separator = separator || ','
         if (precision) {
           result = result.toFixed(precision)
@@ -104,20 +103,23 @@ export function extractTags(text: string, tags: string = '!#@_'): string[] {
 
   const result = [text.replace(TAG_PATTERN, '')]
   let matches
+  // tslint:disable-next-line
   while ((matches = TAG_PATTERN.exec(text)) !== null) {
     result.push(matches[1])
   }
   return result
 }
 
-export function groupBy<T>(array: T[], predicate: (item: T) => any): { [key: string]: T[] } {
-
+export function groupBy<T>(
+  array: T[],
+  predicate: (item: T) => any
+): { [key: string]: T[] } {
   return array.reduce((grouped: { [key: string]: T[] }, value: T) => {
-    const key = predicate(value);
+    const key = predicate(value)
     if (grouped.hasOwnProperty(key)) {
       grouped[key].push(value)
     } else {
-      grouped[key] = [value];
+      grouped[key] = [value]
     }
     return grouped
   }, {})
@@ -125,12 +127,6 @@ export function groupBy<T>(array: T[], predicate: (item: T) => any): { [key: str
 
 export function unique(values: any[]): any[] {
   return Array.from(new Set(values))
-}
-
-export function distinctDeep<T>(array: T[], property?: string): string[] {
-  return unique(array.reduce((acc: string[], cur: T, idx: number) => {
-    return acc = [...acc, ...get(cur, property)];
-  }, []))
 }
 
 export function convertWildcarded(wildcarded: string): RegExp {
@@ -146,3 +142,11 @@ export const get = require('lodash/get')
 export const merge = require('lodash/merge')
 export const union = require('lodash/union')
 export const defaultsDeep = require('lodash/defaultsDeep')
+
+export function distinctDeep<T>(array: T[], property?: string): string[] {
+  return unique(
+    array.reduce((acc: string[], cur: T, idx: number) => {
+      return (acc = [...acc, ...get(cur, property)])
+    }, [])
+  )
+}

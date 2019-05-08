@@ -1,7 +1,7 @@
-import { Router } from 'express';
+import { Router } from 'express'
 
-import { UserService, ObjectService } from '@ha4us/adapter';
-import { Ha4usError } from '@ha4us/core';
+import { UserService, ObjectService } from '@ha4us/adapter'
+import { Ha4usError } from '@ha4us/core'
 
 import {
   MongoClient,
@@ -9,34 +9,34 @@ import {
   Collection,
   Cursor,
   AggregationCursor,
-} from 'mongodb';
+} from 'mongodb'
 
-import { WebService } from '../web.service';
-import { Observable, concat } from 'rxjs';
-import { map, concatMap, mergeMap, toArray } from 'rxjs/operators';
-
+import { WebService } from '../web.service'
+import { Observable, concat } from 'rxjs'
+import { map, concatMap, mergeMap, toArray } from 'rxjs/operators'
+// tslint:disable-next-line
 module.exports = exports = function(route: Router, { $args, $log, $objects }) {
   function cursorToRx(source: AggregationCursor<any>): Observable<any> {
     return Observable.create(observer => {
       source.each((err, doc) => {
         if (err) {
-          observer.error(err);
+          observer.error(err)
         } else {
           if (doc) {
-            observer.next(doc);
+            observer.next(doc)
           } else {
-            observer.complete();
+            observer.complete()
           }
         }
-      });
+      })
       return () => {
-        return source.close();
-      };
-    });
+        return source.close()
+      }
+    })
   }
 
   route.get('/smart', (req, res) => {
-    const db = $objects.collection;
+    const db = $objects.collection
 
     const obsNames = cursorToRx(
       db.aggregate([
@@ -56,7 +56,7 @@ module.exports = exports = function(route: Router, { $args, $log, $objects }) {
         },
         { $project: { _id: 0, name: '$_id', roles: 1, topics: 1 } },
       ])
-    );
+    )
 
     const obsSmartNames = cursorToRx(
       db.aggregate([
@@ -86,15 +86,15 @@ module.exports = exports = function(route: Router, { $args, $log, $objects }) {
       ])
     ).pipe(
       map((roomsAndFuncs: { rooms: string[]; funcs: string[] }) => {
-        const { rooms, funcs } = roomsAndFuncs;
-        const names: { room: string; func: string; name: string }[] = [];
+        const { rooms, funcs } = roomsAndFuncs
+        const names: { room: string; func: string; name: string }[] = []
         rooms.forEach((room: string) => {
           funcs.forEach((func: string) => {
-            const name = room.substr(1) + ' ' + func.substr(1);
-            names.push({ room, func, name });
-          });
-        });
-        return names;
+            const name = room.substr(1) + ' ' + func.substr(1)
+            names.push({ room, func, name })
+          })
+        })
+        return names
       }),
       concatMap(x => x),
       mergeMap((item: { room: string; func: string; name: string }) => {
@@ -112,12 +112,12 @@ module.exports = exports = function(route: Router, { $args, $log, $objects }) {
               },
             },
           ])
-        );
+        )
       }),
       map((item: any) => {
-        return item;
+        return item
       })
-    );
+    )
 
     return concat(obsNames, obsSmartNames)
       /*.map((def: any) => {
@@ -148,6 +148,6 @@ module.exports = exports = function(route: Router, { $args, $log, $objects }) {
       )
       .toPromise()
       .then(WebService.sendResponse(res))
-      .catch(WebService.sendError(res, $log));
-  });
-};
+      .catch(WebService.sendError(res, $log))
+  })
+}

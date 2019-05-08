@@ -27,60 +27,6 @@ export interface IValueCondition<T> {
   value: T[]
 }
 
-export class ValueMap<T, R> {
-  protected _ifthens: {
-    if: ValueCondition<T>
-    then: R
-  }[]
-
-  public static from<T, R>(map: IValueMap<T, R>) {
-    return new ValueMap<T, R>(
-      map.ifthens,
-      map.else,
-      map.name,
-      map.description,
-      map.type
-    )
-  }
-  constructor(
-    public ifthens: IValueIfStatement<T, R>[],
-    protected elseVal?: R,
-    public name?: string,
-    public description?: string,
-    public type?: string
-  ) {
-    this._ifthens = ifthens.map(item => ({
-      if: ValueCondition.from(item.if),
-      then: item.then,
-    }))
-    if (!type) {
-      this.type = typeof elseVal
-    }
-  }
-
-  map(val: T): R {
-    const matchIdx = this._ifthens.findIndex(item => item.if.test(val))
-    if (matchIdx > -1) {
-      return this._ifthens[matchIdx].then
-    } else {
-      return this.elseVal
-    }
-  }
-
-  public toJSON(): IValueMap<T, R> {
-    return {
-      name: this.name,
-      description: this.description,
-      ifthens: this._ifthens.map(ifthen => ({
-        if: ifthen.if.toJSON(),
-        then: ifthen.then,
-      })),
-      else: this.elseVal,
-      type: this.type,
-    }
-  }
-}
-
 export class ValueCondition<T> {
   protected _testFn: (val: T) => boolean
 
@@ -168,6 +114,60 @@ export class ValueCondition<T> {
     return {
       op: this.op,
       value: this._values,
+    }
+  }
+}
+
+export class ValueMap<T, R> {
+  protected _ifthens: {
+    if: ValueCondition<T>;
+    then: R;
+  }[]
+
+  public static from<T, R>(map: IValueMap<T, R>) {
+    return new ValueMap<T, R>(
+      map.ifthens,
+      map.else,
+      map.name,
+      map.description,
+      map.type
+    )
+  }
+  constructor(
+    public ifthens: IValueIfStatement<T, R>[],
+    protected elseVal?: R,
+    public name?: string,
+    public description?: string,
+    public type?: string
+  ) {
+    this._ifthens = ifthens.map(item => ({
+      if: ValueCondition.from(item.if),
+      then: item.then,
+    }))
+    if (!type) {
+      this.type = typeof elseVal
+    }
+  }
+
+  map(val: T): R {
+    const matchIdx = this._ifthens.findIndex(item => item.if.test(val))
+    if (matchIdx > -1) {
+      return this._ifthens[matchIdx].then
+    } else {
+      return this.elseVal
+    }
+  }
+
+  public toJSON(): IValueMap<T, R> {
+    return {
+      name: this.name,
+      description: this.description,
+      ifthens: this._ifthens.map(ifthen => ({
+        if: ifthen.if.toJSON(),
+        then: ifthen.then,
+      })),
+      else: this.elseVal,
+      type: this.type,
     }
   }
 }

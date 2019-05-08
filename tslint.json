@@ -73,6 +73,10 @@
     "directive-class-suffix": true,
 
     "semicolon": [true, "never"],
-    "variable-name": [true, "check-format", "allow-leading-underscore"]
+    "variable-name": [true, "check-format", "allow-leading-underscore"],
+    "no-namespace": {
+      "severity": "warning"
+    }
+
   }
 }

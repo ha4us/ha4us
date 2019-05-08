@@ -1,4 +1,4 @@
-import { Observable, from, of, throwError } from 'rxjs';
+import { Observable, from, of, throwError } from 'rxjs'
 import {
   mergeMap,
   map,
@@ -7,15 +7,15 @@ import {
   toArray,
   pairwise,
   groupBy,
-} from 'rxjs/operators';
+} from 'rxjs/operators'
 
-import { DateTime, DateObject } from 'luxon';
-import { Ha4usMessage, Ha4usError, Matcher, MqttUtil } from '@ha4us/core';
+import { DateTime, DateObject } from 'luxon'
+import { Ha4usMessage, Ha4usError, Matcher, MqttUtil } from '@ha4us/core'
 import {
   Ha4usMongoAccess,
   MongoUtils,
   Db,
-} from '@ha4us/adapter/dist/lib/ha4us-mongo-access';
+} from '@ha4us/adapter/dist/lib/ha4us-mongo-access'
 
 import {
   createEvent,
@@ -24,28 +24,28 @@ import {
   unwindEventObject,
   HistoryResult,
   EventType,
-} from './history-event.class';
+} from './history-event.class'
 
-import { inspect } from 'util';
+import { inspect } from 'util'
 
-import { AggregationCursor, Cursor } from 'mongodb';
-import { match } from 'minimatch';
+import { AggregationCursor, Cursor } from 'mongodb'
+import { match } from 'minimatch'
 
-const debug = require('debug')('ha4us:history:db');
+const debug = require('debug')('ha4us:history:db')
 
 export interface HistoryProcessResult {
-  topic: string;
-  ts: Date;
-  nInserted: number;
-  nModified: number;
+  topic: string
+  ts: Date
+  nInserted: number
+  nModified: number
 }
 
 export interface HistoryInventory {
-  topic: string;
-  from: Date;
-  to: Date;
-  type: EventType;
-  readings: number;
+  topic: string
+  from: Date
+  to: Date
+  type: EventType
+  readings: number
 }
 
 export enum Unit {
@@ -69,13 +69,13 @@ export enum AggUnit {
 export function reduceResult() {
   return scan(
     (acc, val) => {
-      acc.nInserted += val.nInserted;
-      acc.nModified += val.nModified;
+      acc.nInserted += val.nInserted
+      acc.nModified += val.nModified
 
-      return acc;
+      return acc
     },
     { nInserted: 0, nModified: 0 }
-  );
+  )
 }
 
 export function aggCursorToRx<T>(source: AggregationCursor<T>): Observable<T> {
@@ -83,35 +83,35 @@ export function aggCursorToRx<T>(source: AggregationCursor<T>): Observable<T> {
     source.each((err, doc) => {
       /*istanbul ignore next*/
       if (err) {
-        observer.error(err);
+        observer.error(err)
       }
       if (doc) {
-        observer.next(doc);
+        observer.next(doc)
       } else {
-        observer.complete();
+        observer.complete()
       }
 
-      return true;
-    });
+      return true
+    })
 
     return () => {
-      return source.close();
-    };
-  });
+      return source.close()
+    }
+  })
 }
 
 export interface Query {
-  from?: string;
-  to?: string;
-  topic?: string;
-  aggregateBy: AggUnit;
+  from?: string
+  to?: string
+  topic?: string
+  aggregateBy: AggUnit
 }
 
-export interface QueryResult {}
+export type QueryResult = any
 
 export class HistoryDb extends Ha4usMongoAccess {
   constructor(opts: { dbUrl: string; name: string }) {
-    super(opts.dbUrl, opts.name);
+    super(opts.dbUrl, opts.name)
   }
 
   connect() {
@@ -119,9 +119,9 @@ export class HistoryDb extends Ha4usMongoAccess {
       this.collection.createIndex(
         { topic: 1, ts: 1 },
         { unique: true, name: 'UniqueTopic' }
-      );
-      return db;
-    });
+      )
+      return db
+    })
   }
 
   processMessages(
@@ -130,27 +130,27 @@ export class HistoryDb extends Ha4usMongoAccess {
     return event$.pipe(
       map(msg => createEvent(msg)),
       mergeMap((event: HistoryEvent) => {
-        const update = event.toUpdate();
-        debug('Updating', update.query);
-        return this.collection.update(update.query, update.update).then(res => {
+        const update = event.toUpdate()
+        debug('Updating', update.query)
+        return this.collection.updateOne(update.query, update.update).then(res => {
           if (res.result.nModified === 0) {
-            return this.collection.insert(event.toInsert()).then(() => ({
+            return this.collection.insertOne(event.toInsert()).then(() => ({
               topic: update.query.topic,
               ts: update.query.ts,
               nInserted: 1,
               nModified: 0,
-            }));
+            }))
           } else {
             return {
               topic: update.query.topic,
               ts: update.query.ts,
               nInserted: 0,
               nModified: 1,
-            };
+            }
           }
-        });
+        })
       }, 1)
-    );
+    )
   }
 
   aggregationByTime(
@@ -159,15 +159,15 @@ export class HistoryDb extends Ha4usMongoAccess {
     fromTs: DateTime,
     toTs: DateTime
   ): Observable<any> {
-    const matcher = new Matcher(pattern);
+    const matcher = new Matcher(pattern)
 
-    const $match: any = { topic: matcher.regexp };
+    const $match: any = { topic: matcher.regexp }
 
     $match.ts = fromTs
       ? { $gte: fromTs.toJSDate(), $lte: toTs.toJSDate() }
-      : { $lte: toTs.toJSDate() };
+      : { $lte: toTs.toJSDate() }
 
-    const $addFields = { date: undefined };
+    const $addFields = { date: undefined }
 
     switch (aggUnit) {
       case AggUnit.Day:
@@ -177,35 +177,35 @@ export class HistoryDb extends Ha4usMongoAccess {
             month: { $month: '$ts' },
             day: { $dayOfMonth: '$ts' },
           },
-        };
-        break;
+        }
+        break
       case AggUnit.Month:
         $addFields.date = {
           $dateFromParts: {
             year: { $year: '$ts' },
             month: { $month: '$ts' },
           },
-        };
-        break;
+        }
+        break
       case AggUnit.Year:
         $addFields.date = {
           $dateFromParts: {
             year: { $year: '$ts' },
           },
-        };
-        break;
+        }
+        break
       case AggUnit.Week:
         $addFields.date = {
           $dateFromParts: {
             isoWeekYear: { $year: '$ts' },
             isoWeek: { $isoWeek: '$ts' },
           },
-        };
-        break;
+        }
+        break
       case AggUnit.None:
       default:
-        $addFields.date = '$ts';
-        break;
+        $addFields.date = '$ts'
+        break
     }
 
     const $group = {
@@ -222,7 +222,7 @@ export class HistoryDb extends Ha4usMongoAccess {
       min: {
         $min: '$min',
       },
-    };
+    }
     const aggregation = [
       { $match },
       { $addFields },
@@ -237,13 +237,13 @@ export class HistoryDb extends Ha4usMongoAccess {
       },
       { $project: { _id: 0 } },
       { $sort: { name: 1 } },
-    ];
+    ]
 
-    debug('Aggregation', inspect(aggregation, { depth: null }));
+    debug('Aggregation', inspect(aggregation, { depth: null }))
 
     return aggCursorToRx(this.collection.aggregate(aggregation)).pipe(
       tap(data => debug('Get result', data))
-    );
+    )
   }
 
   aggregationByValue(
@@ -260,7 +260,7 @@ export class HistoryDb extends Ha4usMongoAccess {
         value: cur.value,
       })),
       groupBy(point => point.value)
-    );
+    )
   }
 
   /**
@@ -274,18 +274,18 @@ export class HistoryDb extends Ha4usMongoAccess {
     fromTs: DateTime,
     toTs: DateTime
   ): Observable<HistoryResult> {
-    const $match: any = { topic };
+    const $match: any = { topic }
     $match.ts = fromTs
       ? { $gte: fromTs.toJSDate(), $lte: toTs.toJSDate() }
-      : { $lte: toTs.toJSDate() };
+      : { $lte: toTs.toJSDate() }
 
-    debug('Getting History of ', topic);
+    debug('Getting History of ', topic)
     return MongoUtils.cursorToRx(
       this.collection
         .find($match)
         .project({ topic: 0 })
         .sort({ ts: 1 })
-    ).pipe(mergeMap((res: HistoryEventObject) => from(unwindEventObject(res))));
+    ).pipe(mergeMap((res: HistoryEventObject) => from(unwindEventObject(res))))
   }
 
   /**
@@ -294,14 +294,14 @@ export class HistoryDb extends Ha4usMongoAccess {
    * @param topicPattern the topic pattern to select in database
    */
   inventory(topicPattern?: string): Observable<HistoryInventory> {
-    let $match: any;
+    let $match: any
     if (topicPattern) {
-      const matcher = new Matcher(topicPattern);
+      const matcher = new Matcher(topicPattern)
       $match = {
         topic: matcher.regexp,
-      };
+      }
     } else {
-      $match = {};
+      $match = {}
     }
 
     const aggregation = [
@@ -325,32 +325,32 @@ export class HistoryDb extends Ha4usMongoAccess {
           readings: 1,
         },
       },
-    ];
+    ]
 
-    return aggCursorToRx(this.collection.aggregate(aggregation));
+    return aggCursorToRx(this.collection.aggregate(aggregation))
   }
 
   query(query: Query): Observable<QueryResult> {
     if (!query || !query.topic) {
-      return this.inventory();
+      return this.inventory()
     }
-    debug('Query', query);
-    query.aggregateBy = query.aggregateBy || AggUnit.None;
+    debug('Query', query)
+    query.aggregateBy = query.aggregateBy || AggUnit.None
 
-    const toTs = query.to ? DateTime.fromISO(query.to) : DateTime.local();
-    const fromTs = query.from ? DateTime.fromISO(query.from) : undefined;
+    const toTs = query.to ? DateTime.fromISO(query.to) : DateTime.local()
+    const fromTs = query.from ? DateTime.fromISO(query.from) : undefined
 
     debug(
       `Querying date range from ${fromTs} to ${toTs} with aggregation ${
         query.aggregateBy
       } and topic ${query.topic}`
-    );
+    )
 
     if (query.aggregateBy === AggUnit.None) {
-      return this.history(query.topic, fromTs, toTs);
+      return this.history(query.topic, fromTs, toTs)
     }
 
-    debug('Query called', query);
-    return this.aggregationByTime(query.topic, query.aggregateBy, fromTs, toTs);
+    debug('Query called', query)
+    return this.aggregationByTime(query.topic, query.aggregateBy, fromTs, toTs)
   }
 }

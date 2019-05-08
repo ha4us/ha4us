@@ -21,11 +21,7 @@
     "docs": "yarn docs:html && opn build/docs/index.html",
     "docs:html": "typedoc src/index.ts --ignoreCompilerErrors --excludePrivate --mode file --theme default --out build/docs",
     "docs:json": "typedoc --mode file --json build/docs/typedoc.json src/index.ts",
-    "docs:publish": "yarn docs:html && gh-pages -d build/docs",
-    "changelog": "standard-version",
-    "clog": "conventional-changelog",
-    "release": "yarn reset && yarn test && yarn build && yarn docs:publish && yarn changelog",
-    "reset": "git clean -dfx && git reset --hard && yarn"
+    "docs:publish": "yarn docs:html && gh-pages -d build/docs"
   },
   "scripts-info": {
     "info": "Display information about the scripts",

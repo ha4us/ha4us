@@ -1,4 +1,4 @@
-import { ObjectService, StateService } from './';
+import { ObjectService, StateService } from './'
 
 import {
   Ha4usObjectQuery,
@@ -6,9 +6,9 @@ import {
   Ha4usObject,
   IStatefulObject,
   Ha4usMessage,
-} from '@ha4us/core';
+} from '@ha4us/core'
 
-import { Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs'
 
 import {
   map,
@@ -17,22 +17,22 @@ import {
   timeout,
   timeoutWith,
   take,
-} from 'rxjs/operators';
+} from 'rxjs/operators'
 
 export class StatefulObjectsService {
-  protected $log: Ha4usLogger;
+  protected $log: Ha4usLogger
 
-  protected $objects: ObjectService;
-  protected $states: StateService;
+  protected $objects: ObjectService
+  protected $states: StateService
 
   constructor(
     $log: Ha4usLogger,
     $objects: ObjectService,
     $states: StateService
   ) {
-    this.$objects = $objects;
-    this.$states = $states;
-    this.$log = $log;
+    this.$objects = $objects
+    this.$states = $states
+    this.$log = $log
   }
 
   public observe(query: Ha4usObjectQuery): Observable<IStatefulObject> {
@@ -40,16 +40,16 @@ export class StatefulObjectsService {
       mergeMap((aObject: Ha4usObject) => {
         return this.$states.observe(aObject.topic).pipe(
           map((state: Ha4usMessage) => {
-            delete state.topic;
-            delete state.match;
+            delete state.topic
+            delete state.match
             return {
               object: aObject,
-              state: state,
-            };
+              state,
+            }
           })
-        );
+        )
       })
-    );
+    )
   }
 
   public get(
@@ -64,18 +64,18 @@ export class StatefulObjectsService {
             timeoutWith(100, of({})),
             take(1),
             map((state: Ha4usMessage) => {
-              delete state.topic;
-              delete state.match;
+              delete state.topic
+              delete state.match
               return {
                 object: aObject,
-                state: state,
-              };
+                state,
+              }
             })
-          );
+          )
         }),
         bufferTime(aTimeout),
         timeout(aTimeout * 2)
       )
-      .toPromise();
+      .toPromise()
   }
 }

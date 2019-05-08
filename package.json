@@ -7,7 +7,13 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "analyze": "webpack-bundle-analyzer projects/gui/dist/stats.json"
+    "analyze": "webpack-bundle-analyzer projects/gui/dist/stats.json",
+    "unit": "nyc ava",
+    "watch": "nodemon",
+    "check-coverage": "nyc check-coverage",
+    "html-coverage": "nyc report --reporter=html",
+    "test_": "yarn lint && yarn unit && yarn check-coverage",
+    "cov": "yarn unit && yarn html-coverage && opn build/coverage/index.html"
   },
   "private": true,
   "devDependencies": {
@@ -23,9 +29,9 @@
     "@types/node": "~8.9.4",
     "@types/socket.io-client": "^1.4.32",
     "@types/sprintf-js": "^1.1.0",
+    "ava": "^1.4.1",
     "codelyzer": "~4.5.0",
     "conventional-changelog": "^3.1.4",
-    "cz-conventional-changelog": "^2.1.0",
     "cz-lerna-changelog": "^2.0.2",
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "~4.2.1",
@@ -36,11 +42,13 @@
     "karma-jasmine-html-reporter": "^0.2.2",
     "lerna": "^3.13.4",
     "ng-packagr": "^4.0.0",
+    "nodemon": "^1.19.0",
     "npm": "^6.6.0",
+    "npm-run-all": "~4.1.1",
     "protractor": "~5.4.0",
+    "rimraf": "~2.6.2",
     "semantic-release": "^15.13.3",
-    "standard-version": "^4.4.0",
-    "ts-node": "~7.0.0",
+    "ts-node": "^8.1.0",
     "tsickle": ">=0.34.0",
     "tslint": "~5.11.0",
     "typescript": "~3.2.2",
@@ -83,7 +91,7 @@
     "ngx-gauge": "^1.0.0-beta.7",
     "ngx-moment": "^3.3.0",
     "ngx-monaco-editor": "^6.0.0",
-    "rxjs": "6.3.x",
+    "rxjs": "6.4.x",
     "sprintf-js": "^1.1.1",
     "tslib": "^1.9.0",
     "zone.js": "~0.8.26"
@@ -92,5 +100,40 @@
     "commitizen": {
       "path": "./node_modules/cz-lerna-changelog"
     }
+  },
+  "ava": {
+    "compileEnhancements": false,
+    "extensions": [
+      "ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "sources": [
+      "adapter/**/*.ts"
+    ],
+    "files": [
+      "libs/**/*.spec.ts"
+    ]
+  },
+  "nyc": {
+    "exclude": [
+      "**/*.js",
+      "**/*.d.ts",
+      "**/*.spec.ts"
+    ],
+    "extension": [
+      ".ts"
+    ],
+    "reporter": [
+      "html",
+      "text"
+    ],
+    "cache": true,
+    "sourceMap": true,
+    "instrument": true,
+    "all": false,
+    "report-dir": "./build/coverage",
+    "temp-directory": "./build/nyc_output"
   }
 }

@@ -82,6 +82,6 @@ export namespace MqttUtil {
 
   export function filter(pattern: string, property = 'topic') {
     const matcher = new Matcher(pattern)
-    return (object: Object) => matcher.test(object[property])
+    return object => matcher.test(object[property])
   }
 }

@@ -7,7 +7,7 @@ export enum Ha4usObjectType {
   'Mixed' = 'mixed',
   'Config' = 'config',
 }
-export type TObjectType = Ha4usObjectType;
+export type TObjectType = Ha4usObjectType
 
 export enum Ha4usRole {
   'GenericAdapter' = 'Adapter',
@@ -34,34 +34,34 @@ export enum Ha4usRole {
 }
 
 export class Ha4usObjectDisplay {
-  label?: string;
-  image?: string;
-  color?: string;
-  backgroundColor?: string;
-  hidden?: boolean;
-  template?: string;
+  label?: string
+  image?: string
+  color?: string
+  backgroundColor?: string
+  hidden?: boolean
+  template?: string
 }
 
 export class Ha4usObject extends Ha4usObjectDisplay {
-  _id?: string;
-  urn?: string;
-  type: Ha4usObjectType = Ha4usObjectType.Any; // the type of the state
-  role?: string; // the role of object,
-  tags: string[] = [];
-  min?: number;
-  max?: number;
-  unit?: string;
+  _id?: string
+  urn?: string
+  type: Ha4usObjectType = Ha4usObjectType.Any // the type of the state
+  role?: string // the role of object,
+  tags: string[] = []
+  min?: number
+  max?: number
+  unit?: string
   can: {
     read: boolean;
     write: boolean;
     trigger: boolean;
-  };
+  }
   native: {
     [props: string]: any;
-  };
+  }
 
   constructor(public topic: string) {
-    super();
+    super()
   }
 }
 
@@ -75,9 +75,9 @@ export const HA4US_OBJECT: Ha4usObject = {
     trigger: false,
   },
   native: {},
-};
+}
 
 export interface Ha4usObjectEvent {
-  action: 'insert' | 'update' | 'delete';
-  object: Ha4usObject;
+  action: 'insert' | 'update' | 'delete'
+  object: Ha4usObject
 }

@@ -1,5 +1,5 @@
-import { Subject, Subscription, from, of, never } from 'rxjs';
-import { HistoryDb } from './lib/history-db.service';
+import { Subject, Subscription, from, of, never } from 'rxjs'
+import { HistoryDb } from './lib/history-db.service'
 import {
   tap,
   mergeMap,
@@ -12,19 +12,19 @@ import {
   filter,
   onErrorResumeNext,
   scan,
-} from 'rxjs/operators';
+} from 'rxjs/operators'
 
-import { ha4us } from '@ha4us/adapter';
-import { StateService, ObjectService, CreateObjectMode } from '@ha4us/adapter';
+import { ha4us } from '@ha4us/adapter'
+import { StateService, ObjectService, CreateObjectMode } from '@ha4us/adapter'
 import {
   Ha4usError,
   Ha4usRole,
   MqttUtil,
   Ha4usObject,
   Ha4usOperators,
-} from '@ha4us/core';
+} from '@ha4us/core'
 
-const isEqual = require('lodash.isequal');
+const isEqual = require('lodash.isequal')
 
 const ADAPTER_OPTIONS = {
   // h,m,u,p,l,n
@@ -32,16 +32,16 @@ const ADAPTER_OPTIONS = {
   path: __dirname + '/..',
   args: {},
   imports: ['$log', '$args', '$states', '$objects'],
-};
+}
 
 function Adapter($log, $args, $states: StateService, $objects: ObjectService) {
   async function $onInit() {
     /**
      * create history event db
      */
-    $log.info($args.dbUrl);
-    const hs = new HistoryDb($args);
-    await hs.connect();
+    $log.info($args.dbUrl)
+    const hs = new HistoryDb($args)
+    await hs.connect()
 
     /**
      * process all observed, not retained  status messages with HistoryDb
@@ -60,10 +60,10 @@ function Adapter($log, $args, $states: StateService, $objects: ObjectService) {
       .pipe(
         scan(
           (acc, val) => {
-            acc.nInserted += val.nInserted;
-            acc.nModified += val.nModified;
+            acc.nInserted += val.nInserted
+            acc.nModified += val.nModified
 
-            return acc;
+            return acc
           },
           { nInserted: 0, nModified: 0 }
         ),
@@ -71,46 +71,46 @@ function Adapter($log, $args, $states: StateService, $objects: ObjectService) {
       )
       .subscribe(
         data => {
-          $log.debug('Processing', data);
+          $log.debug('Processing', data)
         },
         e => $log.error('Error processing messages', e)
-      );
+      )
 
     /**
      * wired up commands for get and aggregate
      */
 
     $states.command('aggregate', async (args: any) => {
-      $log.debug('Command aggregate called', args);
+      $log.debug('Command aggregate called', args)
 
       return hs
         .query(args)
         .pipe(toArray())
-        .toPromise();
-    });
+        .toPromise()
+    })
 
     $states.command('query', async (args: any) => {
-      $log.debug('Command query called', args);
+      $log.debug('Command query called', args)
       return hs
         .inventory(args.topic)
         .pipe(toArray())
         .toPromise()
         .catch(e => {
-          $log.error('Error while querying', e);
-        });
-    });
+          $log.error('Error while querying', e)
+        })
+    })
 
-    $states.connected = 2;
+    $states.connected = 2
 
-    return true;
+    return true
   }
 
   async function $onDestroy() {}
 
   return {
-    $onInit: $onInit,
-    $onDestroy: $onDestroy,
-  };
+    $onInit,
+    $onDestroy,
+  }
 }
 
-ha4us(ADAPTER_OPTIONS, Adapter);
+ha4us(ADAPTER_OPTIONS, Adapter)

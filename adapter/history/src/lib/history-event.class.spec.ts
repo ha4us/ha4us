@@ -162,8 +162,8 @@ test('Unwind', t => {
     ts: new Date('2018-10-04T18:00:00.000+02:00'),
     readings: 0,
     values: {
-      '3': 'test',
-      '3599': 123.456,
+      3: 'test',
+      3599: 123.456,
     },
   })
   t.is(res.length, 2)

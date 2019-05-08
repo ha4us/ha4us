@@ -1,6 +1,6 @@
-import * as Mqtt from 'mqtt';
+import * as Mqtt from 'mqtt'
 
-import { URL } from 'url';
+import { URL } from 'url'
 
 import {
   Ha4usMessage,
@@ -9,9 +9,9 @@ import {
   MqttService,
   get,
   isEqual,
-} from '@ha4us/core';
+} from '@ha4us/core'
 
-import { ReplaySubject, Observable, of } from 'rxjs';
+import { ReplaySubject, Observable, of } from 'rxjs'
 import {
   map,
   mergeMap,
@@ -20,26 +20,26 @@ import {
   take,
   distinct,
   timeoutWith,
-} from 'rxjs/operators';
+} from 'rxjs/operators'
 
-const debug = require('debug')('ha4us:adapter:stateservice');
+const debug = require('debug')('ha4us:adapter:stateservice')
 
 export class StateService extends MqttService {
-  public $log: Ha4usLogger;
-  protected mqtt: Mqtt.MqttClient;
-  protected cache: Map<string, Ha4usMessage>;
+  public $log: Ha4usLogger
+  protected mqtt: Mqtt.MqttClient
+  protected cache: Map<string, Ha4usMessage>
 
-  protected caching$: ReplaySubject<string>;
+  protected caching$: ReplaySubject<string>
 
-  protected cache$: Observable<Map<string, Ha4usMessage>>;
+  protected cache$: Observable<Map<string, Ha4usMessage>>
 
   constructor($args: { mqttUrl: string; name: string }, $log: Ha4usLogger) {
-    const url = new URL($args.mqttUrl);
+    const url = new URL($args.mqttUrl)
     $log.info(
       `Connecting to ${url.protocol}//${url.username}@${url.host} as ${
         $args.name
       }`
-    );
+    )
     const mqtt = Mqtt.connect($args.mqttUrl, {
       clientId:
         $args.name +
@@ -54,78 +54,77 @@ export class StateService extends MqttService {
         qos: 0,
         retain: true,
       },
-    });
+    })
 
     mqtt.once('connect', () => {
-      this.connected = 1;
-      this.$log.info('Connected as %s', mqtt.options.clientId);
-    });
-    mqtt.on('error', function(err) {
-      $log.error('Error mqtt', err);
-    });
+      this.connected = 1
+      this.$log.info('Connected as %s', mqtt.options.clientId)
+    })
+    mqtt.on('error', err => {
+      $log.error('Error mqtt', err)
+    })
 
-    mqtt.on('close', function() {
-      $log.warn('closing mqtt');
-    });
+    mqtt.on('close', () => {
+      $log.warn('closing mqtt')
+    })
 
-    super(mqtt);
+    super(mqtt)
 
-    this.mqtt = mqtt;
-    this.$log = $log;
-    this.caching$ = new ReplaySubject(1);
+    this.mqtt = mqtt
+    this.$log = $log
+    this.caching$ = new ReplaySubject(1)
 
     this.cache$ = this.caching$.pipe(
       distinct(), // only add if not already in there
       mergeMap(topic => this.observe(topic)), // observe the new topic
       scan((acc: Map<string, Ha4usMessage>, msg: Ha4usMessage) => {
-        acc.set(msg.topic, msg);
-        return acc;
+        acc.set(msg.topic, msg)
+        return acc
       }, new Map<string, Ha4usMessage>()),
       shareReplay()
-    );
+    )
 
     this.cache$.subscribe(cache => {
-      debug(`cache updated ( size: ${cache.size})`);
-      this.cache = cache;
-    });
+      debug(`cache updated ( size: ${cache.size})`)
+      this.cache = cache
+    })
 
-    this.domain = $args.name;
+    this.domain = $args.name
   }
   /**
    * setting connected status (emits via mqtt)
-   * @method connected
-   * @param  {number}  value the current status
+   *
    */
   set connected(value: number) {
-    this.publish(this.domain + '/connected', value, { qos: 0, retain: true });
+    this.publish(this.domain + '/connected', value, { qos: 0, retain: true })
   }
 
   /**
    * initializes the cache by subscribing topic - each message is stored internally
    * @method establishCache
-   * @param  {string}    topic pattern to subscribe
+   * @param      topic pattern to subscribe
    */
   public establishCache(topic: string): Observable<Map<string, Ha4usMessage>> {
-    this.caching$.next(topic);
+    this.caching$.next(topic)
 
     return this.cache$.pipe(
       take(1),
       timeoutWith(500, of(new Map<string, Ha4usMessage>()))
-    );
+    )
   }
   // TODO: implement path logic
   public getCached(topic: string, path: string = null): any {
     const message = this.cache.get(
       MqttUtil.resolve(topic, 'status', this.domain)
-    );
+    )
     if (message) {
-      return get(message.val, path);
+      return get(message.val, path)
     } else {
-      return undefined;
+      return undefined
     }
   }
   public getValue(topic: string): any {
-    return this.getCached(topic, 'val');
+    return this.getCached(topic, 'val')
   }
   /**
    * emits a ha4us status without any historic information
@@ -135,15 +134,15 @@ export class StateService extends MqttService {
    * @param retain flags, whether the message is retained
    */
   emit(topic: string, value: any, retain: boolean): Promise<Ha4usMessage> {
-    const updatedTopic = MqttUtil.resolve(topic, 'status', this.domain);
+    const updatedTopic = MqttUtil.resolve(topic, 'status', this.domain)
     const message: Partial<Ha4usMessage> = {
       val: value,
       ts: new Date().toISOString(),
-    };
+    }
     return this.publish(updatedTopic, message, { retain, qos: 0 }).then(() => {
-      message.topic = updatedTopic;
-      return message as Ha4usMessage;
-    });
+      message.topic = updatedTopic
+      return message as Ha4usMessage
+    })
   }
 
   /**
@@ -151,63 +150,61 @@ export class StateService extends MqttService {
    * the value is always wrapped in a standarized ha4us message structure
    * and resolved with cached info (s. createCache)
    * @method status
-   * @param  {string}  topic  the topic of the item (w/o /status/)
-   * @param  {any}     value  value to emit
-   * @param  {boolean} retain retain message?
-   * @return {void}
+   * @param    topic  the topic of the item (w/o /status/)
+   * @param      value  value to emit
+   * @param  retain retain message?
+   * @return the published message
    */
   public status(
     topic: string,
     value: any,
     retain: boolean
   ): Promise<Ha4usMessage> {
-    const updatedTopic = MqttUtil.resolve(topic, 'status', this.domain);
+    const updatedTopic = MqttUtil.resolve(topic, 'status', this.domain)
 
     const message: Partial<Ha4usMessage> = {
       val: value,
       ts: new Date().toISOString(),
-    };
+    }
 
     return this.establishCache(topic)
       .pipe(
         map(cache => {
-          const oldState = cache.get(updatedTopic);
+          const oldState = cache.get(updatedTopic)
           if (oldState) {
-            message.old = oldState.val;
+            message.old = oldState.val
             if (!isEqual(message.val, message.old)) {
-              message.lc = message.ts;
+              message.lc = message.ts
             } else {
-              message.lc = oldState.lc ? oldState.lc : oldState.ts;
+              message.lc = oldState.lc ? oldState.lc : oldState.ts
             }
           }
-          return message;
+          return message
         }),
         mergeMap(result =>
-          this.publish(updatedTopic, result, { qos: 0, retain: retain }).then(
-            () => {
-              result.topic = updatedTopic;
-              return result as Ha4usMessage;
-            }
-          )
+          this.publish(updatedTopic, result, { qos: 0, retain }).then(() => {
+            result.topic = updatedTopic
+            return result as Ha4usMessage
+          })
         )
       )
-      .toPromise();
+      .toPromise()
   }
 
   public async connect() {
     return new Promise(resolve => {
       this.mqtt.on('connect', () => {
-        resolve();
-      });
-    });
+        resolve()
+      })
+    })
   }
 
   public async disconnect() {
-    this.connected = 0;
+    this.connected = 0
     return new Promise(resolve => {
       this.mqtt.end(true, () => {
-        resolve(true);
-      });
-    });
+        resolve(true)
+      })
+    })
   }
 }
