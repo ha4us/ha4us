@@ -1,0 +1,44 @@
+{
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "ecmaFeatures": {
+      "globalReturn": true,
+      "impliedStrict": false
+    }
+  },
+  "env": {
+    "node": false
+  },
+  "globals": {
+    "set": true,
+    "log": true,
+    "link": true,
+    "setTimeout": false,
+    "observe": true,
+    "pick": true,
+    "noRetained": true,
+    "onlyRetained": true,
+    "set": true,
+    "status": true,
+    "schedule": true,
+    "console": true,
+    "require": true,
+    "__dirname": true,
+    "load": true,
+    "save": true,
+    "getHTML": true
+  },
+  "rules": {
+    "no-undef": "warn",
+    "no-else-return": "error",
+    "no-multi-spaces": "error",
+    "no-whitespace-before-property": "error",
+    "camelcase": "error",
+    "new-cap": "error",
+    "no-console": "off",
+    "comma-dangle": "error",
+    "quotes": ["error", "single"],
+    "semi": ["error", "always"],
+    "require-await": "off"
+  }
+}

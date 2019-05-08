@@ -1,0 +1,20 @@
+- name: 'AnAus'
+  type: boolean
+  description: 'true=>An, false=Aus'
+  map:
+    - true: 'An'
+    - false: 'Aus'
+    - default: 'Unbekannt'
+- name: 'OffenGeschlossen'
+  type: boolean
+  description: 'true=>Offen, false=Geschlossen'
+  map:
+    - true: 'Offen'
+    - false: 'Geschlossen'
+    - $default: 'Unbekannt'
+- name: AnAusDimmer
+  type: number,
+  description: 'Übersetzung von Dimmer Werten'
+  map:
+    - 0: 'aus'
+    - 1: 'an'

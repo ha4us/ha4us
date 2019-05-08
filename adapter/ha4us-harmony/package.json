@@ -1,0 +1,43 @@
+{
+  "private": true,
+  "name": "ha4us-harmony",
+  "version": "0.3.1-alpha.0",
+  "description": "Ha4us Adapter for the logitech harmony-hub",
+  "main": "dist/index.js",
+  "author": "ulfalfa",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "yarn lint",
+    "lint": "tslint --project .",
+    "watch": "nodemon",
+    "changelog": "standard-version",
+    "release": "yarn reset && yarn test && yarn build && yarn changelog",
+    "reset": "git clean -dfx && git reset --hard && yarn"
+  },
+  "dependencies": {
+    "@harmonyhub/client-ws": "^1.0.4",
+    "@harmonyhub/discover": "^1.0.8",
+    "ha4us": "^0.27.0"
+  },
+  "devDependencies": {
+    "@types/debug": "^0.0.30",
+    "@types/node": "^8.0.7",
+    "cz-conventional-changelog": "^2.1.0",
+    "debug": "^3.1.0",
+    "nodemon": "^1.11.0",
+    "rxjs": "6.3.x",
+    "standard-version": "^4.4.0",
+    "ts-node": "^6.1.1",
+    "tslint": "^5.5.0",
+    "typescript": "^2.9.1"
+  },
+  "peerDependencies": {
+    "rxjs": "6.3.x"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}

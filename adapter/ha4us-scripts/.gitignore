@@ -1,0 +1,8 @@
+node_modules
+scripts/credentials.yml
+dist
+build
+testscripts/confidential.yml
+.tags
+*.log
+credentials.yml

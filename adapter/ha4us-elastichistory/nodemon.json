@@ -1,0 +1,25 @@
+{
+  "restartable": "rs",
+  "ignore": [
+    ".git",
+    "node_modules/**/node_modules"
+  ],
+  "verbose": true,
+  "execMap": {
+    "js": "node"
+  },
+  "events": {
+    "restart": "osascript -e 'display notification \"App restarted due to:\n'$FILENAME'\" with title \"nodemon\"'"
+  },
+  "watch": [
+    "index.js"
+  ],
+  "env": {
+    "NODE_ENV": "development",
+    "HA4US_LOGLEVEL": "debug",
+    "HA4US_MQTT_URL": "mqtt://ulf:trulla95@192.168.1.1",
+    "HA4US_NAME": "elastic",
+    "HA4US_ELASTIC_URL": "http://192.168.1.118:9200"
+  },
+  "ext": "js json"
+}

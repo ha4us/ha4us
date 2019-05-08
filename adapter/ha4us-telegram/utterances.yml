@@ -1,0 +1,34 @@
+- intent: 'checkDoors'
+  utterances:
+    - 'alles zu'
+  slots:
+- intent: 'showIntent'
+  utterances:
+    - 'temperatur {-|room}'
+    - 'wie die Temperatur {in|im} {-|room} ist'
+    - 'wie warm es {in|im|} {-|room} ist'
+    - 'wie warm ist es {in|im|} {-|room}'
+    - 'wieviel grad wir {in|im|} {-|room} haben'
+  slotDefaults:
+    function: 'temperatur'
+- intent: turnOnIntent
+  utterances:
+    - '{mach|mache|schalte} {-|actor} {im|in} {-|room} {-|action}'
+    - '{mach|mache|schalte} {-|actor} {-|action}'
+- intent: startScene
+  utterances:
+    - 'ich will {-|activity}'
+    - 'wir wollen {-|activity}'
+    - 'bitte {-|activity}'
+  slots:
+    actor:
+- intent: showIntent
+  utterances:
+    - 'zeige {uns|mir} {-|function} {im|in} {-|room}'
+    - 'zeige {uns|mir} {-|function}'
+- intent: 'turnOnIntent'
+  utterances:
+    - '{-|garageAction} garage'
+  slotDefaults:
+    actor: 'Garagenöffner'
+    action: true

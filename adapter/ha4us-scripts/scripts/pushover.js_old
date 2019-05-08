@@ -1,0 +1,57 @@
+let cred = await readYaml('./credentials.yml');
+
+var pushoverNotifications = require('pushover-notifications');
+
+var push = new pushoverNotifications( {
+    user: cred.pushover.user,
+    token: cred.pushover.token,
+    onerror: function (error) {
+        log.error(error);
+    }
+});
+
+function pushover(msg) {
+    if (typeof msg !== 'object' || typeof msg.message !== 'string') msg = {message: '' + msg};
+    msg.title = msg.title || "Smart Home";
+    msg.priority = msg.priority || 0;
+    msg.device = msg.device || 'iphone5';
+    push.send(msg, function(err, result) {
+        if (err) {
+            log.error(err);
+        }
+    });
+}
+
+var request =   require('request');
+
+var url = 'https://creativecommons.tankerkoenig.de/json/detail.php';
+
+var tankstellen = {
+    'OMV': 'cb1f0588-d517-40f0-8ce3-3edadebea40d',
+    'Shell': '4267c196-eea1-47be-96b7-d790b2fbd17a'
+};
+// Shell 95c18817-24e9-46d1-81ae-3183329ab9dd
+// Jet 51d4b496-a095-1aa0-e100-80009459e03a
+// Aral a4098337-5f40-4207-b482-a6c73fdd2a31
+
+/*
+schedule('0/12 * * * *', function () {
+
+});
+*/
+function getData(topic, id) {
+    request.get(url + '?id=' + id + '&apikey=' + cred.tankerkoenig.apikey, function (err, res) {
+        if (err) {
+            log.error(err);
+            return;
+        }
+        var data = JSON.parse(res.body).station;
+        set('$Tankstelle/' + topic + '/Diesel',    data.diesel);
+        set('$Tankstelle/' + topic + '/E5',        data.e5);
+        set('$Tankstelle/' + topic + '/Offen',     data.isOpen);
+    });
+}
+
+for (var topic in tankstellen) {
+    getData(topic, tankstellen[topic]);
+}
