@@ -1,7 +1,7 @@
 {
   "packages": [
     "projects/**",
-    "adapter/**",
+    "adapter/*",
     "libs/**"
   ],
   "version": "independent",
