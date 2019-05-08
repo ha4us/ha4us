@@ -94,5 +94,6 @@
   },
   "peerDependencies": {
     "rxjs": "6.x"
-  }
+  },
+  "gitHead": "888c249adeacfc9c8a10c864a35459fb0d6736eb"
 }

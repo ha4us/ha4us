@@ -15,7 +15,7 @@
     "test_": "yarn lint && yarn unit && yarn check-coverage",
     "cov": "yarn unit && yarn html-coverage && opn build/coverage/index.html"
   },
-  "private": true,
+  "private": false,
   "devDependencies": {
     "@angular-builders/custom-webpack": "^7.4.3",
     "@angular-devkit/build-angular": "~0.13.0",

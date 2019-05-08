@@ -40,5 +40,6 @@
     "@types/object-hash": "^1.2.0",
     "@types/socket.io": "^2.1.0",
     "nodemon": "^1.19.0"
-  }
+  },
+  "gitHead": "888c249adeacfc9c8a10c864a35459fb0d6736eb"
 }
