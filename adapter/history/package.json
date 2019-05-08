@@ -9,6 +9,7 @@
     "ha4us",
     "history"
   ],
+  "files": ["dist", "!dist/test"],
   "scripts": {
     "build": "trash dist && npm run build:main",
     "build:main": "tsc -p src/tsconfig.main.json",

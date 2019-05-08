@@ -1,6 +1,0 @@
-src
-nodemon.json 
-tsconfig.json 
-tslint.json
-build
-*.tgz

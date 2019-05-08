@@ -5,6 +5,7 @@
   "main": "dist/index.js",
   "author": "ulfalfa",
   "license": "MIT",
+  "files": ["dist"],
   "scripts": {
     "info": "npm-scripts-info",
     "build": "trash dist && yarn build:main",
