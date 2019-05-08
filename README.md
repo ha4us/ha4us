@@ -1,3 +1,5 @@
+![ha4us](https://github.com/ha4us/ha4us/raw/master/assets/ha4uslogo.png)
+
 # ha4us
 
 > Important! This is personal, educational project just for me - you can use it on your own risk!
