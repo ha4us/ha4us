@@ -1,11 +1,13 @@
 {
   "name": "@ha4us/core",
-  "version": "1.0.0-beta.0",
+  "version": "1.0.0-beta.1",
   "description": "Core modules for all ha4us modules",
   "main": "dist/index.js",
   "author": "ulfalfa",
   "license": "MIT",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "info": "npm-scripts-info",
     "build": "trash dist && yarn build:main",

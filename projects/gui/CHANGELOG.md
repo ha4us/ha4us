@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-beta.1](https://github.com/ha4us/ha4us/compare/@ha4us/ng-gui@1.0.0-beta.0...@ha4us/ng-gui@1.0.0-beta.1) (2019-05-08)
+
+
+### Features
+
+* using version from package json in environment and display in welcome page ([f82e8ec](https://github.com/ha4us/ha4us/commit/f82e8ec))
+
+
+
+
+
 # [1.0.0-beta.0](/compare/@ha4us/ng-gui@0.0.3...@ha4us/ng-gui@1.0.0-beta.0) (2019-05-07)
 
 

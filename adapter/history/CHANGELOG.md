@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 1.0.0-beta.1 (2019-05-08)
+
+**Note:** Version bump only for package @ha4us/adapter.history
+
+
+
+
+
 ## 0.4.3-alpha.0 (2019-05-08)
 
 **Note:** Version bump only for package @ha4us/adapter.history
