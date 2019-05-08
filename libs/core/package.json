@@ -8,6 +8,9 @@
   "files": [
     "dist"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "info": "npm-scripts-info",
     "build": "trash dist && yarn build:main",

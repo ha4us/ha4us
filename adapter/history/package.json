@@ -13,6 +13,9 @@
     "dist",
     "!dist/test"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "trash dist && npm run build:main",
     "build:main": "tsc -p src/tsconfig.main.json",
