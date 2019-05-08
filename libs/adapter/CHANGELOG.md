@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-beta.2](https://github.com/ha4us/ha4us/compare/@ha4us/adapter@1.0.0-beta.1...@ha4us/adapter@1.0.0-beta.2) (2019-05-08)
+
+**Note:** Version bump only for package @ha4us/adapter
+
+
+
+
+
 # [1.0.0-beta.1](https://github.com/ha4us/ha4us/compare/@ha4us/adapter@1.0.0-beta.0...@ha4us/adapter@1.0.0-beta.1) (2019-05-08)
 
 **Note:** Version bump only for package @ha4us/adapter
