@@ -10,9 +10,7 @@
     "watch": "yarn build && concurrently -r --kill-others 'npm run --silent build:main -- -w' 'nodemon'"
   },
   "devDependencies": {
-    "concurrently": "^3.5.0",
-    "sleep-ms": "^2.0.1",
-    "trash-cli": "^1.4.0"
+    "concurrently": "^3.5.0"
   },
   "dependencies": {
     "elasticsearch": "^14.0.0",

@@ -30,7 +30,7 @@
 
   },
   "peerDependencies": {
-    "rxjs": "6.3.x"
+    "rxjs": "6.x"
   },
   "config": {
     "commitizen": {

@@ -8,7 +8,7 @@
   "license": "MIT",
   "scripts": {
     "info": "npm-scripts-info",
-    "build": "trash dist && yarn build:main",
+    "build": "rimraf dist && yarn build:main",
     "build:main": "tsc -p tsconfig.json",
     "build:module": "tsc -p config/exports/tsconfig.module.json",
     "build:tests": "nyc ava",

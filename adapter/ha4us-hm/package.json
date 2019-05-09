@@ -7,7 +7,7 @@
   "author": "ulfalfa",
   "license": "MIT",
   "scripts": {
-    "build": "trash dist && yarn build:main",
+    "build": "rimraf dist && yarn build:main",
     "build:main": "tsc -p tsconfig.json",
     "lint": "tslint --project .  src/**/*.ts",
     "watch": "nodemon",

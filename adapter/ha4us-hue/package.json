@@ -6,8 +6,8 @@
   "scripts": {
     "start": "dist/index",
     "clean": "rimraf ./dist",
-    "build": "tsc -p ./src",
-    "lint": "tslint -p ./src/tsconfig.json",
+    "build": "tsc -p .",
+    "lint": "tslint -p ./tsconfig.json",
     "watch": "nodemon",
     "changelog": "standard-version",
     "release": "yarn reset && yarn build && yarn changelog",

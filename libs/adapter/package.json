@@ -13,7 +13,7 @@
   },
   "scripts": {
     "info": "npm-scripts-info",
-    "build": "trash dist && yarn build:main",
+    "build": "rimraf dist && yarn build:main",
     "build:main": "tsc -p src/tsconfig.main.json",
     "build:watch": "tsc -w -p src/tsconfig.main.json",
     "lint": "tslint --project src/tsconfig.main.json",
@@ -109,19 +109,7 @@
     "@types/mime-types": "^2.1.0",
     "@types/mongodb": "~2.2.11",
     "@types/node": "^10.0.10",
-    "@types/sinon": "^5.0.1",
-    "ava": "1.0.0-beta.6",
-    "conventional-changelog": "^2.0.1",
-    "cz-conventional-changelog": "^2.1.0",
-    "gh-pages": "^1.2.0",
-    "nyc": "11.0.3",
-    "opn-cli": "^3.1.0",
-    "sinon": "^6.0.1",
-    "trash-cli": "^1.4.0",
-    "ts-node": "^7.0.0",
-    "tslint": "^5.11.0",
-    "typedoc": "^0.11.1",
-    "typescript": "^2.9.2"
+    "@types/sinon": "^5.0.1"
   },
   "config": {
     "commitizen": {

@@ -70,22 +70,7 @@
     "@types/luxon": "^0.5.2",
     "@types/mongodb": "^2.x",
     "@types/node": "~10.1.3",
-    "@types/watch": "^1.0.0",
-    "ava": "^1.0.0-beta.8",
-    "cheerio": "^1.0.0-rc.2",
-    "cz-conventional-changelog": "^2.1.0",
-    "gh-pages": "^1.1.0",
-    "js-yaml": "^3.12.0",
-    "nodemon": "^1.17.5",
-    "nyc": "^11.8.0",
-    "opn-cli": "^3.1.0",
-    "standard-version": "^4.4.0",
-    "trash-cli": "^1.4.0",
-    "ts-node": "^7.0.1",
-    "tslint": "^5.11.0",
-    "typedoc": "^0.11.1",
-    "typedoc-plugin-external-module-name": "^1.1.1",
-    "typescript": "^3.3.3333"
+    "@types/watch": "^1.0.0"
   },
   "dependencies": {
     "@ha4us/adapter": "^1.0.0-beta.2",

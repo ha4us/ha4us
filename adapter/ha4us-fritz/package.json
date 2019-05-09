@@ -8,7 +8,7 @@
   "license": "MIT",
   "scripts": {
     "info": "npm-scripts-info",
-    "build": "trash dist && yarn build:main",
+    "build": "rimraf dist && yarn build:main",
     "build:main": "tsc -p tsconfig.json",
     "build:watch": "tsc -w -p tsconfig.json",
     "lint": "tslint --project tsconfig.json",
@@ -85,24 +85,8 @@
     "vcard-parser": "^1.0.0",
     "vcf": "^2.0.4"
   },
-  "devDependencies": {
-    "@types/dav": "^1.7.1",
-    "ava": "1.0.0-beta.6",
-    "conventional-changelog": "^2.0.1",
-    "cz-conventional-changelog": "^2.1.0",
-    "nodemon": "^1.18.10",
-    "nyc": "11.0.3",
-    "opn-cli": "^3.1.0",
-    "rxjs": "6.3.x",
-    "sinon": "^6.0.1",
-    "trash-cli": "^1.4.0",
-    "ts-node": "^7.0.0",
-    "tslint": "^5.14.0",
-    "typedoc": "^0.11.1",
-    "typescript": "^2.9.2"
-  },
   "peerDependencies": {
-    "rxjs": "6.3.x"
+    "rxjs": "6.x"
   },
   "config": {
     "commitizen": {
