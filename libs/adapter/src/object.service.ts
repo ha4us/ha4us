@@ -129,7 +129,7 @@ export class ObjectService extends Ha4usMongoAccess
     topic = !topic || topic === '' ? obj.topic : topic
     this.$log.debug('Putting %s', topic, obj)
     delete obj._id
-    return this.collection.update({ topic }, obj).then(result => {
+    return this.collection.replaceOne({ topic }, obj).then(result => {
       this.$log.debug('Put Response', result.result)
       if (result.result.nModified === 0) {
         throw new Ha4usError(404, 'not found')
@@ -149,7 +149,7 @@ export class ObjectService extends Ha4usMongoAccess
     const newObject = defaultsDeep(obj, HA4US_OBJECT)
 
     return this.collection
-      .insert(newObject)
+      .insertOne(newObject)
       .then(result => {
         this.$log.debug('Post Response', result.result)
         this._events$.next({ action: 'insert', object: newObject })
@@ -162,7 +162,7 @@ export class ObjectService extends Ha4usMongoAccess
     return this.getOne(topic)
 
       .then((obj2del: T) =>
-        this.collection.remove({ topic: obj2del.topic }).then(() => obj2del)
+        this.collection.deleteOne({ topic: obj2del.topic }).then(() => obj2del)
       )
       .catch((e: Ha4usError) => {
         return undefined
@@ -221,7 +221,7 @@ export class ObjectService extends Ha4usMongoAccess
     }
 
     return this.collection
-      .update({ topic: data.topic }, data, { upsert: true })
+      .replaceOne({ topic: data.topic }, data, { upsert: true })
       .then(() => {
         this._events$.next({ action: 'update', object: data as Ha4usObject })
         return data as Ha4usObject

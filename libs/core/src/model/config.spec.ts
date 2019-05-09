@@ -1,4 +1,4 @@
-import { test } from 'ava'
+import test from 'ava'
 
 import { Ha4usConfigObject, Ha4usConfig } from './config'
 

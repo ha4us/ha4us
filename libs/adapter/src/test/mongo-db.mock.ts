@@ -33,10 +33,12 @@ export class TestMongo {
       return Promise.resolve(this._db)
     } else {
     }
-    return MongoClient.connect(this.getUrl()).then(db => {
-      this._db = db
-      return db
-    })
+    return MongoClient.connect(this.getUrl(), { useNewUrlParser: true }).then(
+      db => {
+        this._db = db.db()
+        return this._db
+      }
+    )
   }
 
   public drop(): Promise<boolean> {
@@ -61,7 +63,7 @@ export class TestMongo {
         resolve(
           data.databases
             .map(dbase => {
-              return <string>dbase.name
+              return dbase.name as string
             })
             .filter((name: string) => DBMATCH.test(name))
         )
@@ -74,7 +76,7 @@ export class TestMongo {
 
     const drops = names.map(name =>
       MongoClient.connect([this.mongoUrl, name].join('/')).then(db =>
-        db.dropDatabase()
+        db.db().dropDatabase()
       )
     )
 

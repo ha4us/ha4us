@@ -4,12 +4,22 @@ import { CardDav } from './carddav'
 
 const URI = process.env.HA4US_FRITZ_CARDDAV_URI
 test('can initialize', t => {
+  if (!URI) {
+    t.log('env var HA4US_FRITZ_CARDDAV_URI not defined')
+    t.pass()
+    return
+  }
   const c = new CardDav({ uri: URI, countryCode: 'DE' })
 
   t.is(typeof c, 'object')
 })
 
 test('can sync', async t => {
+  if (!URI) {
+    t.log('env var HA4US_FRITZ_CARDDAV_URI not defined')
+    t.pass()
+    return
+  }
   const c = new CardDav({ uri: URI, countryCode: 'DE' })
   t.log('Sync 1')
   const result = await c.sync()

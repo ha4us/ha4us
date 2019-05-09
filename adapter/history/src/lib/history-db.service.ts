@@ -79,14 +79,14 @@ export function reduceResult() {
 }
 
 export function aggCursorToRx<T>(source: AggregationCursor<T>): Observable<T> {
-  return Observable.create(observer => {
+  return new Observable(observer => {
     source.each((err, doc) => {
       /*istanbul ignore next*/
       if (err) {
         observer.error(err)
       }
       if (doc) {
-        observer.next(doc)
+        observer.next((doc as unknown) as T)
       } else {
         observer.complete()
       }
@@ -132,23 +132,25 @@ export class HistoryDb extends Ha4usMongoAccess {
       mergeMap((event: HistoryEvent) => {
         const update = event.toUpdate()
         debug('Updating', update.query)
-        return this.collection.updateOne(update.query, update.update).then(res => {
-          if (res.result.nModified === 0) {
-            return this.collection.insertOne(event.toInsert()).then(() => ({
-              topic: update.query.topic,
-              ts: update.query.ts,
-              nInserted: 1,
-              nModified: 0,
-            }))
-          } else {
-            return {
-              topic: update.query.topic,
-              ts: update.query.ts,
-              nInserted: 0,
-              nModified: 1,
+        return this.collection
+          .updateOne(update.query, update.update)
+          .then(res => {
+            if (res.result.nModified === 0) {
+              return this.collection.insertOne(event.toInsert()).then(() => ({
+                topic: update.query.topic,
+                ts: update.query.ts,
+                nInserted: 1,
+                nModified: 0,
+              }))
+            } else {
+              return {
+                topic: update.query.topic,
+                ts: update.query.ts,
+                nInserted: 0,
+                nModified: 1,
+              }
             }
-          }
-        })
+          })
       }, 1)
     )
   }

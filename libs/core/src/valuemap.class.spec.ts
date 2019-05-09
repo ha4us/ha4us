@@ -1,4 +1,4 @@
-import { test } from 'ava'
+import test from 'ava'
 import { ValueMap, IValueMap, ValueCondition } from './valuemap.class'
 
 const SIMPLEMAP: IValueMap<string, string> = {

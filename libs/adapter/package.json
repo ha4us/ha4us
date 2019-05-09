@@ -92,7 +92,7 @@
     "lolex": "^2.7.0",
     "luxon": "^1.6.2",
     "mime-types": "^2.1.18",
-    "mongodb": "~2.2.29",
+    "mongodb": "^3.2.4",
     "mqtt": "^2.18.2",
     "read-pkg-up": "^4.0.0",
     "reflect-metadata": "^0.1.12",
@@ -107,7 +107,7 @@
     "@types/lodash": "^4.14.109",
     "@types/lolex": "^2.1.2",
     "@types/mime-types": "^2.1.0",
-    "@types/mongodb": "~2.2.11",
+    "@types/mongodb": "~3.x",
     "@types/node": "^10.0.10",
     "@types/sinon": "^5.0.1"
   },

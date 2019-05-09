@@ -1,0 +1,36 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "module": "es2015",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es5",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+
+    "lib": [
+      "es2018",
+      "dom",
+    ],
+    "paths": {
+      "@ha4us/ng": [
+        "gui/src/app/ha4us"
+      ],
+      "@ha4us/ng/*": [
+        "gui/src/app/ha4us/*"
+      ],
+      "@app/*": [
+        "gui/src/app/*"
+      ]
+    }
+  }
+}

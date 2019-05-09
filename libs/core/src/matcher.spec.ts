@@ -1,4 +1,4 @@
-import { test } from 'ava';
+import test from 'ava';
 import { Matcher } from './matcher';
 
 test('basic initialzation', t => {

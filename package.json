@@ -4,16 +4,16 @@
   "scripts": {
     "start": "lerna run watch  --parallel --ignore @ha4us/core --ignore @ha4us/adapter",
     "build": "lerna run build",
-    "test": "ng test",
     "lint": "lerna run lint",
     "e2e": "ng e2e",
     "analyze": "webpack-bundle-analyzer projects/gui/dist/stats.json",
     "unit": "nyc ava",
     "watch": "nodemon",
     "check-coverage": "nyc check-coverage",
-    "html-coverage": "nyc report --reporter=html",
-    "test_": "yarn lint && yarn unit && yarn check-coverage",
-    "cov": "yarn unit && yarn html-coverage && opn build/coverage/index.html"
+    "html-coverage": "nyc report --reporter=html && opn build/coverage/index.html",
+    "test": "yarn lint && yarn built && yarn unit && yarn check-coverage",
+    "cov": "yarn unit && yarn html-coverage",
+    "send-coverage": "nyc report --reporter=lcov > coverage.lcov && codecov"
   },
   "private": true,
   "workspaces": [
@@ -26,17 +26,18 @@
     "@angular-devkit/build-angular": "~0.13.0",
     "@angular-devkit/build-ng-packagr": "~0.13.0",
     "@angular/cli": "~7.3.8",
+    "@angular/compiler": "~7.2.0",
     "@angular/compiler-cli": "~7.2.0",
+    "@angular/core": "~7.2.0",
     "@angular/language-service": "~7.2.0",
     "@types/jasmine": "~2.8.8",
     "@types/jasminewd2": "~2.0.3",
     "@types/lodash": "^4.14.120",
+    "@types/mongodb": "^3.1.26",
     "@types/node": "^11.x",
     "@types/socket.io-client": "^1.4.32",
     "@types/sprintf-js": "^1.1.0",
     "ava": "^1.4.1",
-    "@angular/compiler": "~7.2.0",
-    "@angular/core": "~7.2.0",
     "codelyzer": "~4.5.0",
     "conventional-changelog": "^3.1.4",
     "cz-lerna-changelog": "^2.0.2",
@@ -52,13 +53,15 @@
     "nodemon": "^1.19.0",
     "npm": "^6.6.0",
     "npm-run-all": "~4.1.1",
+    "opn-cli": "^4.1.0",
     "protractor": "~5.4.0",
     "rimraf": "~2.6.2",
     "semantic-release": "^15.13.3",
+    "sinon": "^7.3.2",
     "ts-node": "^8.1.0",
     "tsickle": ">=0.34.0",
-    "tslint": "^5.16.0",
     "tslib": "^1.9.0",
+    "tslint": "^5.16.0",
     "typescript": "~3.2.2",
     "webpack-bundle-analyzer": "^2.13.1",
     "zone.js": "~0.8.26"
@@ -80,10 +83,11 @@
       "ts-node/register"
     ],
     "sources": [
-      "adapter/**/*.ts"
+      "libs/**/*.ts"
     ],
     "files": [
-      "libs/**/*.spec.ts"
+      "libs/**/*.spec.ts",
+      "adapter/**/*.spec.ts"
     ]
   },
   "nyc": {

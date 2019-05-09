@@ -1,4 +1,4 @@
-import { test } from 'ava';
+import test from 'ava';
 import { MongoError } from 'mongodb';
 import { Ha4usError } from './ha4us-error';
 

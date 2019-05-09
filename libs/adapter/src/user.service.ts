@@ -135,7 +135,7 @@ export class UserService extends Ha4usMongoAccess {
   public post(newUser: Ha4usUser): Promise<Ha4usUser> {
     const user = defaultsDeep(newUser, HA4US_USER)
     return this.collection
-      .insert(this.scramblePassword(user))
+      .insertOne(this.scramblePassword(user))
 
       .then(() => user, /*istanbul ignore next*/ Ha4usError.wrapErr)
   }
@@ -144,7 +144,7 @@ export class UserService extends Ha4usMongoAccess {
     userObject = this.scramblePassword(userObject)
 
     return this.collection
-      .update(
+      .replaceOne(
         {
           username: userObject.username,
         },
@@ -164,7 +164,7 @@ export class UserService extends Ha4usMongoAccess {
 
   public delete(username: string): Promise<void> {
     return this.collection
-      .remove({
+      .deleteOne({
         username,
       })
       .then(

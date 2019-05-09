@@ -35,7 +35,7 @@ export namespace MongoUtils {
   }
 
   export function cursorToRx<T>(source: Cursor<T>): Observable<T> {
-    return Observable.create(observer => {
+    return new Observable(observer => {
       source.forEach(
         doc => observer.next(doc),
         err => {
@@ -86,13 +86,17 @@ export class Ha4usMongoAccess {
       `connecting to database ${url.host}:${url.port}${url.pathname}`,
       this.dbUrl
     )
-    return MongoClient.connect(this.dbUrl).then(aDb => {
-      Ha4usMongoAccess._db = aDb
-      debug(`connected to db ${url.host}:${url.port}${url.pathname}`)
-      if (this.collectionName) {
-        this._collection = aDb.collection(this.collectionName)
+    return MongoClient.connect(this.dbUrl, { useNewUrlParser: true }).then(
+      client => {
+        Ha4usMongoAccess._db = client.db()
+        debug(`connected to db ${url.host}:${url.port}${url.pathname}`)
+        if (this.collectionName) {
+          this._collection = Ha4usMongoAccess._db.collection(
+            this.collectionName
+          )
+        }
+        return Ha4usMongoAccess._db
       }
-      return aDb
-    })
+    )
   }
 }
