@@ -7,5 +7,6 @@
   "version": "independent",
   "conventionalCommits": true,
   "message": "chore(release): %s",
-  "npmClient": "yarn"
+  "npmClient": "yarn",
+  "useWorkspaces": true
 }

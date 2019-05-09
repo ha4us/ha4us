@@ -154,7 +154,8 @@ export class VisorService {
     )
 
     definition.props.forEach(prop => {
-      widget.properties[prop.id] = prop['default']
+      // tslint:disable-next-line
+      widget.properties[prop.id] = prop['default'];
     })
     return widget
   }

@@ -20,7 +20,7 @@
     "build": "trash dist && npm run build:main",
     "build:main": "tsc -p src/tsconfig.main.json",
     "build:tests": "tsc -p src/tsconfig.spec.json",
-    "lint": "tslint --project tsconfig.json --fix",
+    "lint": "tslint --project tsconfig.json",
     "unit": "nyc ava src/**/*.spec.ts",
     "watch": "nodemon",
     "check-coverage": "nyc check-coverage",

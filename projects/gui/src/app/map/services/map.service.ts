@@ -43,7 +43,7 @@ export class MapService {
         if (map) {
             return ValueMap.from(map)
         } else {
-            return ValueMap.from({ name: name, ifthens: [] })
+            return ValueMap.from({ name, ifthens: [] })
         }
     }
 

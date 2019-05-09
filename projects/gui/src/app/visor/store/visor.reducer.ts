@@ -62,10 +62,10 @@ export function componentsReducer(
         const children = [...parent.children, action.child]
 
         return adapter.updateOne(
-          <Update<Visor>>{
+          {
             id: parent.id,
             changes: { children },
-          },
+          } as Update<Visor>,
           state
         )
       }
@@ -79,10 +79,10 @@ export function componentsReducer(
         )
 
         return adapter.updateOne(
-          <Update<Visor>>{
+          {
             id: parent.id,
             changes: { children },
-          },
+          } as Update<Visor>,
           state
         )
       }

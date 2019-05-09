@@ -1,25 +1,25 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing'
 
-import { VisorMainComponent } from './visor-main.component';
+import { VisorMainComponent } from './visor-main.component'
 
 describe('VisorMainComponent', () => {
-  let component: VisorMainComponent;
-  let fixture: ComponentFixture<VisorMainComponent>;
+  let component: VisorMainComponent
+  let fixture: ComponentFixture<VisorMainComponent>
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ VisorMainComponent ]
     })
-    .compileComponents();
-  }));
+    .compileComponents()
+  }))
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(VisorMainComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    fixture = TestBed.createComponent(VisorMainComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  })
 
   it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+    expect(component).toBeTruthy()
+  })
+})

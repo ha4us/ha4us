@@ -48,7 +48,8 @@ export class WidgetComponent implements OnInit {
     // viewContainerRef.clear();
     const component = this._vcr.createComponent(componentFactory)
     widget.props.forEach(prop => {
-      component.instance[prop.id] = this.props[prop.id] || prop['default']
+      // tslint:disable-next-line
+      component.instance[prop.id] = this.props[prop.id] || prop['default'];
     })
     return component
   }

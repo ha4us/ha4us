@@ -1,0 +1,45 @@
+{
+  "private": true,
+  "name": "ha4us-sonos",
+  "version": "0.3.1-alpha.0",
+  "description": "Ha4us Adapter for the sonos system",
+  "main": "dist/index.js",
+  "author": "ulfalfa",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "lint": "tslint --project .",
+    "test": "yarn lint",
+    "watch": "nodemon",
+    "changelog": "standard-version",
+    "release": "yarn reset && yarn test && yarn build && yarn changelog",
+    "reset": "git clean -dfx && git reset --hard && yarn"
+  },
+  "dependencies": {
+    "debug": "^3.0.1",
+    "got": "^8.3.1",
+    "ha4us": "^0.27.0",
+    "sonos-discovery": "jishi/node-sonos-discovery"
+  },
+  "peerDependencies": {
+    "rxjs": "6.3"
+  },
+  "devDependencies": {
+    "@types/debug": "^0.0.30",
+    "@types/got": "^8.3.1",
+    "@types/node": "^8.0.7",
+    "cz-conventional-changelog": "^2.1.0",
+    "nodemon": "^1.11.0",
+    "rxjs": "6.3",
+    "trash-cli": "^1.4.0",
+    "ts-node": "^6.1.0",
+    "tslint": "^5.5.0",
+    "typescript": "^2.9.1",
+    "winston": "^2.3.1"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}

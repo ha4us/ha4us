@@ -1,0 +1,40 @@
+{
+  "name": "ha4us-hue",
+  "version": "0.5.1-alpha.0",
+  "description": "Adapter for the hue system to ha4us",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "dist/index",
+    "clean": "rimraf ./dist",
+    "build": "tsc -p ./src",
+    "lint": "tslint -p './src/tsconfig.json",
+    "watch": "nodemon",
+    "changelog": "standard-version",
+    "release": "yarn reset && yarn build && yarn changelog",
+    "reset": "git clean -dfx && git reset --hard && yarn"
+  },
+  "keywords": [
+    "ha4us",
+    "hue"
+  ],
+  "private": true,
+  "author": "ulfalfa",
+  "license": "MIT",
+  "dependencies": {
+    "@types/lodash.get": "^4.4.3",
+    "@types/node-hue-api": "^2.3.0",
+    "@types/tinycolor2": "^1.4.0",
+    "ha4us": "^0.27.0",
+    "lodash.get": "^4.4.2",
+    "node-hue-api": "^2.4.2",
+    "tinycolor2": "^1.4.1"
+  },
+  "peerDependencies": {
+    "rxjs": "6.x"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}

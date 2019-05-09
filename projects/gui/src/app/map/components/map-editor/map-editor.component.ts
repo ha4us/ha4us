@@ -132,7 +132,7 @@ export class MapEditorComponent implements OnInit {
     const op: TValueOperator = ev.value
     const parCount = ValueCondition.getParamCount(op)
 
-    const values: FormArray = (<FormArray>this.mapForm.get('ifthens')).controls[
+    const values: FormArray = (this.mapForm.get('ifthens') as FormArray).controls[
       condIdx
     ].get('if.value') as FormArray
 

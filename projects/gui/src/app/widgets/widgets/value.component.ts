@@ -16,7 +16,7 @@ import { Ha4usWidget } from '../models'
     ':host {height:100%;}',
     'div.value-div {height:100%;width:100%; box-sizing:border-box}',
   ],
-  //encapsulation: ViewEncapsulation.None,
+  // encapsulation: ViewEncapsulation.None,
 })
 @Ha4usWidget({
   selector: 'value',

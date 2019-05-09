@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core'
 
-import { StatesService } from '@ha4us/ng';
-import moment from 'moment';
+import { StatesService } from '@ha4us/ng'
+import moment from 'moment'
 
 @Injectable({
   providedIn: 'root',
@@ -12,11 +12,11 @@ export class StatisticService {
   inventory(topic?: string) {
     return this.states
       .request('history/query', { topic })
-      .then(data => data.val);
+      .then(data => data.val)
   }
 
   aggregate(topic: string, aggregateBy: string = 'none') {
-    const mom = moment().subtract(3, 'month');
+    const mom = moment().subtract(3, 'month')
     return this.states
       .request('history/aggregate', {
         topic,
@@ -33,8 +33,8 @@ export class StatisticService {
             max: point.max,
             readings: point.readings,
           })),
-        };
-      });
+        }
+      })
   }
   aggregateBar(topic: string, aggregateBy: string = 'none') {
     return this.states
@@ -48,7 +48,7 @@ export class StatisticService {
               name: new Date(point.name),
               value: point.readings,
             })),
-        };
-      });
+        }
+      })
   }
 }

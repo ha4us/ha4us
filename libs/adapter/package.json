@@ -16,7 +16,7 @@
     "build": "trash dist && yarn build:main",
     "build:main": "tsc -p src/tsconfig.main.json",
     "build:watch": "tsc -w -p src/tsconfig.main.json",
-    "lint": "tslint --fix --project src/tsconfig.main.json",
+    "lint": "tslint --project src/tsconfig.main.json",
     "unit": "yarn build && nyc ava -s 'src/**/*.spec.ts'",
     "check-coverage": "nyc check-coverage --lines 80 --functions 80 --branches 80",
     "test": "yarn lint && yarn unit && yarn check-coverage",

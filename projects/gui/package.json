@@ -7,7 +7,8 @@
   "license": "MIT",
   "scripts": {
     "build": "ng build --prod",
-    "watch": "ng serve"
+    "watch": "ng serve",
+    "lint": "ng lint"
   },
   "dependencies": {
     "@ha4us/adapter": "^1.0.0-beta.2",

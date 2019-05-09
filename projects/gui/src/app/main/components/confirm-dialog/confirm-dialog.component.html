@@ -1,5 +1,5 @@
 <ng-container [ngSwitch]="data.msg">
-  <ng-container *ngSwitchCase="Msg.CancelEdit">
+  <ng-container *ngSwitchCase="MSG.CancelEdit">
     <mat-dialog-content>Bearbeitungen verwerfen?</mat-dialog-content>
     <mat-dialog-actions align="end">
       <button mat-button color="primary" mat-dialog-close>Abbruch</button>
@@ -7,7 +7,7 @@
       <button mat-button color="primary" [mat-dialog-close]="true">Verwerfen</button>
     </mat-dialog-actions>
   </ng-container>
-  <ng-container *ngSwitchCase="Msg.DeleteReally">
+  <ng-container *ngSwitchCase="MSG.DeleteReally">
     <mat-dialog-content>Wirklich Löschen?</mat-dialog-content>
     <mat-dialog-actions align="end">
       <button mat-button color="primary" mat-dialog-close>Abbruch</button>

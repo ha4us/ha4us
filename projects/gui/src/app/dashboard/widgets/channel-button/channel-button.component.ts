@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core'
 
-import { Ha4usWidget } from '@app/widgets';
+import { Ha4usWidget } from '@app/widgets'
 
-import { ObjectService } from '@ha4us/ng';
+import { ObjectService } from '@ha4us/ng'
 
 @Component({
   selector: 'ha4us-channel-button',

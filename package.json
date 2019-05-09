@@ -5,7 +5,7 @@
     "start": "lerna run watch  --parallel --ignore @ha4us/core --ignore @ha4us/adapter",
     "build": "lerna run build",
     "test": "ng test",
-    "lint": "ng lint",
+    "lint": "lerna run lint",
     "e2e": "ng e2e",
     "analyze": "webpack-bundle-analyzer projects/gui/dist/stats.json",
     "unit": "nyc ava",
@@ -15,7 +15,12 @@
     "test_": "yarn lint && yarn unit && yarn check-coverage",
     "cov": "yarn unit && yarn html-coverage && opn build/coverage/index.html"
   },
-  "private": false,
+  "private": true,
+  "workspaces": [
+    "adapter/*",
+    "libs/*",
+    "projects/*"
+  ],
   "devDependencies": {
     "@angular-builders/custom-webpack": "^7.4.3",
     "@angular-devkit/build-angular": "~0.13.0",
@@ -26,7 +31,7 @@
     "@types/jasmine": "~2.8.8",
     "@types/jasminewd2": "~2.0.3",
     "@types/lodash": "^4.14.120",
-    "@types/node": "~8.9.4",
+    "@types/node": "^11.x",
     "@types/socket.io-client": "^1.4.32",
     "@types/sprintf-js": "^1.1.0",
     "ava": "^1.4.1",
@@ -50,7 +55,7 @@
     "semantic-release": "^15.13.3",
     "ts-node": "^8.1.0",
     "tsickle": ">=0.34.0",
-    "tslint": "~5.11.0",
+    "tslint": "^5.16.0",
     "typescript": "~3.2.2",
     "webpack-bundle-analyzer": "^2.13.1"
   },

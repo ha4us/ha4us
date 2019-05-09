@@ -1,25 +1,25 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing'
 
-import { VisorWidgetlibComponent } from './visor-widgetlib.component';
+import { VisorWidgetlibComponent } from './visor-widgetlib.component'
 
 describe('VisorWidgetlibComponent', () => {
-  let component: VisorWidgetlibComponent;
-  let fixture: ComponentFixture<VisorWidgetlibComponent>;
+  let component: VisorWidgetlibComponent
+  let fixture: ComponentFixture<VisorWidgetlibComponent>
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ VisorWidgetlibComponent ]
     })
-    .compileComponents();
-  }));
+    .compileComponents()
+  }))
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(VisorWidgetlibComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    fixture = TestBed.createComponent(VisorWidgetlibComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  })
 
   it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+    expect(component).toBeTruthy()
+  })
+})

@@ -1,10 +1,10 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { AuthGuard } from '@ha4us/ng';
-import { PreloadObjectsGuard } from '@ha4us/ng';
-import { ScriptEditorComponent } from './components/script-editor/script-editor.component';
-import { ScriptListComponent } from './components/script-list/script-list.component';
-import { CanDeactivateGuard } from '@ha4us/ng';
+import { NgModule } from '@angular/core'
+import { Routes, RouterModule } from '@angular/router'
+import { AuthGuard } from '@ha4us/ng'
+import { PreloadObjectsGuard } from '@ha4us/ng'
+import { ScriptEditorComponent } from './components/script-editor/script-editor.component'
+import { ScriptListComponent } from './components/script-list/script-list.component'
+import { CanDeactivateGuard } from '@ha4us/ng'
 const routes: Routes = [
   {
     path: '',
@@ -18,7 +18,7 @@ const routes: Routes = [
     canDeactivate: [CanDeactivateGuard],
     component: ScriptEditorComponent,
   },
-];
+]
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

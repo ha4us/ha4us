@@ -1,9 +1,9 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { Ha4usGuard, Ha4usRoutes, Ha4usPermission } from '@ha4us/ng';
-import { MediaEditorComponent } from './media-editor/media-editor.component';
-import { ObjectsComponent } from './objects/objects.component';
-import { MqttComponent } from './mqtt/mqtt.component';
+import { NgModule } from '@angular/core'
+import { Routes, RouterModule } from '@angular/router'
+import { Ha4usGuard, Ha4usRoutes, Ha4usPermission } from '@ha4us/ng'
+import { MediaEditorComponent } from './media-editor/media-editor.component'
+import { ObjectsComponent } from './objects/objects.component'
+import { MqttComponent } from './mqtt/mqtt.component'
 const routes: Ha4usRoutes = [
   {
     path: '',
@@ -26,7 +26,7 @@ const routes: Ha4usRoutes = [
     canActivateChild: [Ha4usGuard],
     component: MediaEditorComponent,
   },
-];
+]
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

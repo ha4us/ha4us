@@ -9,7 +9,7 @@ import {
   ChangeDetectorRef,
 } from '@angular/core'
 import Debug from 'debug'
-import { Ha4usMessage,MqttUtil } from '@ha4us/core'
+import { Ha4usMessage, MqttUtil } from '@ha4us/core'
 
 import { Subject, Subscription } from 'rxjs'
 import { filter, switchMap } from 'rxjs/operators'

@@ -57,7 +57,7 @@ export class MonacoConfig implements NgxMonacoEditorConfig {
                                         kind:
                                             monaco.languages.CompletionItemKind
                                                 .Text,
-                                        //documentation: 'The Lodash library exported as Node.js modules.',
+                                        // documentation: 'The Lodash library exported as Node.js modules.',
                                         insertText: `'${node}'`,
                                         detail: 'ha4us',
                                     }

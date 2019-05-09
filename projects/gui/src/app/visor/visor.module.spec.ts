@@ -1,13 +1,13 @@
-import { VisorModule } from './visor.module';
+import { VisorModule } from './visor.module'
 
 describe('VisorModule', () => {
-  let visorModule: VisorModule;
+  let visorModule: VisorModule
 
   beforeEach(() => {
-    visorModule = new VisorModule();
-  });
+    visorModule = new VisorModule()
+  })
 
   it('should create an instance', () => {
-    expect(visorModule).toBeTruthy();
-  });
-});
+    expect(visorModule).toBeTruthy()
+  })
+})
