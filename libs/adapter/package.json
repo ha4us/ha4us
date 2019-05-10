@@ -79,7 +79,7 @@
     "temp-directory": "./build/nyc_output"
   },
   "dependencies": {
-    "@ha4us/core": "file:../core/dist",
+    "@ha4us/core": "^1.0.0-beta.2",
     "@types/luxon": "^1.4.1",
     "awilix": "^3.0.9",
     "axios": "^0.18.0",
