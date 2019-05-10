@@ -1,0 +1,14 @@
+{
+  "mode": "modules",
+  "out": "build/docs",
+  "exclude": ["**/node_modules/**", "**/*.spec.ts", "projects/**", "broken/**"],
+  "name": "Ha4us",
+  "theme": "default",
+  "ignoreCompilerErrors": true,
+  "preserveConstEnums": true,
+  "stripInternal": false,
+
+  "excludeNotExported": true,
+  "external-modulemap": ".*\/ha4us\/([\\w-_]+\/[\\w-_]+).*"
+
+}

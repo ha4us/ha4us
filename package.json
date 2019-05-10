@@ -13,7 +13,11 @@
     "html-coverage": "nyc report --reporter=html && opn build/coverage/index.html",
     "test": "yarn lint && yarn built && yarn unit && yarn check-coverage",
     "cov": "yarn unit && yarn html-coverage",
-    "send-coverage": "nyc report --reporter=lcov > coverage.lcov && codecov"
+    "send-coverage": "nyc report --reporter=lcov > coverage.lcov && codecov",
+    "docs": "yarn docs:html && opn build/docs/index.html",
+    "docs:html": "typedoc --options typedoc.json",
+    "docs:json": "typedoc --mode file --json build/docs/typedoc.json src/index.ts",
+    "docs:publish": "yarn docs:html && gh-pages -d build/docs"
   },
   "private": true,
   "workspaces": [
@@ -62,12 +66,15 @@
     "tsickle": ">=0.34.0",
     "tslib": "^1.9.0",
     "tslint": "^5.16.0",
+    "typedoc": "^0.14.2",
+    "typedoc-plugin-external-module-map": "^1.0.0",
     "typescript": "~3.2.2",
     "webpack-bundle-analyzer": "^2.13.1",
     "zone.js": "~0.8.26"
   },
   "dependencies": {
-    "rxjs": "6.4.x"
+    "rxjs": "6.4.x",
+    "typedoc-plugin-external-module-name": "^2.1.0"
   },
   "config": {
     "commitizen": {

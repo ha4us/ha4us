@@ -1,10 +1,8 @@
 /**
  * @module Scripting Environment
+ * @preferred
  *
  * This is a doc comment for a dynamic module.
- * typedoc src/sandbox.interface.ts --out build/docs
- * --ignoreCompilerErrors --excludePrivate --excludeProtected
- * --mode modules --entrypoint "Scripting"
  */
 
 import { Observable } from 'rxjs'
