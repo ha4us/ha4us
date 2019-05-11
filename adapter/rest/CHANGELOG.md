@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-beta.4](https://github.com/ha4us/ha4us/compare/@ha4us/adapter.rest@1.0.0-beta.3...@ha4us/adapter.rest@1.0.0-beta.4) (2019-05-11)
+
+
+### Bug Fixes
+
+* linting and fixing whole repo ([a397c49](https://github.com/ha4us/ha4us/commit/a397c49))
+* upgrade of moment because security concerns of github ([74435d0](https://github.com/ha4us/ha4us/commit/74435d0))
+
+
+
+
+
 # [1.0.0-beta.3](https://github.com/ha4us/ha4us/compare/@ha4us/adapter.rest@1.0.0-beta.2...@ha4us/adapter.rest@1.0.0-beta.3) (2019-05-08)
 
 **Note:** Version bump only for package @ha4us/adapter.rest

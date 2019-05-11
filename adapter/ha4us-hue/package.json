@@ -1,6 +1,6 @@
 {
   "name": "ha4us-hue",
-  "version": "0.5.1-alpha.0",
+  "version": "0.5.1-alpha.1",
   "description": "Adapter for the hue system to ha4us",
   "main": "dist/index.js",
   "scripts": {

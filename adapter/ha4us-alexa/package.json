@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "ha4us-alexa",
-  "version": "0.0.1",
+  "version": "0.0.2-alpha.0",
   "description": "Ha4us Adapter for alexa",
   "main": "dist/index.js",
   "author": "ulfalfa",
@@ -75,5 +75,4 @@
     "jsonwebtoken": "^8.1.0",
     "rxjs": "^5.4.3"
   }
-
 }

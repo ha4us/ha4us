@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-beta.3](https://github.com/ha4us/ha4us/compare/@ha4us/adapter.history@1.0.0-beta.2...@ha4us/adapter.history@1.0.0-beta.3) (2019-05-11)
+
+
+### Bug Fixes
+
+* linting and fixing whole repo ([05ebaa1](https://github.com/ha4us/ha4us/commit/05ebaa1))
+* linting and fixing whole repo ([0d18c49](https://github.com/ha4us/ha4us/commit/0d18c49))
+* linting and fixing whole repo ([a397c49](https://github.com/ha4us/ha4us/commit/a397c49))
+* **test:** moved test to top level + incorporated all necessary fixes ([1df0789](https://github.com/ha4us/ha4us/commit/1df0789))
+
+
+
+
+
 # [1.0.0-beta.2](https://github.com/ha4us/ha4us/compare/@ha4us/adapter.history@1.0.0-beta.1...@ha4us/adapter.history@1.0.0-beta.2) (2019-05-08)
 
 **Note:** Version bump only for package @ha4us/adapter.history

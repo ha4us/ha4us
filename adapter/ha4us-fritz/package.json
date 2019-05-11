@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "ha4us-fritz",
-  "version": "0.2.1-alpha.0",
+  "version": "0.2.1-alpha.1",
   "description": "Ha4us Adapter for the avm fritzbox",
   "main": "dist/index.js",
   "author": "ulfalfa",

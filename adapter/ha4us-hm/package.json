@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "ha4us-hm",
-  "version": "0.5.5-alpha.0",
+  "version": "0.5.5-alpha.1",
   "description": "a ha4us adapter for homemmatic",
   "main": "dist/index",
   "author": "ulfalfa",
@@ -14,9 +14,6 @@
     "changelog": "standard-version",
     "release": "yarn reset && yarn build && yarn changelog",
     "reset": "git clean -dfx && git reset --hard && yarn"
-  },
-  "devDependencies": {
-
   },
   "dependencies": {
     "binrpc": "^3.1.0",

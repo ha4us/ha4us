@@ -1,6 +1,6 @@
 {
   "name": "@ha4us/core",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.3",
   "description": "Core modules for all ha4us modules",
   "main": "dist/index.js",
   "author": "ulfalfa",
@@ -28,7 +28,6 @@
     "docs:json": "typedoc --mode file --json build/docs/typedoc.json src/index.ts",
     "docs:publish": "yarn docs:html && gh-pages -d build/docs"
   },
-
   "dependencies": {
     "debug": "~2.6.8",
     "lodash": "^4.17.10",
