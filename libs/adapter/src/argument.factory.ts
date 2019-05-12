@@ -16,11 +16,11 @@ export function ArgumentFactory($options: Ha4usOptions): Ha4usArguments {
   const yargs = require('yargs')
     .usage(
       pkg.name +
-      ' ' +
-      pkg.version +
-      '\n' +
-      pkg.description +
-      '\n\nUsage: $0 [$options]'
+        ' ' +
+        pkg.version +
+        '\n' +
+        pkg.description +
+        '\n\nUsage: $0 [$options]'
     )
     .describe('loglevel', 'possible values: "error", "warn", "info", "debug"')
     .describe('help', 'show help')
@@ -68,7 +68,7 @@ export function ArgumentFactory($options: Ha4usOptions): Ha4usArguments {
       d: 'db-url',
     })
     .default({
-      'db-url': 'mongoDb://127.0.0.1/ha4us',
+      'db-url': 'mongodb://127.0.0.1/ha4us',
     })
 
   /*istanbul ignore else */
