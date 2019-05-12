@@ -1,5 +1,5 @@
 import * as got from 'got'
-import { Ha4usError, Ha4usLogger } from 'ha4us/core'
+import { Ha4usError, Ha4usLogger } from '@ha4us/core'
 
 const JSON_URL = '/api/homematic.cgi'
 

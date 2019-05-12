@@ -4,7 +4,7 @@ import {
   Ha4usObject,
   Ha4usObjectType,
   Ha4usError,
-} from 'ha4us/core'
+} from '@ha4us/core'
 
 import {
   ha4us,
@@ -14,9 +14,9 @@ import {
   ArgumentFactory,
   YamlService,
   CreateObjectMode,
-} from 'ha4us/adapter'
+} from '@ha4us/adapter'
 
-import { getIp } from 'ha4us/adapter/helper'
+import { getIp } from '@ha4us/adapter/dist/helper'
 
 const xmlrpc = require('homematic-xmlrpc')
 const binrpc = require('binrpc')
