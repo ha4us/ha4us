@@ -11,7 +11,7 @@ import {
   ObjectService,
   CreateObjectMode,
   // EventService,
-} from 'ha4us/adapter'
+} from '@ha4us/adapter'
 import {
   UsScheduler,
   ScheduleEvent,
@@ -28,7 +28,7 @@ import {
   render,
   compile,
   randomString,
-} from 'ha4us/core'
+} from '@ha4us/core'
 
 import * as rxjs from 'rxjs'
 import { Observable } from 'rxjs'

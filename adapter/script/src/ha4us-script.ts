@@ -11,7 +11,7 @@ import {
   Ha4usError,
   Ha4usRole,
   Ha4usLogger,
-} from 'ha4us/core'
+} from '@ha4us/core'
 
 import {
   StateService,
@@ -19,7 +19,7 @@ import {
   YamlService,
   Ha4usArguments,
   // EventService
-} from 'ha4us/adapter'
+} from '@ha4us/adapter'
 import { Sandbox } from './sandbox.class'
 
 export enum ScriptEventType {

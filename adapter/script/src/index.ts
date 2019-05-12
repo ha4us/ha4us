@@ -11,14 +11,14 @@ import {
   onErrorResumeNext,
 } from 'rxjs/operators'
 
-import { ha4us } from 'ha4us/adapter'
 import {
+  ha4us,
   StateService,
   ObjectService,
   CreateObjectMode,
   // EventService,
-} from 'ha4us/adapter'
-import { Ha4usError, Ha4usRole, MqttUtil, Ha4usObject } from 'ha4us/core'
+} from '@ha4us/adapter'
+import { Ha4usError, Ha4usRole, MqttUtil, Ha4usObject } from '@ha4us/core'
 
 import { Sandbox } from './sandbox.class'
 import { Ha4usScript, ScriptEventType } from './ha4us-script'

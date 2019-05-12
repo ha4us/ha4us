@@ -6,7 +6,7 @@
  */
 
 import { Observable } from 'rxjs'
-import { Ha4usMessage } from 'ha4us/core/types'
+import { Ha4usMessage } from '@ha4us/core'
 import { ScheduleEvent, SimpleTime, SchedulingOptions } from 'us-scheduler'
 /**
  * Logger interface
