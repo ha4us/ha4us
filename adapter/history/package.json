@@ -1,5 +1,5 @@
 {
-  "name": "@ha4us/adapter.history",
+  "name": "@ha4us/history.adapter",
   "version": "1.0.0-beta.3",
   "description": "History Adapter for the ha4us in mongodb",
   "main": "dist/index.js",

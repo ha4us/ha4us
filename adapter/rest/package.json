@@ -1,5 +1,5 @@
 {
-  "name": "@ha4us/adapter.rest",
+  "name": "@ha4us/rest.adapter",
   "version": "1.0.0-beta.4",
   "license": "MIT",
   "main": "./dist/index.js",
