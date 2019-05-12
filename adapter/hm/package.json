@@ -11,6 +11,9 @@
     "lint": "tslint --project .  src/**/*.ts",
     "watch": "nodemon"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "binrpc": "^3.1.0",
     "got": "^7.1.0",
