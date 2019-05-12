@@ -4,7 +4,7 @@ import {
   Ha4usObject,
   Ha4usObjectType,
   isEqual,
-} from 'ha4us/core'
+} from '@ha4us/core'
 
 import {
   ha4us,
@@ -12,7 +12,7 @@ import {
   ObjectService,
   DBMediaService,
   CreateObjectMode,
-} from 'ha4us/adapter'
+} from '@ha4us/adapter'
 
 import { Observable, of, interval, from, zip, combineLatest } from 'rxjs'
 import {

@@ -14,12 +14,11 @@
 
   "env": {
     "NODE_ENV": "development",
-    "HA4US_MQTT_URL": "mqtt://localhost",
     "HA4US_LOGLEVEL": "debug"
   },
   "watch": ["src"],
   "ext": "ts",
 
-  "exec": "ts-node --project src/tsconfig.json src/index.ts",
+  "exec": "ts-node --project ./tsconfig.json src/index.ts",
   "delay": 5000
 }
