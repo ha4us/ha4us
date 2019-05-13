@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0](https://github.com/ha4us/ha4us/compare/@ha4us/adapter@1.0.0-beta.3...@ha4us/adapter@1.0.0) (2019-05-13)
+
+
+### Bug Fixes
+
+* changed default connection url for mongo db ([a59f5d4](https://github.com/ha4us/ha4us/commit/a59f5d4))
+
+
+
+
+
 # [1.0.0-beta.3](https://github.com/ha4us/ha4us/compare/@ha4us/adapter@1.0.0-beta.2...@ha4us/adapter@1.0.0-beta.3) (2019-05-11)
 
 

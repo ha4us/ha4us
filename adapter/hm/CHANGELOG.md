@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 0.6.0 (2019-05-13)
+
+
+### Features
+
+* used new libraries ([4b74d2a](https://github.com/ha4us/ha4us/commit/4b74d2a))
+
+
+
+
+
 ## 0.5.5-alpha.1 (2019-05-11)
 
 

@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 1.0.0 (2019-05-13)
+
+
+### Bug Fixes
+
+* awilix and mongodb libraries were missing for clean compile ([635c973](https://github.com/ha4us/ha4us/commit/635c973))
+* linting and fixing whole repo ([a397c49](https://github.com/ha4us/ha4us/commit/a397c49))
+* renamed packages for history and rest ([acbbfd2](https://github.com/ha4us/ha4us/commit/acbbfd2))
+* upgrade of moment because security concerns of github ([74435d0](https://github.com/ha4us/ha4us/commit/74435d0))
+
+
+### Code Refactoring
+
+* **ha4us:** splitted ha4us module in @ha4us/core and @ha4us/adapter ([0ed8175](https://github.com/ha4us/ha4us/commit/0ed8175))
+
+
+### BREAKING CHANGES
+
+* **ha4us:** the split is breaking since the old module is not available anymore
+
+
+
+
+
 # [1.0.0-beta.4](https://github.com/ha4us/ha4us/compare/@ha4us/adapter.rest@1.0.0-beta.3...@ha4us/adapter.rest@1.0.0-beta.4) (2019-05-11)
 
 
