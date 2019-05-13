@@ -1,0 +1,49 @@
+<form [formGroup]="userForm" (ngSubmit)="onSubmit($event)" [style.padding.px]="15" fxLayout="column" fxLayoutGap="15px">
+  <div fxLayout="row" fxLayoutGap="15px">
+
+    <div fxFlex fxLayout="column" fxLayoutAlign="start">
+      <mat-form-field>
+        <input [style.fontSize.px]="24" matInput placeholder="Benutzername" formControlName="username">
+        <mat-error *ngIf="userForm.hasError('required','username')">
+          Benutzername ist erforderlich
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="Vollständiger Name" formControlName="fullName">
+        <mat-error *ngIf="userForm.hasError('required','fullName')">
+          Ein vollständiger Name ist erforderlich
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput type="password" placeholder="Kennwort" formControlName="password">
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput type="password" placeholder="Kennwort Bestätigen" formControlName="password_repeat"
+          [errorStateMatcher]="confirmErrorMatcher">
+        <mat-error *ngIf="userForm.hasError('notSame')">
+          Kennwörter stimmen nicht überein
+        </mat-error>
+      </mat-form-field>
+      <us-tag-input formControlName="roles" [availableTags]="['admin','user','guest']" placeholder="Rollen">
+      </us-tag-input>
+      <mat-form-field>
+        <input matInput type="number" placeholder="Ablauf Token" formControlName="tokenExp">
+        <span matSuffix>Minuten</span>
+
+      </mat-form-field>
+    </div>
+    <div fxLayout="column">
+      <ha4us-media color="white" backgroundColor="blue" [alt]="userForm.value.fullName" ha4usPick="image"
+        formControlName="avatarUrn" size="128" avatar matTooltip="Klicke um zu ändern"></ha4us-media>
+      <button mat-button type="button" [disabled]="!userForm.get('avatarUrn')"
+        (click)="userForm.get('avatarUrn').setValue(undefined);this.userForm.get('avatarUrn').markAsDirty()">Avatar
+        löschen</button>
+    </div>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="end">
+    <button [disabled]="!userForm.dirty || userForm.invalid" mat-button type="submit">Speichern</button>
+    <button mat-button (click)="cancel($event)">Abbrechen</button>
+  </div>
+
+</form>

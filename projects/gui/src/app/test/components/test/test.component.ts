@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core'
 import { FormGroup, FormControl } from '@angular/forms'
 import { StatesService } from '@ha4us/ng'
 import { take } from 'rxjs/operators'
+
+import { UserService } from '@ha4us/ng'
 @Component({
   selector: 'ha4us-test',
   templateUrl: './test.component.html',
@@ -17,9 +19,11 @@ export class TestComponent implements OnInit {
 
   test: any
 
+  user = this.us.getOne('admin')
+
   value = 1
   myForm = new FormGroup({})
-  constructor(state: StatesService) {
+  constructor(state: StatesService, protected us: UserService) {
     // this.myForm = this.fbs.form(this.controls)
     this.myForm = new FormGroup({ tags: new FormControl(['test']) })
 
@@ -37,5 +41,9 @@ export class TestComponent implements OnInit {
     this.myForm.valueChanges.subscribe(changes => {
       console.log('Changes', changes)
     })
+  }
+
+  changed($event) {
+    console.log($event)
   }
 }

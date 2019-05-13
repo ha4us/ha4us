@@ -8,11 +8,12 @@
   [(ngModel)]="test"></ha4us-media>
 {{test}}-->
 
-<ha4us-object-search></ha4us-object-search>
-<ha4us-object-tree></ha4us-object-tree>
+
 <!--
 <ha4us-object [object]="'hue' | ha4usObject "> </ha4us-object>
 <ha4us-object [object]="'hue/Color light 1' | ha4usObject "></ha4us-object>
 <ha4us-object (edit)="alert($event)" [object]="'hue/Color light 1/on' | ha4usObject "></ha4us-object>
 <ha4us-object [object]="'notexisting' | ha4usObject "></ha4us-object>
 -->
+
+<ha4us-user-form [user]="user | async" (userChanged)="changed($event)"></ha4us-user-form>
