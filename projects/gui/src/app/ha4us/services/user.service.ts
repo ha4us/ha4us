@@ -46,4 +46,8 @@ export class UserService {
   getOne(username: string): Observable<Ha4usUser> {
     return this.http.get<Ha4usUser>('/api/users/' + username)
   }
+
+  get(): Observable<Ha4usUser[]> {
+    return this.http.get<Ha4usUser[]>('/api/users')
+  }
 }

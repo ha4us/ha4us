@@ -1,0 +1,21 @@
+<mat-drawer-container fxFlex>
+  <mat-drawer-content>
+    <mat-nav-list>
+      <mat-list-item (click)="editUser(user)" *ngFor="let user of users|async">
+        <ha4us-media matListAvatar color="white" backgroundColor="blue" [alt]="user.fullName" [media]="user.avatarUrn"
+          size="48" avatar>
+        </ha4us-media>
+        <h3 matLine> {{user.username}} </h3>
+        <p matLine>
+          <span> {{user.fullName}} </span>
+        </p>
+        <button mat-icon-button (click)="deleteUser($event,user)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </mat-list-item>
+    </mat-nav-list>
+  </mat-drawer-content>
+  <mat-drawer mode="over" [opened]="showPanel" position="end" autoFocus (closedStart)="showPanel=false">
+    <ha4us-user-form [user]="currentUser"></ha4us-user-form>
+  </mat-drawer>
+</mat-drawer-container>
