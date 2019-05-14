@@ -21,8 +21,6 @@ import { ColorHueModule } from 'ngx-color/hue'
 import { Ha4usColorPickerModule } from '@app/color-picker'
 import { MonacoEditorModule } from 'ngx-monaco-editor'
 
-import { UserModule } from '@app/user/user.module'
-
 @NgModule({
   imports: [
     CommonModule,
@@ -36,7 +34,6 @@ import { UserModule } from '@app/user/user.module'
     Ha4usColorPickerModule,
     WidgetsModule,
     MonacoEditorModule.forRoot(),
-    UserModule,
   ],
   declarations: [TestComponent],
 })

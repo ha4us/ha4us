@@ -1,0 +1,31 @@
+<ha4us-toolbar shadow="false">
+  <span title>Benutzer</span>
+</ha4us-toolbar>
+<mat-drawer-container fxFlex>
+  <mat-drawer-content fxLayout="row">
+    <mat-nav-list fxFlex>
+      <mat-list-item (click)="editUser(user)" *ngFor="let user of users">
+        <ha4us-media matListAvatar color="white" backgroundColor="blue" [alt]="user.fullName" [media]="user.avatarUrn"
+          size="48" avatar>
+        </ha4us-media>
+        <h3 matLine> {{user.username}} </h3>
+        <p matLine>
+          <span> {{user.fullName}} </span>
+        </p>
+        <button mat-icon-button (click)="deleteUser($event,user)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </mat-list-item>
+      <button mat-fab (click)="addUser($event)">
+        <mat-icon>add</mat-icon>
+      </button>
+    </mat-nav-list>
+
+
+  </mat-drawer-content>
+
+  <mat-drawer mode="over" [opened]="showPanel" autoFocus (closedStart)="showPanel=false" position="end">
+    <ha4us-user-form [user]="currentUser" (canceled)="showPanel=false" (userChanged)="userChanged($event)">
+    </ha4us-user-form>
+  </mat-drawer>
+</mat-drawer-container>

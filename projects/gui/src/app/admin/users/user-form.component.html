@@ -17,6 +17,9 @@
       </mat-form-field>
       <mat-form-field>
         <input matInput type="password" placeholder="Kennwort" formControlName="password">
+        <mat-error *ngIf="userForm.hasError('required','password')">
+          Ein Kennwort ist erforderlich
+        </mat-error>
       </mat-form-field>
       <mat-form-field>
         <input matInput type="password" placeholder="Kennwort Bestätigen" formControlName="password_repeat"
@@ -43,7 +46,7 @@
   </div>
   <div fxLayout="row" fxLayoutAlign="end">
     <button [disabled]="!userForm.dirty || userForm.invalid" mat-button type="submit">Speichern</button>
-    <button mat-button (click)="cancel($event)">Abbrechen</button>
+    <button mat-button type="button" (click)="cancel($event)">Abbrechen</button>
   </div>
 
 </form>

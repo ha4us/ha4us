@@ -50,4 +50,17 @@ export class UserService {
   get(): Observable<Ha4usUser[]> {
     return this.http.get<Ha4usUser[]>('/api/users')
   }
+
+  post(user: Ha4usUser): Observable<Ha4usUser> {
+    return this.http.post<Ha4usUser>('/api/users', user)
+  }
+
+  put(user: Ha4usUser, asUsername?: string): Observable<Ha4usUser> {
+    asUsername = asUsername || user.username
+    return this.http.put<Ha4usUser>('/api/users/' + asUsername, user)
+  }
+
+  delete(username: string): Observable<void> {
+    return this.http.delete<void>('/api/users/' + username)
+  }
 }

@@ -21,18 +21,33 @@ export class UserFormComponent implements OnInit {
 
   @Input() set user(user: Ha4usUser) {
     if (user) {
-      this.userForm = this.formBuilder.group(
-        {
-          username: [user.username],
-          fullName: [user.fullName, Validators.required],
-          avatarUrn: [user.avatarUrn],
-          roles: [user.roles],
-          password: [undefined],
-          password_repeat: [undefined],
-          tokenExp: [user.tokenExp],
-        },
-        { validators: [this.checkPasswords] }
-      )
+      if (user.username) {
+        this.userForm = this.formBuilder.group(
+          {
+            username: [user.username],
+            fullName: [user.fullName, Validators.required],
+            avatarUrn: [user.avatarUrn],
+            roles: [user.roles],
+            password: [user.password, Validators.required],
+            password_repeat: [user.password],
+            tokenExp: [user.tokenExp],
+          },
+          { validators: [this.checkPasswords] }
+        )
+      } else {
+        this.userForm = this.formBuilder.group(
+          {
+            username: [undefined, Validators.required],
+            fullName: [undefined, Validators.required],
+            avatarUrn: [undefined],
+            roles: [user.roles],
+            password: [undefined, Validators.required],
+            password_repeat: [undefined],
+            tokenExp: [undefined],
+          },
+          { validators: [this.checkPasswords] }
+        )
+      }
     }
   }
 
@@ -46,24 +61,22 @@ export class UserFormComponent implements OnInit {
   }
 
   constructor(protected formBuilder: FormBuilder) {
-    this.userForm = this.formBuilder.group(
-      {
-        username: ['admin'],
-        fullName: ['fullName', Validators.required],
-        avatarUrn: [undefined],
-        roles: [[]],
-        password: [undefined],
-        password_repeat: [undefined],
-        tokenExp: [undefined],
-      },
-      { validators: [this.checkPasswords] }
-    )
+    this.user = {} as Ha4usUser
   }
 
   ngOnInit() {}
 
   onSubmit() {
-    this.userChanged.next(this.userForm.value)
+    const user = this.userForm.value
+    if (this.userForm.valid && user.password === user.password_repeat) {
+      this.userChanged.next({
+        username: user.username,
+        fullName: user.fullName,
+        password: user.password,
+        roles: user.roles,
+        tokenExp: user.tokenExp,
+      })
+    }
   }
 
   cancel(_) {

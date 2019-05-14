@@ -4,6 +4,7 @@ import { Ha4usGuard, Ha4usRoutes, Ha4usPermission } from '@ha4us/ng'
 import { MediaEditorComponent } from './media-editor/media-editor.component'
 import { ObjectsComponent } from './objects/objects.component'
 import { MqttComponent } from './mqtt/mqtt.component'
+import { UserListEditComponent } from './users/user-list-edit.component'
 const routes: Ha4usRoutes = [
   {
     path: '',
@@ -25,6 +26,11 @@ const routes: Ha4usRoutes = [
     path: 'media',
     canActivateChild: [Ha4usGuard],
     component: MediaEditorComponent,
+  },
+  {
+    path: 'users',
+    canActivateChild: [Ha4usGuard],
+    component: UserListEditComponent,
   },
 ]
 
