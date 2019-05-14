@@ -79,7 +79,7 @@ export class UserFormComponent implements OnInit {
     }
   }
 
-  cancel(_) {
+  cancel($event: MouseEvent) {
     this.canceled.next()
   }
 
