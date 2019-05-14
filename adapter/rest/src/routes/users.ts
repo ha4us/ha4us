@@ -20,6 +20,13 @@ module.exports = exports = function(
         .then(WebService.sendResponse(res, 200))
         .catch(WebService.sendError(res))
     })
+    .post('/', (req, res) => {
+      console.log('POST', req.body)
+      $users
+        .post(req.body)
+        .then(WebService.sendResponse(res, 200))
+        .catch(WebService.sendError(res))
+    })
 
   route
     .route('/:username')
