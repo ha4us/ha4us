@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0](https://github.com/ha4us/ha4us/compare/@ha4us/rest.adapter@1.0.0...@ha4us/rest.adapter@1.1.0) (2019-05-14)
+
+
+### Features
+
+* **users:** added endpoints for user crud operations ([d03ed5f](https://github.com/ha4us/ha4us/commit/d03ed5f))
+
+
+
+
+
 # 1.0.0 (2019-05-13)
 
 

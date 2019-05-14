@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.1](https://github.com/ha4us/ha4us/compare/@ha4us/hm.adapter@0.6.0...@ha4us/hm.adapter@0.6.1) (2019-05-14)
+
+
+### Bug Fixes
+
+* **dependencies:** upgrade mqtt-packet for new packages ([1661060](https://github.com/ha4us/ha4us/commit/1661060))
+
+
+
+
+
 # 0.6.0 (2019-05-13)
 
 

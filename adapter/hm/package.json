@@ -1,6 +1,6 @@
 {
   "name": "@ha4us/hm.adapter",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "a ha4us adapter for homemmatic",
   "main": "dist/index",
   "author": "ulfalfa",

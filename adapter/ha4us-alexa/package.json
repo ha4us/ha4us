@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "ha4us-alexa",
-  "version": "0.0.2-alpha.0",
+  "version": "0.0.2",
   "description": "Ha4us Adapter for alexa",
   "main": "dist/index.js",
   "author": "ulfalfa",

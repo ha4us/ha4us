@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0](https://github.com/ha4us/ha4us/compare/@ha4us/ng-gui@1.0.0...@ha4us/ng-gui@1.1.0) (2019-05-14)
+
+
+### Features
+
+* **messageservice:** moved definition to models and new method for getting an observable ([14c17c6](https://github.com/ha4us/ha4us/commit/14c17c6))
+* **user:** new component for editing a user record ([c5c7178](https://github.com/ha4us/ha4us/commit/c5c7178))
+* **users:** new usereditor ([0b02616](https://github.com/ha4us/ha4us/commit/0b02616))
+* **users:** new usereditor ([0c3c994](https://github.com/ha4us/ha4us/commit/0c3c994))
+
+
+
+
+
 # [1.0.0](https://github.com/ha4us/ha4us/compare/@ha4us/ng-gui@1.0.0-beta.4...@ha4us/ng-gui@1.0.0) (2019-05-13)
 
 **Note:** Version bump only for package @ha4us/ng-gui
