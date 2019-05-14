@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { Observable } from 'rxjs'
+import { Observable, Observer } from 'rxjs'
 import { pluck } from 'rxjs/operators'
 import { MatSnackBar, MatDialog } from '@angular/material'
 
@@ -7,53 +7,11 @@ import { ConfirmDialogComponent } from '../components/confirm-dialog/confirm-dia
 import { Ha4usError } from '@ha4us/core'
 import { sprintf } from 'sprintf-js'
 
-import { Msg } from '../models/msg'
-
-export enum MessageType {
-  'debug',
-  'info',
-  'warn',
-  'error',
-}
+import { Msg, MessageType, MESSAGES as _messages } from '../models/msg'
 
 export interface Ha4usMessage {
   msg: string
   type: MessageType
-}
-
-const _messages = {
-  [Msg.NOTEXISTING]: {
-    msg: 'Meldung mit Nummer %d existiert nicht',
-    type: MessageType.warn,
-  },
-  [Msg.Ok]: {
-    msg: 'ok.',
-    type: MessageType.info,
-  },
-  [Msg.FileNotFound]: {
-    msg: '%s wurde nicht gefunden',
-    type: MessageType.warn,
-  },
-  [Msg.Duplicate]: {
-    msg: '%s existiert bereits',
-    type: MessageType.error,
-  },
-  [Msg.ObjectCreated]: {
-    msg: 'Objekt %s wurde erfolgreich angelegt',
-    type: MessageType.info,
-  },
-  [Msg.ObjectUpdated]: {
-    msg: 'Objekt %s wurde erfolgreich gespeichert',
-    type: MessageType.info,
-  },
-  [Msg.ObjectDeleted]: {
-    msg: 'Objekt %s wurde gelöscht',
-    type: MessageType.info,
-  },
-  [Msg.DeleteReally]: {
-    msg: 'Wirklich %s löschen?',
-    type: MessageType.info,
-  },
 }
 
 @Injectable({
@@ -117,5 +75,15 @@ export class MessageService {
     })
 
     return ref.afterClosed()
+  }
+
+  observer(msg: Msg): Observer<any> {
+    return {
+      next: data => this.msg(msg, data),
+      error: err => {
+        this.error(err)
+      },
+      complete: () => {},
+    }
   }
 }
