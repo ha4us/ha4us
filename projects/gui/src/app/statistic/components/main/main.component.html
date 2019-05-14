@@ -1,3 +1,3 @@
-<ha4us-query-statistic></ha4us-query-statistic>
-<ha4us-chart [style.border]="'1px red dashed'" fxFlex [topic]="'hm/Aussenklima/TEMPERATURE'">
-</ha4us-chart>
+<ha4us-query-statistic [(query)]="query"></ha4us-query-statistic>
+<!--ha4us-line-chart [style.border]="'1px red dashed'" fxFlex [chart]="query"></ha4us-line-chart>-->
+<ha4us-history-list [query]="query"></ha4us-history-list>

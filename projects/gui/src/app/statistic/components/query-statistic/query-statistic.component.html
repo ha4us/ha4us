@@ -2,23 +2,25 @@
   query-statistic works!
 </p>
 
-<form>
+<form [formGroup]="queryForm">
+  <ha4us-topic-input formControlName="topic"></ha4us-topic-input>
   <mat-form-field>
-    <mat-placeholder>Topic</mat-placeholder>
-    <input matInput />
-  </mat-form-field>
-  <mat-form-field>
-    <input matInput [matDatepicker]="pickerFrom" placeholder="Von">
-    <mat-datepicker-toggle matSuffix [for]="pickerFrom"></mat-datepicker-toggle>
-    <mat-datepicker #pickerFrom></mat-datepicker>
-  </mat-form-field>
-  <mat-form-field>
-    <input matInput [matDatepicker]="pickerTo" placeholder="Bis">
+    <input matInput [matDatepicker]="pickerTo" placeholder="Bis" formControlName="to">
     <mat-datepicker-toggle matSuffix [for]="pickerTo"></mat-datepicker-toggle>
     <mat-datepicker #pickerTo></mat-datepicker>
   </mat-form-field>
   <mat-form-field>
-    <mat-select placeholder="Aggregation">
+    <mat-select placeholder="Zeitraum" formControlName="duration">
+      <mat-option value="P1Y">1 Jahr</mat-option>
+      <mat-option value="P1W">1 Woche</mat-option>
+      <mat-option value="P3M">3 Monate</mat-option>
+      <mat-option value="P1M">1 Monat</mat-option>
+      <mat-option>Unbestimmt</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder="Aggregation" formControlName="aggregateBy">
+      <mat-option value="none">Keine</mat-option>
       <mat-option value="hour">Stunden</mat-option>
       <mat-option value="day">Tage</mat-option>
       <mat-option value="week">Woche</mat-option>

@@ -1,3 +1,4 @@
-<p>
-  line-chart works!
-</p>
+<ngx-charts-line-chart *ngIf="chartData$ |async as chartData" [results]="chartData" [gradient]="true" [xAxis]="true"
+  [yAxis]="true" [legend]="false" [showXAxisLabel]="true" [showYAxisLabel]="true" xAxisLabel="Zeit" yAxisLabel="Werte"
+  [autoScale]="autoScale" [xAxisTickFormatting]="formatTime" [yAxisTickFormatting]="formatValue">
+</ngx-charts-line-chart>

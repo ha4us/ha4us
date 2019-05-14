@@ -43,10 +43,9 @@ export class ChartComponent implements OnInit {
     /*this.stats.inventory('hm/#').then(data => {
       console.log('Data', data)
     })*/
-
-    this.stats.aggregate(this.topic, 'day').then(data => {
+    /*this.stats.aggregate(this.topic, 'day').then(data => {
       console.log('Aggregation', data)
       this.chartData = [data]
-    })
+    })*/
   }
 }
