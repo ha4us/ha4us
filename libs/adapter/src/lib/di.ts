@@ -10,6 +10,7 @@ import {
   createContainer,
   InjectionMode,
   AwilixContainer,
+  Lifetime,
 } from 'awilix'
 
 /*function getArgs(func) {
@@ -83,6 +84,16 @@ export class DIContainer {
 
   public resolve<T>(tag: string | symbol): T {
     return this._container.resolve(tag)
+  }
+
+  public loadModules(glob: string[]) {
+    return this._container.loadModules(glob, {
+      cwd: __dirname,
+      resolverOptions: {
+        lifetime: Lifetime.SINGLETON,
+        register: asClass,
+      },
+    })
   }
 }
 
