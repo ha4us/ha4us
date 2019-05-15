@@ -19,10 +19,18 @@ import {
 
 import { DIContainer } from '@ha4us/adapter/dist/lib/di'
 
-import { Ha4usMedia, Ha4usLogger, defaultsDeep, MqttUtil } from '@ha4us/core'
+import {
+  Ha4usMedia,
+  Ha4usLogger,
+  defaultsDeep,
+  MqttUtil,
+  Ha4usUser,
+} from '@ha4us/core'
 
 import * as TelegramBot from 'node-telegram-bot-api'
 import { AlexaUtterance } from './utterances/alexautterance'
+
+import { ShowIntent, TurnOnIntent } from './intents'
 
 import { IIntentParams, AbstractIntent } from './intents'
 
@@ -70,26 +78,29 @@ function Adapter(
   $objects: ObjectService,
   $os: StatefulObjectsService
 ) {
-  const sessions: { [chatId: string]: any } = {}
+  const sessions = new Map<number, Ha4usUser>()
   let bot: TelegramBot = null
-  function login(username: string, password: string, chatId: number) {
-    if (sessions.hasOwnProperty(chatId)) {
+
+  async function auth(msg: TelegramBot.Message) {
+    if (sessions.has(msg.chat.id)) {
       return true
     }
-    return $users
-      .verify(username, password)
-      .then(user => {
-        sessions[chatId] = { user }
-        return true
-      })
-      .catch(e => {
-        $log.warn('Unauthorized %s', username, e)
-        delete sessions[chatId]
-        return false
-      })
+
+    const users = await $users.getByProperty('telegram-userid', msg.chat.id)
+
+    if (users.length > 0) {
+      sessions.set(msg.chat.id, users[0])
+      $log.info('%s logged in with %n', users[0].username, msg.chat.id)
+      return true
+    } else {
+      $log.warn('Unauthorized', msg.chat)
+      return false
+    }
   }
-  console.log($injector)
-  $injector.loadModules(['intents/*.js'])
+  console.log(Object.keys($injector.cradle))
+
+  $injector.awilix.register('showIntent', asClass(ShowIntent))
+  $injector.awilix.register('turnOnIntent', asClass(TurnOnIntent))
 
   async function $onInit() {
     $log.info('Starting telegram')
@@ -117,29 +128,30 @@ function Adapter(
       })
     })
 
-    bot.onText(/\/start(?:\s*?(\S+))?(?:\s+?(\S+))?/i, async (msg, match) => {
-      $log.debug('Start with password', msg, match)
-      let [, username, password] = match
-      if (!password) {
-        password = username
-        username = msg.from.username
-      }
-      $log.debug('Logging in User %s with password %s', username, password)
-      if (await login(username, password, msg.chat.id)) {
-        bot.sendMessage(msg.chat.id, `Logged in as ${username}`)
+    bot.onText(/\/start/i, async (msg, match) => {
+      $log.debug(
+        'Starting for in User %s with id %n',
+        msg.chat.username,
+        msg.chat.id
+      )
+      if (await auth(msg)) {
+        bot.sendMessage(
+          msg.chat.id,
+          `Logged in as ${sessions.get(msg.chat.id).username}`
+        )
       } else {
         bot.sendMessage(msg.chat.id, 'Not allowed')
       }
     })
 
-    bot.on
-
     bot.on('left_chat_member', msg => {
       $log.debug('Someone left chat', msg)
     })
-    // Listen for any kind of message. There are different kinds of
-    // messages.
-    bot.on('text', msg => {
+
+    bot.on('text', async msg => {
+      if (!(await auth(msg))) {
+        return
+      }
       const chatId = msg.chat.id
       $log.debug(
         'onText *%s* %j',
@@ -151,7 +163,7 @@ function Adapter(
 
       if (msg.text) {
         if (
-          !sessions.hasOwnProperty(chatId) &&
+          !sessions.has(chatId) &&
           (msg.text && !msg.text.match(/^\/start/i))
         ) {
           bot.sendMessage(chatId, 'Bitte anmelden mit /start')
@@ -161,11 +173,13 @@ function Adapter(
         const idx = utterances.find(item => {
           const params: IIntentParams = item.utterance.match(msg.text)
           if (params) {
+            $log.debug(params)
             const defaultedParams = defaultsDeep(
-              {},
+              params,
               item.definition.slotDefaults || {}
             )
-            defaultsDeep()(params, item.definition.slotDefaults || {})
+            $log.debug(defaultedParams)
+
             $log.debug(
               'Execute %s with',
               item.definition.intent,

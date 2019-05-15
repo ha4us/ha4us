@@ -11,7 +11,7 @@ import {
 
 import { Ha4usMongoAccess } from './lib/ha4us-mongo-access'
 
-import { Db } from 'mongodb'
+import { Db, FilterQuery } from 'mongodb'
 import { SignOptions, sign, verify, decode } from 'jsonwebtoken'
 
 import * as bcrypt from 'bcryptjs'
@@ -120,6 +120,21 @@ export class UserService extends Ha4usMongoAccess {
         return users
       })
     }
+  }
+
+  getByProperty(
+    propertyKey: string,
+    propertyValue?: any
+  ): Promise<Ha4usUser[]> {
+    // const query = { 'property propertyKey: propertyValue}
+
+    const query: FilterQuery<any> = {}
+    query['properties.' + propertyKey] = propertyValue
+      ? propertyValue
+      : { $exists: true }
+
+    const cursor = this.collection.find<Ha4usUser>(query)
+    return cursor.toArray()
   }
 
   protected scramblePassword(user: Ha4usUser): Ha4usUser {

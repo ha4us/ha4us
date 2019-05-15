@@ -35,17 +35,11 @@ export type ServiceConstructor<T> = new (...args: any[]) => T
 export type FactoryFunction<T> = (...args: any[]) => T
 
 export class DIContainer {
-  protected static _instance: DIContainer
-
-  protected _container: AwilixContainer
-
-  static getContainer(): DIContainer {
-    DIContainer._instance = DIContainer._instance || new DIContainer()
-    return DIContainer._instance
-  }
-
   public get cradle() {
     return this._container.cradle
+  }
+  get awilix() {
+    return this._container
   }
 
   constructor() {
@@ -56,6 +50,15 @@ export class DIContainer {
     this._container = createContainer({
       injectionMode: InjectionMode.CLASSIC,
     })
+  }
+  protected static _instance: DIContainer
+
+  protected _container: AwilixContainer
+
+  punlic
+  static getContainer(): DIContainer {
+    DIContainer._instance = DIContainer._instance || new DIContainer()
+    return DIContainer._instance
   }
 
   public destroy() {
@@ -86,12 +89,12 @@ export class DIContainer {
     return this._container.resolve(tag)
   }
 
-  public loadModules(glob: string[]) {
-    return this._container.loadModules(glob, {
-      cwd: __dirname,
+  public loadModules(glob: string, cwd: string) {
+    console.log('ACHTUNG!', glob, cwd)
+    return this._container.loadModules([glob], {
+      cwd,
       resolverOptions: {
         lifetime: Lifetime.SINGLETON,
-        register: asClass,
       },
     })
   }

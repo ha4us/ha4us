@@ -17,7 +17,7 @@ ist {{default (format this.state.val this.object) '_unbekannt_'}}
 const MSG_NOTFOUND = `Entschuldigung! Ich habe kein '{{slots.function}}'\
 {{#defined slots.room}} in {{slots.room}}{{else}} insgesamt{{/defined}} gefunden!`
 
-export default class ShowIntent extends AbstractIntent {
+export class ShowIntent extends AbstractIntent {
   constructor(
     protected $log: Ha4usLogger,
     protected $os: StatefulObjectsService

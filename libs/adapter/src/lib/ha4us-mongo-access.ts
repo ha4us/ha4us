@@ -1,6 +1,6 @@
 import { MongoClient, Db, Cursor, Collection } from 'mongodb'
 export type IDBClient = Db
-export * from 'mongodb'
+
 import { Observable } from 'rxjs'
 import { URL } from 'url'
 const debug = require('debug')('ha4us:adapter:mongofactory')

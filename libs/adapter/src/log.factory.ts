@@ -1,6 +1,5 @@
 import * as winston from 'winston'
 import { Ha4usLogger } from '@ha4us/core'
-export type Logger = winston.LoggerInstance
 
 export function LogFactory($args): Ha4usLogger {
   winston.loggers.add($args.name, {

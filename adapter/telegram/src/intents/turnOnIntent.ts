@@ -18,7 +18,7 @@ const MSG_SUCCESS = `Ich habe {{response.length}} {{slots.actor}}\
 {{#defined slots.room}} in {{slots.room}}{{else}} im System{{/defined}} bedient!
 {{#each response}}{{this.label}}{{#unless @last}},{{/unless}}{{/each}}`
 
-export default class ShowIntent extends AbstractIntent {
+export class TurnOnIntent extends AbstractIntent {
   constructor(
     protected $log: Ha4usLogger,
     protected $objects: ObjectService,
@@ -44,6 +44,7 @@ export default class ShowIntent extends AbstractIntent {
     typeTargetVal = typeof targetVal
 
     // first try to read direct by name
+
     let result = await this.$objects.get({ name: req.slots.actor, tags })
 
     if (result.length === 0) {
@@ -70,7 +71,7 @@ export default class ShowIntent extends AbstractIntent {
           } else if (targetVal === 'aus' && object.type === 'number') {
             val = 0
           }
-          this.$log.debug('Setting %s to', topic, val)
+          // this.$log.debug('Setting %s to', topic, val)
           this.$states.set(topic, val)
           return { topic, val, label: object.label || object.topic }
         }),

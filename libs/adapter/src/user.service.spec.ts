@@ -36,7 +36,7 @@ test.beforeEach(async t => {
 })
 
 test.afterEach(async t => {
-  t.context.mongo.drop()
+  await t.context.mongo.drop()
 })
 
 test('On instantiation creates an index', async t => {
@@ -106,6 +106,27 @@ test('Getting multi users', async t => {
   t.is(users.length, 2)
 })
 
+test('Getting users by property', async t => {
+  const us1 = new Ha4usUser('user1')
+  us1.properties = { test: 123 }
+  const us2 = new Ha4usUser('user2')
+  us2.properties = { test: '456' }
+  const us3 = new Ha4usUser('user3')
+
+  const service = t.context.us
+
+  await service.post(us1)
+  await service.post(us2)
+  await service.post(us3)
+
+  let result = await service.getByProperty('na')
+  t.is(result.length, 0)
+  result = await service.getByProperty('test')
+  t.is(result.length, 2)
+  result = await service.getByProperty('test', 123)
+  t.is(result.length, 1)
+})
+
 test('Roles are defined', t => {
   t.deepEqual(UserService.roles, ['admin', 'user', 'guest', 'api'])
 })
@@ -157,10 +178,9 @@ test('Tokens', async t => {
     user,
     token:
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.' +
-      'eyJ1c2VyIjp7InVzZXJuYW1lIjoidGVzdHVzZXIiLCJyb2x' +
-      'lcyI6WyJ1c2VyIiwiYXBpIl0sImZ1bGxOYW1lIjoidW5uYW1' +
-      'lZCJ9LCJyZWZyZXNoIjo2MDAsImlhdCI6MCwiZXhwIjo5MDB9.' +
-      'JAWz9Oww7HN-Gem_U1Bxew7scVoxDHlB17tcJKlHURM',
+      'eyJ1c2VyIjp7InVzZXJuYW1lIjoidGVzdHVzZXIiLCJy' +
+      'b2xlcyI6WyJ1c2VyIiwiYXBpIl0sImZ1bGxOYW1lIjoidW' +
+      '5uYW1lZCIsInByb3BlcnRpZXMiOnt9fSwicmVmcmVzaCI6NjAwLCJpYXQiOjAsImV4cCI6OTAwfQ.AmLccRLWnaaRGEMpqISOYBmnZ4UJzw6HK3k6anluoxE',
   })
 
   t.deepEqual(await t.context.us.isTokenValid(token.token), {
@@ -180,10 +200,9 @@ test('Tokens', async t => {
     user,
     token:
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.' +
-      'eyJ1c2VyIjp7InVzZXJuYW1lIjoidGVzdHVzZX' +
-      'IiLCJyb2xlcyI6WyJ1c2VyIiwiYXBpIl0sImZ1' +
-      'bGxOYW1lIjoidW5uYW1lZCJ9LCJyZWZyZXNoIjoxMjAxLCJpYXQiOjYwMSwiZXhwIjoxNTAxfQ.' +
-      'tt0nPtpCgi7i5OzCi1dGcJMRQWvENLyDMqlfUVUP7SA',
+      'eyJ1c2VyIjp7InVzZXJuYW1lIjoidGVzdHVzZXIiLCJyb' +
+      '2xlcyI6WyJ1c2VyIiwiYXBpIl0sImZ1bGxOYW1lIjoidW5u' +
+      'YW1lZCIsInByb3BlcnRpZXMiOnt9fSwicmVmcmVzaCI6MTIwMSwiaWF0Ijo2MDEsImV4cCI6MTUwMX0.EWo-Jx6hJQze3XfOVEM__yD3tD3U5w5VhDEhrHg1iWo',
   })
 
   const verified = await t.context.us.verify(token.token)

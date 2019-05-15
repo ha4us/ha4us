@@ -1,5 +1,5 @@
 import { MongoClient, Db, Server } from 'mongodb'
-import { randomString } from '@ha4us/core/helper'
+import { randomString } from '@ha4us/core'
 
 export class TestMongo {
   protected _dbURLRegexp: RegExp

@@ -3,6 +3,7 @@ export const HA4US_USER: Ha4usUser = {
   password: 'secret',
   fullName: 'unnamed',
   roles: ['guest'],
+  properties: {},
 }
 
 export type UserRole = 'admin' | 'guest' | 'user' | 'api'
@@ -13,6 +14,7 @@ export class Ha4usUser {
   password?: string
   tokenExp?: number
   avatarUrn?: string
+  properties?: { [key: string]: any } = {}
 
   constructor(public username: string, public roles: string[] = []) {}
 }
