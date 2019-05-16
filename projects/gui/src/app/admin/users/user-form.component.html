@@ -1,48 +1,81 @@
-<form [formGroup]="userForm" (ngSubmit)="onSubmit()" [style.padding.px]="15" fxLayout="column" fxLayoutGap="15px">
+<form [formGroup]="userForm" (ngSubmit)="onSubmit()" fxLayout="column">
   <div fxLayout="row" fxLayoutGap="15px">
 
     <div fxFlex fxLayout="column" fxLayoutAlign="start">
-      <mat-form-field>
-        <input [style.fontSize.px]="24" matInput placeholder="Benutzername" formControlName="username">
-        <mat-error *ngIf="userForm.hasError('required','username')">
-          Benutzername ist erforderlich
-        </mat-error>
-      </mat-form-field>
+      <div fxLayout="row" fxLayoutAlign="start center" [style.padding.px]="15">
+        <mat-form-field>
+          <input [style.fontSize.px]="24" matInput placeholder="Benutzername" formControlName="username">
+          <mat-error *ngIf="userForm.hasError('required','username')">
+            Benutzername ist erforderlich
+          </mat-error>
+          <mat-error *ngIf="userForm.hasError('pattern','username')">
+            Für den Benutzernamen sind nur kleine Buchstaben und Zahlen erlaubt
+          </mat-error>
+        </mat-form-field>
 
-      <mat-form-field>
+        <div fxLayout="column" fxLayoutAlign="start center">
+          <ha4us-media color="white" backgroundColor="blue" [alt]="userForm.value.fullName" ha4usPick="image"
+            formControlName="avatarUrn" size="64" avatar matTooltip="Klicke um zu ändern"></ha4us-media>
+          <button mat-button type="button" [disabled]="!userForm.get('avatarUrn')"
+            (click)="userForm.get('avatarUrn').setValue(undefined);this.userForm.get('avatarUrn').markAsDirty()">Avatar
+            löschen</button>
+        </div>
+      </div>
+      <mat-form-field [style.padding.px]="15">
         <input matInput placeholder="Vollständiger Name" formControlName="fullName">
         <mat-error *ngIf="userForm.hasError('required','fullName')">
           Ein vollständiger Name ist erforderlich
         </mat-error>
       </mat-form-field>
-      <mat-form-field>
-        <input matInput type="password" placeholder="Kennwort" formControlName="password">
-        <mat-error *ngIf="userForm.hasError('required','password')">
-          Ein Kennwort ist erforderlich
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput type="password" placeholder="Kennwort Bestätigen" formControlName="password_repeat"
-          [errorStateMatcher]="confirmErrorMatcher">
-        <mat-error *ngIf="userForm.hasError('notSame')">
-          Kennwörter stimmen nicht überein
-        </mat-error>
-      </mat-form-field>
-      <us-tag-input formControlName="roles" [availableTags]="['admin','user','guest']" placeholder="Rollen">
-      </us-tag-input>
-      <mat-form-field>
-        <input matInput type="number" placeholder="Ablauf Token" formControlName="tokenExp">
-        <span matSuffix>Minuten</span>
+      <mat-accordion displayMode="flat" multi="true">
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Sicherheit
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div fxLayout="column">
+            <mat-form-field>
+              <input matInput type="password" placeholder="Kennwort" formControlName="password">
+              <mat-error *ngIf="userForm.hasError('required','password')">
+                Ein Kennwort ist erforderlich
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput type="password" placeholder="Kennwort Bestätigen" formControlName="password_repeat"
+                [errorStateMatcher]="confirmErrorMatcher">
+              <mat-error *ngIf="userForm.hasError('notSame')">
+                Kennwörter stimmen nicht überein
+              </mat-error>
+            </mat-form-field>
+            <us-tag-input formControlName="roles" [availableTags]="['admin','user','guest']" placeholder="Rollen">
+            </us-tag-input>
+            <mat-form-field>
+              <input matInput type="number" placeholder="Ablauf Token" formControlName="tokenExp">
+              <span matSuffix>Minuten</span>
 
-      </mat-form-field>
+            </mat-form-field>
+          </div>
+
+        </mat-expansion-panel>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Zusätzliche Eigenschaften
+            </mat-panel-title>
+
+          </mat-expansion-panel-header>
+          <form fxLayout="column" formGroupName="properties">
+            <mat-form-field>
+              <input matInput type="number" placeholder="Telegram ChatId" formControlName="telegram-chatid">
+
+            </mat-form-field>
+          </form>
+        </mat-expansion-panel>
+      </mat-accordion>
+
     </div>
-    <div fxLayout="column">
-      <ha4us-media color="white" backgroundColor="blue" [alt]="userForm.value.fullName" ha4usPick="image"
-        formControlName="avatarUrn" size="128" avatar matTooltip="Klicke um zu ändern"></ha4us-media>
-      <button mat-button type="button" [disabled]="!userForm.get('avatarUrn')"
-        (click)="userForm.get('avatarUrn').setValue(undefined);this.userForm.get('avatarUrn').markAsDirty()">Avatar
-        löschen</button>
-    </div>
+
   </div>
   <div fxLayout="row" fxLayoutAlign="end">
     <button [disabled]="!userForm.dirty || userForm.invalid" mat-button type="submit">Speichern</button>

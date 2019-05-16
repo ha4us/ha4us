@@ -21,33 +21,26 @@ export class UserFormComponent implements OnInit {
 
   @Input() set user(user: Ha4usUser) {
     if (user) {
-      if (user.username) {
-        this.userForm = this.formBuilder.group(
-          {
-            username: [user.username],
-            fullName: [user.fullName, Validators.required],
-            avatarUrn: [user.avatarUrn],
-            roles: [user.roles],
-            password: [user.password, Validators.required],
-            password_repeat: [user.password],
-            tokenExp: [user.tokenExp],
-          },
-          { validators: [this.checkPasswords] }
-        )
-      } else {
-        this.userForm = this.formBuilder.group(
-          {
-            username: [undefined, Validators.required],
-            fullName: [undefined, Validators.required],
-            avatarUrn: [undefined],
-            roles: [user.roles],
-            password: [undefined, Validators.required],
-            password_repeat: [undefined],
-            tokenExp: [undefined],
-          },
-          { validators: [this.checkPasswords] }
-        )
-      }
+      this.userForm = this.formBuilder.group(
+        {
+          username: [
+            user.username,
+            [Validators.required, Validators.pattern(/[a-z0-9]{3,10}/)],
+          ],
+          fullName: [user.fullName, Validators.required],
+          avatarUrn: [user.avatarUrn],
+          roles: [user.roles],
+          password: [user.password, Validators.required],
+          password_repeat: [user.password],
+          tokenExp: [user.tokenExp],
+          properties: this.formBuilder.group({
+            'telegram-chatid': [
+              user.properties && user.properties['telegram-chatid'],
+            ],
+          }),
+        },
+        { validators: [this.checkPasswords] }
+      )
     }
   }
 
@@ -75,6 +68,7 @@ export class UserFormComponent implements OnInit {
         password: user.password,
         roles: user.roles,
         tokenExp: user.tokenExp,
+        properties: user.properties,
       })
     }
   }

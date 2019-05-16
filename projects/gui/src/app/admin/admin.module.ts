@@ -8,6 +8,8 @@ import { MatTooltipModule } from '@angular/material/tooltip'
 import { MatListModule } from '@angular/material/list'
 import { MatSidenavModule } from '@angular/material/sidenav'
 
+import { MatExpansionModule } from '@angular/material/expansion'
+
 import { UsFormsModule } from '@ulfalfa/ng-util'
 
 import { Ha4usModule } from '@ha4us/ng'
@@ -37,6 +39,7 @@ import { UserListEditComponent } from './users/user-list-edit.component'
     MatTooltipModule,
     MatListModule,
     MatSidenavModule,
+    MatExpansionModule,
 
     AdminRoutingModule,
   ],
