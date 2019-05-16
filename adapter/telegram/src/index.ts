@@ -29,7 +29,12 @@ import {
   Ha4usObjectType,
 } from '@ha4us/core'
 
-import * as TelegramBot from 'node-telegram-bot-api'
+import { ContextMessageUpdate, Middleware, Telegraf } from 'telegraf'
+
+// tslint:disable-next-line
+const Graf = require('telegraf');
+const extra = require('telegraf/extra')
+
 import { AlexaUtterance } from './utterances/alexautterance'
 
 import { ShowIntent, TurnOnIntent } from './intents'
@@ -72,18 +77,11 @@ export interface Ha4usTelegramMessage {
   target: string[]
 }
 
+export interface Ha4usBotContext extends ContextMessageUpdate {
+  user: Ha4usUser
+}
+
 const TELEGRAM_ALL = '@all'
-
-/*
-
-// replace the value below with the Telegram token you receive from @BotFather
-const token = 'YOUR_TELEGRAM_BOT_TOKEN';
-
-// Create a bot that uses 'polling' to fetch new updates
-const bot = new TelegramBot(token, {polling: true});
-
-/
- */
 
 function Adapter(
   $log: Ha4usLogger,
@@ -93,25 +91,32 @@ function Adapter(
   $yaml: YamlService,
   $injector: DIContainer,
   $objects: ObjectService,
-  $os: StatefulObjectsService
+  $os: StatefulObjectsService,
+  $media: DBMediaService
 ) {
   const sessions = new Map<number, Ha4usUser>()
-  let bot: TelegramBot = null
 
-  async function auth(msg: TelegramBot.Message) {
-    if (sessions.has(msg.chat.id)) {
-      return true
+  let bot: Telegraf<Ha4usBotContext> = null
+
+  async function auth(
+    ctx: Ha4usBotContext,
+    next?: (ctx: Ha4usBotContext) => any
+  ) {
+    if (sessions.has(ctx.chat.id)) {
+      return next(ctx)
     }
 
-    const users = await $users.getByProperty('telegram-userid', msg.chat.id)
+    $log.debug('Checking auth for ', ctx.chat)
+
+    const users = await $users.getByProperty('telegram-chatid', ctx.chat.id)
 
     if (users.length > 0) {
-      sessions.set(msg.chat.id, users[0])
-      $log.info('%s logged in with %n', users[0].username, msg.chat.id)
-      return true
+      sessions.set(ctx.chat.id, users[0])
+      $log.info('%s logged in with %n', users[0].username, ctx.chat.id)
+      return next(ctx)
     } else {
-      $log.warn('Unauthorized', msg.chat)
-      return false
+      $log.warn('Unauthorized', ctx.chat)
+      return ctx.reply('Unauthorized!')
     }
   }
 
@@ -122,11 +127,12 @@ function Adapter(
     $injector.awilix.register('turnOnIntent', asClass(TurnOnIntent))
 
     await $users.connect()
+    await $media.connect()
 
     // $states.establishCache('$#');
-    bot = new TelegramBot($args.telegramBotkey, { polling: true })
+    bot = new Graf($args.telegramBotkey)
 
-    bot.on('polling_error', e => {
+    bot.catch(e => {
       $log.error('Polling Error', e)
     })
 
@@ -144,57 +150,27 @@ function Adapter(
       })
     })
 
-    bot.onText(/\/start/i, async (msg, match) => {
+    bot.use(auth)
+
+    bot.start(async ctx => {
       $log.debug(
         'Starting for in User %s with id %n',
-        msg.chat.username,
-        msg.chat.id
+        ctx.chat.username,
+        ctx.chat.id
       )
-      if (await auth(msg)) {
-        bot.sendMessage(
-          msg.chat.id,
-          `Logged in as ${sessions.get(msg.chat.id).username}`
-        )
-      } else {
-        bot.sendMessage(msg.chat.id, 'Not allowed')
-      }
+      ctx.reply(`Logged in as ${sessions.get(ctx.chat.id).username}`)
     })
 
-    bot.on('left_chat_member', msg => {
-      $log.debug('Someone left chat', msg)
-    })
-
-    bot.on('text', async msg => {
-      if (!(await auth(msg))) {
-        return
-      }
-      const chatId = msg.chat.id
-      $log.debug(
-        'onText *%s* %j',
-        msg.text,
-        msg.entities,
-        msg.chat.id,
-        msg.chat.username
-      )
-
-      if (msg.text) {
-        if (
-          !sessions.has(chatId) &&
-          (msg.text && !msg.text.match(/^\/start/i))
-        ) {
-          bot.sendMessage(chatId, 'Bitte anmelden mit /start')
-          return
-        }
-
+    bot.on('text', async ctx => {
+      if (ctx.message.text) {
+        $log.debug('Checking message', ctx.message.text)
         const idx = utterances.find(item => {
-          const params: IIntentParams = item.utterance.match(msg.text)
+          const params: IIntentParams = item.utterance.match(ctx.message.text)
           if (params) {
-            $log.debug(params)
             const defaultedParams = defaultsDeep(
               params,
               item.definition.slotDefaults || {}
             )
-            $log.debug(defaultedParams)
 
             $log.debug(
               'Execute %s with',
@@ -211,12 +187,11 @@ function Adapter(
               handler
                 .handleRequest(req, res)
                 .then(() => {
-                  bot.sendMessage(chatId, res.text, { parse_mode: 'Markdown' })
+                  return ctx.reply(res.text, extra.markdown())
                 })
                 .catch(e => {
                   $log.error('Error in intent handler %s', item.intent, e)
-                  bot.sendMessage(
-                    chatId,
+                  return ctx.reply(
                     'Da lief was schief! Frage meinen Erschaffer!'
                   )
                 })
@@ -227,21 +202,17 @@ function Adapter(
           }
           return false
         })
-        if (idx < 0) {
-          bot.sendMessage(chatId, 'Habe nicht verstanden')
+        if (!idx) {
+          const request = ctx.message.text
+          ctx.reply(
+            `Ich habe _${request}_ leider nicht verstanden`,
+            extra.markdown()
+          )
         }
       }
 
       // send a message to the chat acknowledging receipt of their message
       // bot.sendMessage(chatId, 'Received your message');
-    })
-
-    bot.on('channel_post', post => {
-      $log.info('Channel Post', post)
-    })
-
-    bot.on('photo', message => {
-      $log.info('Foto', message)
     })
 
     $objects.install(
@@ -291,15 +262,31 @@ function Adapter(
         }),
         filter(([chatId, event]) => !!chatId)
       )
-      .subscribe(([chatId, event]: [string, Ha4usTelegramMessage]) => {
-        bot.sendMessage(chatId, event.msg)
+      .subscribe(async ([chatId, event]: [string, Ha4usTelegramMessage]) => {
+        bot.telegram.sendMessage(chatId, event.msg, { parse_mode: 'Markdown' })
+
+        /* const media = await $media.getById('5c6425564f1e30b866f411b0')
+
+        const stream = ($media.getReadStream(
+          media
+        ) as unknown) as NodeJS.ReadableStream
+
+        const msg = await bot.telegram.sendPhoto(
+          chatId,
+          { source: stream },
+          {
+            caption: 'Testbild',
+          }
+        )*/
       })
 
+    bot.launch({})
     return true
   }
 
   async function $onDestroy() {
     $log.info('Destroying Telgram Bot')
+    bot.stop()
   }
 
   return {

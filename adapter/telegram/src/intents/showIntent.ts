@@ -11,7 +11,7 @@ import {
 
 const MSG_SUCCESS = `Ok! {{response.length}} {{slots.function}}\
 {{#defined slots.room}} in {{slots.room}}{{/defined}} gefunden!
-{{#each response}}{{default this.object.name this.object.topic}} \
+{{#each response}}{{default this.object.label this.object.topic}} \
 ist {{default (format this.state.val this.object) '_unbekannt_'}}
 {{/each}}`
 const MSG_NOTFOUND = `Entschuldigung! Ich habe kein '{{slots.function}}'\
@@ -44,6 +44,7 @@ export class ShowIntent extends AbstractIntent {
     if (result.length === 0) {
       res.text = this.createText(MSG_NOTFOUND, { slots: req.slots })
     } else {
+      this.$log.debug('Response', result)
       res.text = this.createText(MSG_SUCCESS, {
         response: result,
         slots: req.slots,

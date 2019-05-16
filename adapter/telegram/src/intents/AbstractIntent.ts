@@ -25,19 +25,20 @@ export abstract class AbstractIntent {
       const fnFalse = options.inverse
       return typeof value !== 'undefined' ? fnTrue(this) : fnFalse(this)
     })
-
-    this.handlebars.registerHelper(
-      'format',
-      (value: any, object: Ha4usObject) => {
-        if (object.template) {
-          return render(object.template, value)
-        } else {
-          return value
-        }
+    // tslint:disable-next-line
+    this.handlebars.registerHelper('format', function(
+      value: any,
+      object: Ha4usObject
+    ) {
+      if (object.template) {
+        return render(object.template, value)
+      } else {
+        return value
       }
-    )
+    })
 
-    this.handlebars.registerHelper('default', () => {
+    // tslint:disable-next-line
+    this.handlebars.registerHelper('default', function() {
       for (let i = 0; i < arguments.length - 1; i++) {
         if (
           arguments[i] !== null &&
