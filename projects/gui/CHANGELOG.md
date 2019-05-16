@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/ha4us/ha4us/compare/@ha4us/ng-gui@1.1.0...@ha4us/ng-gui@1.2.0) (2019-05-16)
+
+
+### Features
+
+* **gui:** add user property edit (only for telegram chat id) - more to come ([dcce828](https://github.com/ha4us/ha4us/commit/dcce828))
+* **telegram:** moved back in adapter without mapping ([dad1440](https://github.com/ha4us/ha4us/commit/dad1440))
+
+
+
+
+
 # [1.1.0](https://github.com/ha4us/ha4us/compare/@ha4us/ng-gui@1.0.0...@ha4us/ng-gui@1.1.0) (2019-05-14)
 
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0](https://github.com/ha4us/ha4us/compare/@ha4us/core@1.0.0-beta.3...@ha4us/core@1.0.0) (2019-05-16)
+
+
+### Features
+
+* **telegram:** login by user property - new Ha4usUser Feature properties ([5bd4c11](https://github.com/ha4us/ha4us/commit/5bd4c11))
+
+
+
+
+
 # [1.0.0-beta.3](https://github.com/ha4us/ha4us/compare/@ha4us/core@1.0.0-beta.2...@ha4us/core@1.0.0-beta.3) (2019-05-11)
 
 
