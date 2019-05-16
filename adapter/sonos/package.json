@@ -1,7 +1,6 @@
 {
-
   "name": "@ha4us/sonos.adapter",
-  "version": "0.3.1-alpha.1",
+  "version": "0.4.0",
   "description": "Ha4us Adapter for the sonos system",
   "main": "dist/index.js",
   "author": "ulfalfa",
@@ -16,10 +15,10 @@
     "watch": "nodemon"
   },
   "dependencies": {
-    "debug": "^3.0.1",
-    "got": "^8.3.1",
     "@ha4us/adapter": "^1.1.0",
     "@ha4us/core": "^1.0.0",
+    "debug": "^3.0.1",
+    "got": "^8.3.1",
     "sonos-discovery": "jishi/node-sonos-discovery"
   },
   "peerDependencies": {
@@ -30,5 +29,4 @@
     "@types/got": "^8.3.1",
     "@types/node": "^8.0.7"
   }
-
 }

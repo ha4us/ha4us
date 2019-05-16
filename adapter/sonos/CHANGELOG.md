@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 0.4.0 (2019-05-16)
+
+
+### Features
+
+* **sonos:** upgraded sonos ([097a4e2](https://github.com/ha4us/ha4us/commit/097a4e2))
+
+
+
+
+
 ## 0.3.1-alpha.1 (2019-05-11)
 
 
