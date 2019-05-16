@@ -11,11 +11,7 @@ import {
 
 import { DateTime, DateObject } from 'luxon'
 import { Ha4usMessage, Ha4usError, Matcher, MqttUtil } from '@ha4us/core'
-import {
-  Ha4usMongoAccess,
-  MongoUtils,
-  Db,
-} from '@ha4us/adapter/dist/lib/ha4us-mongo-access'
+import { Ha4usMongoAccess, MongoUtils } from '@ha4us/adapter'
 
 import {
   createEvent,
