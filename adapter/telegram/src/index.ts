@@ -263,7 +263,7 @@ function Adapter(
           .get(target.substr(1).toLowerCase())
           .then(user => {
             if (user.hasOwnProperty('properties')) {
-              return user.properties['telegram-userid']
+              return user.properties['telegram-chatid']
             }
           })
           .catch(e => undefined)
