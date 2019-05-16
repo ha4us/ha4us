@@ -1,6 +1,6 @@
 {
   "name": "@ha4us/telegram.adapter",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Ha4us Bot Adapter for telegram",
   "main": "dist/index.js",
   "author": "ulfalfa",
