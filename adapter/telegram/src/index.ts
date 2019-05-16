@@ -15,6 +15,7 @@ import {
   DBMediaService,
   UserService,
   StatefulObjectsService,
+  CreateObjectMode,
 } from '@ha4us/adapter'
 
 import { DIContainer } from '@ha4us/adapter/dist/lib/di'
@@ -25,6 +26,7 @@ import {
   defaultsDeep,
   MqttUtil,
   Ha4usUser,
+  Ha4usObjectType,
 } from '@ha4us/core'
 
 import * as TelegramBot from 'node-telegram-bot-api'
@@ -33,6 +35,9 @@ import { AlexaUtterance } from './utterances/alexautterance'
 import { ShowIntent, TurnOnIntent } from './intents'
 
 import { IIntentParams, AbstractIntent } from './intents'
+import { map, mergeMap, filter } from 'rxjs/operators'
+import { from, of } from 'rxjs'
+import { unregisterDecorator } from 'handlebars'
 
 const ADAPTER_OPTIONS = {
   name: 'telegram',
@@ -42,6 +47,11 @@ const ADAPTER_OPTIONS = {
       demandOption: true,
       describe: 'the bot key of telegram',
       type: 'string',
+    },
+    allchannel: {
+      demandOption: false,
+      describe: 'the chat id of then channel to use for @all',
+      type: 'number',
     },
   },
   imports: [
@@ -56,6 +66,13 @@ const ADAPTER_OPTIONS = {
     '$os',
   ],
 }
+
+export interface Ha4usTelegramMessage {
+  msg: string
+  target: string[]
+}
+
+const TELEGRAM_ALL = '@all'
 
 /*
 
@@ -97,13 +114,12 @@ function Adapter(
       return false
     }
   }
-  console.log(Object.keys($injector.cradle))
-
-  $injector.awilix.register('showIntent', asClass(ShowIntent))
-  $injector.awilix.register('turnOnIntent', asClass(TurnOnIntent))
 
   async function $onInit() {
     $log.info('Starting telegram')
+
+    $injector.awilix.register('showIntent', asClass(ShowIntent))
+    $injector.awilix.register('turnOnIntent', asClass(TurnOnIntent))
 
     await $users.connect()
 
@@ -227,6 +243,57 @@ function Adapter(
     bot.on('photo', message => {
       $log.info('Foto', message)
     })
+
+    $objects.install(
+      'send/message',
+      {
+        role: 'Value/TextMessage',
+        type: Ha4usObjectType.Object,
+        can: { read: false, write: true, trigger: false },
+      },
+      CreateObjectMode.create
+    )
+
+    async function getChatId(target: string): Promise<number> {
+      if (target === TELEGRAM_ALL) {
+        return $args.telegramAllchannel
+      } else {
+        $log.debug(`Looking for *${target.substr(1).toLowerCase()}*`)
+        return $users
+          .get(target.substr(1).toLowerCase())
+          .then(user => {
+            if (user.hasOwnProperty('properties')) {
+              return user.properties['telegram-userid']
+            }
+          })
+          .catch(e => undefined)
+      }
+    }
+
+    $states
+      .observe('/$set/send/message')
+      .pipe(
+        map(msg => {
+          const event: Ha4usTelegramMessage =
+            typeof msg.val === 'string'
+              ? { msg: msg.val, target: [TELEGRAM_ALL] }
+              : (msg.val as Ha4usTelegramMessage)
+          return event
+        }),
+        mergeMap(event => from(event.target.map(target => [target, event]))),
+        mergeMap(async ([target, event]) => {
+          const chatId = await getChatId(target as string)
+          $log.debug(`Found chatId ${chatId} for target ${target}`)
+          if (!chatId) {
+            $log.warn(`Can't find chatId for target ${target}`)
+          }
+          return [chatId, event]
+        }),
+        filter(([chatId, event]) => !!chatId)
+      )
+      .subscribe(([chatId, event]: [string, Ha4usTelegramMessage]) => {
+        bot.sendMessage(chatId, event.msg)
+      })
 
     return true
   }
