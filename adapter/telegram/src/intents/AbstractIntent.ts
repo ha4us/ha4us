@@ -1,5 +1,5 @@
 import * as Handlebars from 'handlebars'
-import { Ha4usObject, render } from '@ha4us/core'
+import { Ha4usObject, render, Ha4usMessage } from '@ha4us/core'
 
 export interface IIntentParams {
   [any: string]: string
@@ -27,13 +27,18 @@ export abstract class AbstractIntent {
     })
     // tslint:disable-next-line
     this.handlebars.registerHelper('format', function(
-      value: any,
+      value: Ha4usMessage,
       object: Ha4usObject
     ) {
       if (object.template) {
-        return render(object.template, value)
+        try {
+          return render(object.template, value)
+        } catch (e) {
+          console.error(e)
+          return 'N/A'
+        }
       } else {
-        return value
+        return value.val
       }
     })
 

@@ -12,7 +12,7 @@ import {
 const MSG_SUCCESS = `Ok! {{response.length}} {{slots.function}}\
 {{#defined slots.room}} in {{slots.room}}{{/defined}} gefunden!
 {{#each response}}{{default this.object.label this.object.topic}} \
-ist {{default (format this.state.val this.object) '_unbekannt_'}}
+ist {{default (format this.state this.object) '_unbekannt_'}}
 {{/each}}`
 const MSG_NOTFOUND = `Entschuldigung! Ich habe kein '{{slots.function}}'\
 {{#defined slots.room}} in {{slots.room}}{{else}} insgesamt{{/defined}} gefunden!`
