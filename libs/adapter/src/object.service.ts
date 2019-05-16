@@ -71,7 +71,7 @@ export class ObjectService extends Ha4usMongoAccess
         }
       }
       if (query.name) {
-        dbQuery.name = new RegExp('^' + query.name + '$', 'i')
+        dbQuery.label = new RegExp('^' + query.name + '$', 'i')
       }
 
       if (query.role) {
