@@ -6,7 +6,7 @@ import {
   Ha4usOptions,
   ObjectService,
   StateService,
-} from 'ha4us/adapter'
+} from '@ha4us/adapter'
 import {
   extractTags,
   Ha4usLogger,
@@ -14,7 +14,7 @@ import {
   Ha4usObject,
   Ha4usObjectType,
   MqttUtil,
-} from 'ha4us/core'
+} from '@ha4us/core'
 import { from, Observable, Subject } from 'rxjs'
 import {
   filter,
@@ -74,8 +74,6 @@ function Adapter(
     sonos = new Sonos()
 
     const result = await sonos.start()
-
-    $log.debug('Sonos is here', result)
 
     from(result.players)
       .pipe(
