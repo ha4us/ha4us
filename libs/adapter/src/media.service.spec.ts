@@ -11,7 +11,7 @@ import { LoggerMock } from './test/logger.mock'
 
 import { ObjectId } from 'mongodb'
 
-import { DBMediaService, mediaToFile } from './db-media.service'
+import { MediaService, mediaToFile } from './media.service'
 
 import * as lolex from 'lolex'
 
@@ -20,7 +20,7 @@ const ADAY = 1000 * 60 * 60 * 24
 const RASTER_FILE = 'src/test/assets/rasterimage.jpg'
 
 interface Context {
-  ms: DBMediaService
+  ms: MediaService
   mongo: TestMongo
   clock: lolex.Clock
 }
@@ -38,7 +38,7 @@ test.beforeEach(async t => {
 
   t.log(`Database ${testmongo.getUrl()} created`)
   t.context = {
-    ms: new DBMediaService(LoggerMock('test'), {
+    ms: new MediaService(LoggerMock('test'), {
       dbUrl: testmongo.getUrl(),
     }),
     mongo: testmongo,

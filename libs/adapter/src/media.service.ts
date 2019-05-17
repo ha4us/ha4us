@@ -310,7 +310,7 @@ export class MediaService extends Ha4usMongoAccess {
   }
 
   public async put(media: Ha4usMedia): Promise<any> {
-    return this.collection.update(
+    return this.collection.updateOne(
       {
         _id: new ObjectId(media.id),
       },

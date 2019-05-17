@@ -34,14 +34,7 @@ export async function createHa4usContainer(
 
       case '$args':
         c.registerFactory(dep, require('../argument.factory').ArgumentFactory)
-
         break
-      /* case '$maps':
-        c.registerService(dep, require('./map.service').MapService)
-        break
-      case '$config':
-        c.registerService(dep, require('./config.service').ConfigService)
-        break*/
       case '$yaml':
         c.registerService(dep, require('../yaml.service').YamlService)
         break
@@ -50,7 +43,6 @@ export async function createHa4usContainer(
         break
       case '$objects':
         c.registerService(dep, require('../object.service').ObjectService)
-
         break
       case '$os':
         c.registerService(
@@ -59,7 +51,7 @@ export async function createHa4usContainer(
         )
         break
       case '$media':
-        c.registerService(dep, require('../db-media.service').DBMediaService)
+        c.registerService(dep, require('../media.service').MediaService)
         break
       case '$users':
         c.registerService(dep, require('../user.service').UserService)

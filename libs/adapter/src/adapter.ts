@@ -1,14 +1,11 @@
 import { StateService } from './state.service'
 import { ObjectService, CreateObjectMode } from './object.service'
 // Create the container and set the resolutionMode to PROXY (which is also the default).
-import {
-  createHa4usContainer,
-  destroyContainer,
-} from './lib/container.factory'
+import { createHa4usContainer, destroyContainer } from './lib/container.factory'
 
 import { Ha4usLogger, MqttUtil, union } from '@ha4us/core'
 
-import { of, empty } from 'rxjs'
+import { of, empty, EMPTY } from 'rxjs'
 import { mergeMap, tap } from 'rxjs/operators'
 
 import * as readPkgUp from 'read-pkg-up'
@@ -114,7 +111,7 @@ export async function ha4us(options: Ha4usOptions, adapter: AdapterFactory) {
                 },
                 true
               )
-            : empty()
+            : EMPTY
         ),
         mergeMap(() => {
           if ($adapter.$onDestroy) {
