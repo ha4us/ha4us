@@ -11,6 +11,7 @@ import {
   ObjectService,
   CreateObjectMode,
   DBMediaService,
+  MediaService,
   // EventService,
 } from '@ha4us/adapter'
 import {
@@ -71,7 +72,7 @@ export class Sandbox implements Ha4usScriptingEnvironment {
   protected _$yaml: YamlService
   protected _$objects: ObjectService
   protected _scheduler: UsScheduler
-  protected $media: DBMediaService
+  protected $media: MediaService
 
   http = {
     parse: (url: string, query: object) => {
@@ -292,8 +293,8 @@ export class Sandbox implements Ha4usScriptingEnvironment {
     return Math.floor(Math.random() * (max - maxOrMin + 1)) + maxOrMin
   }
 
-  downloadImage(url: string): Promise<string> {
-    return this.$media.getMediaFromUrl(url)
+  downloadImage(url: string, dtl = 30): Promise<any> {
+    return this.$media.postUrl(url, { dtl })
   }
 
   event(msg: string, opt: any) {

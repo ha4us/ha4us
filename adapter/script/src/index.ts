@@ -17,6 +17,7 @@ import {
   ObjectService,
   CreateObjectMode,
   DBMediaService,
+  MediaService,
   // EventService,
 } from '@ha4us/adapter'
 import { Ha4usError, Ha4usRole, MqttUtil, Ha4usObject } from '@ha4us/core'
@@ -89,7 +90,7 @@ function Adapter(
   $states: StateService,
   $yaml,
   $objects: ObjectService,
-  $media: DBMediaService
+  $media: MediaService
   //  $event: EventService
 ) {
   const scripts = new Map<string, Ha4usScript>()

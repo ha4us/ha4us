@@ -88,8 +88,11 @@ export function fileToHa4usMedia(doc: any): Ha4usMedia {
     md5: doc.md5,
   }
 }
-
-export class DBMediaService extends Ha4usMongoAccess {
+/**
+ * @deprecated Renamed to MediaService (without DB)
+ */
+export type DBMediaService = MediaService
+export class MediaService extends Ha4usMongoAccess {
   public static readonly urn = 'urn:ha4us:media'
   protected gfs: GridFSBucket
 
@@ -240,10 +243,7 @@ export class DBMediaService extends Ha4usMongoAccess {
     }
   }
 
-  public get(
-    contentTypePattern: string,
-    tags?: string[]
-  ): Promise<Ha4usMedia[]>
+  public get(contentTypePattern: string, tags?: string[]): Promise<Ha4usMedia[]>
   public get(
     contentTypePattern: string,
     tags: string[],
