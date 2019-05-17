@@ -31,6 +31,7 @@ import {
   compile,
   randomString,
   Ha4usMedia,
+  Ha4usMediaDefinition,
 } from '@ha4us/core'
 
 import * as rxjs from 'rxjs'
@@ -293,8 +294,11 @@ export class Sandbox implements Ha4usScriptingEnvironment {
     return Math.floor(Math.random() * (max - maxOrMin + 1)) + maxOrMin
   }
 
-  downloadImage(url: string, dtl = 30): Promise<any> {
-    return this.$media.postUrl(url, { dtl })
+  downloadImage(
+    url: string,
+    fileOptions: Partial<Ha4usMediaDefinition>
+  ): Promise<string> {
+    return this.$media.postUrl(url, fileOptions).then(data => data.urn)
   }
 
   event(msg: string, opt: any) {
