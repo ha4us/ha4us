@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/ha4us/ha4us/compare/@ha4us/adapter@1.1.0...@ha4us/adapter@1.2.0) (2019-05-17)
+
+
+### Bug Fixes
+
+* **stateful objects:** search for label instead of name ([6522698](https://github.com/ha4us/ha4us/commit/6522698))
+
+
+### Features
+
+* **script.adapter:** add media upload (for camera pics) ([1d35e98](https://github.com/ha4us/ha4us/commit/1d35e98))
+
+
+
+
+
 # [1.1.0](https://github.com/ha4us/ha4us/compare/@ha4us/adapter@1.0.0...@ha4us/adapter@1.1.0) (2019-05-16)
 
 

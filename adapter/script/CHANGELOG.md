@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.6.0](https://github.com/ha4us/ha4us/compare/@ha4us/script.adapter@0.5.3...@ha4us/script.adapter@0.6.0) (2019-05-17)
+
+
+### Features
+
+* **script.adapter:** add media upload (for camera pics) ([1d35e98](https://github.com/ha4us/ha4us/commit/1d35e98))
+* **script.adapter:** add media upload (for camera pics) ([79a3b34](https://github.com/ha4us/ha4us/commit/79a3b34))
+
+
+
+
+
 ## [0.5.3](https://github.com/ha4us/ha4us/compare/@ha4us/script.adapter@0.5.2...@ha4us/script.adapter@0.5.3) (2019-05-16)
 
 **Note:** Version bump only for package @ha4us/script.adapter

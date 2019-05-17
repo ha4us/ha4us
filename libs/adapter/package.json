@@ -1,6 +1,6 @@
 {
   "name": "@ha4us/adapter",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Base modules for running a ha4us adapter",
   "main": "dist/index.js",
   "author": "ulfalfa",

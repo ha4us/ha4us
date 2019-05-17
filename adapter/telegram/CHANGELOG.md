@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.1](https://github.com/ha4us/ha4us/compare/@ha4us/telegram.adapter@0.2.0...@ha4us/telegram.adapter@0.2.1) (2019-05-17)
+
+
+### Bug Fixes
+
+* **telegram:** optimized message handling ([69a8f2a](https://github.com/ha4us/ha4us/commit/69a8f2a))
+
+
+
+
+
 # [0.2.0](https://github.com/ha4us/ha4us/compare/@ha4us/telegram.adapter@0.1.0...@ha4us/telegram.adapter@0.2.0) (2019-05-16)
 
 
