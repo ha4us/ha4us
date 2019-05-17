@@ -18,6 +18,7 @@ import {
   ObjectService,
   YamlService,
   Ha4usArguments,
+  DBMediaService,
   // EventService
 } from '@ha4us/adapter'
 import { Sandbox } from './sandbox.class'
@@ -42,6 +43,7 @@ export interface ScriptOptions {
   $yaml: YamlService
   $states: StateService
   $objects: ObjectService
+  $media: DBMediaService
   // $event: EventService;
 }
 

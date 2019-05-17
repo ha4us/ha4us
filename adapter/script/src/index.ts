@@ -16,6 +16,7 @@ import {
   StateService,
   ObjectService,
   CreateObjectMode,
+  DBMediaService,
   // EventService,
 } from '@ha4us/adapter'
 import { Ha4usError, Ha4usRole, MqttUtil, Ha4usObject } from '@ha4us/core'
@@ -87,7 +88,8 @@ function Adapter(
   $args,
   $states: StateService,
   $yaml,
-  $objects: ObjectService
+  $objects: ObjectService,
+  $media: DBMediaService
   //  $event: EventService
 ) {
   const scripts = new Map<string, Ha4usScript>()
@@ -149,6 +151,7 @@ function Adapter(
 
   async function $onInit() {
     await $objects.connect()
+    await $media.connect()
 
     await $objects.install(
       null,
@@ -181,6 +184,7 @@ function Adapter(
               $yaml,
               $states,
               $objects,
+              $media,
               //  $event,
             })
           )
@@ -235,6 +239,7 @@ function Adapter(
                       $yaml,
                       $states,
                       $objects,
+                      $media,
                       // $event,
                     })
                   )

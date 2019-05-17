@@ -10,6 +10,7 @@ import {
   YamlService,
   ObjectService,
   CreateObjectMode,
+  DBMediaService,
   // EventService,
 } from '@ha4us/adapter'
 import {
@@ -28,6 +29,7 @@ import {
   render,
   compile,
   randomString,
+  Ha4usMedia,
 } from '@ha4us/core'
 
 import * as rxjs from 'rxjs'
@@ -60,7 +62,7 @@ export class Sandbox implements Ha4usScriptingEnvironment {
   public randomString = randomString
 
   protected _modules: {
-    [moduleName: string]: any;
+    [moduleName: string]: any
   } = { path, fs, rxjs, 'rxjs/operators': rxjsoperators }
 
   protected _name: string
@@ -69,6 +71,7 @@ export class Sandbox implements Ha4usScriptingEnvironment {
   protected _$yaml: YamlService
   protected _$objects: ObjectService
   protected _scheduler: UsScheduler
+  protected $media: DBMediaService
 
   http = {
     parse: (url: string, query: object) => {
@@ -100,6 +103,7 @@ export class Sandbox implements Ha4usScriptingEnvironment {
     this._$states = _script.opts.$states
     this._$objects = _script.opts.$objects
     this._$yaml = _script.opts.$yaml
+    this.$media = _script.opts.$media
     this._scheduler = new UsScheduler({
       latitude: _script.opts.$args.lat,
       longitude: _script.opts.$args.long,
@@ -286,6 +290,10 @@ export class Sandbox implements Ha4usScriptingEnvironment {
     }
 
     return Math.floor(Math.random() * (max - maxOrMin + 1)) + maxOrMin
+  }
+
+  downloadImage(url: string): Promise<string> {
+    return this.$media.getMediaFromUrl(url)
   }
 
   event(msg: string, opt: any) {
