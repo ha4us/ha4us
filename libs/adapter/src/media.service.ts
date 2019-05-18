@@ -4,8 +4,6 @@ import * as globby from 'globby'
 import * as mime from 'mime-types'
 import { GridFSBucket, ObjectId } from 'mongodb'
 import * as path from 'path'
-import * as request from 'request'
-import * as got from 'got'
 import axios from 'axios'
 
 import { from } from 'rxjs'
@@ -88,6 +86,11 @@ export function fileToHa4usMedia(doc: any): Ha4usMedia {
     md5: doc.md5,
   }
 }
+
+const MEDIA_URN_PREFIX = 'urn:ha4us:media:'
+
+const MEDIA_REGEX = /^(?:urn:ha4us:media:)([a-z0-9]{24})$/
+
 /**
  * @deprecated Renamed to MediaService (without DB)
  */
@@ -95,6 +98,21 @@ export type DBMediaService = MediaService
 export class MediaService extends Ha4usMongoAccess {
   public static readonly urn = 'urn:ha4us:media'
   protected gfs: GridFSBucket
+
+  static getURN(id: string) {
+    return MEDIA_URN_PREFIX + id
+  }
+
+  static getId(urnOrId: string) {
+    const matchURN = urnOrId.match(MEDIA_REGEX)
+
+    if (matchURN) {
+      const [_, id] = matchURN
+      return id
+    } else {
+      return urnOrId
+    }
+  }
 
   constructor(protected $log: Ha4usLogger, $args: { dbUrl: string }) {
     super($args.dbUrl, 'fs.files')
@@ -151,16 +169,16 @@ export class MediaService extends Ha4usMongoAccess {
       })
   }
 
-  public getById(id: string): Promise<Ha4usMedia> {
-    this.$log.debug('Getting file by id from Database', id)
+  public getById(idOrUrn: string): Promise<Ha4usMedia> {
+    this.$log.debug('Getting file by id from Database', idOrUrn)
     return this.gfs
-      .find({ _id: new ObjectId(id) })
+      .find({ _id: new ObjectId(MediaService.getId(idOrUrn)) })
       .toArray()
       .then((file: Ha4usMedia[]) => {
         if (file.length) {
           return fileToHa4usMedia(file[0])
         } else {
-          throw new Ha4usError(404, `media ${id} not found`)
+          throw new Ha4usError(404, `media ${idOrUrn} not found`)
         }
       })
   }
