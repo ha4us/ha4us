@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://github.com/ha4us/ha4us/compare/@ha4us/adapter@1.2.1...@ha4us/adapter@1.3.0) (2019-05-18)
+
+
+### Features
+
+* **mediaservice:** getting media bei id or (new) from urn ([d848389](https://github.com/ha4us/ha4us/commit/d848389))
+
+
+
+
+
 ## [1.2.1](https://github.com/ha4us/ha4us/compare/@ha4us/adapter@1.2.0...@ha4us/adapter@1.2.1) (2019-05-17)
 
 
