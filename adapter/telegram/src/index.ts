@@ -1,10 +1,4 @@
-import {
-  asClass,
-  asFunction,
-  asValue,
-  createContainer,
-  Lifetime,
-} from 'awilix'
+import { asClass, asFunction, asValue, createContainer, Lifetime } from 'awilix'
 
 import {
   ha4us,
@@ -12,7 +6,7 @@ import {
   StateService,
   ObjectService,
   YamlService,
-  DBMediaService,
+  MediaService,
   UserService,
   StatefulObjectsService,
   CreateObjectMode,
@@ -32,7 +26,7 @@ import {
 import { ContextMessageUpdate, Middleware, Telegraf } from 'telegraf'
 
 // tslint:disable-next-line
-const Graf = require('telegraf');
+const Graf = require('telegraf')
 const extra = require('telegraf/extra')
 
 import { AlexaUtterance } from './utterances/alexautterance'
@@ -74,6 +68,7 @@ const ADAPTER_OPTIONS = {
 
 export interface Ha4usTelegramMessage {
   msg: string
+  image?: string // Ha4us Media URN
   target: string[]
 }
 
@@ -92,7 +87,7 @@ function Adapter(
   $injector: DIContainer,
   $objects: ObjectService,
   $os: StatefulObjectsService,
-  $media: DBMediaService
+  $media: MediaService
 ) {
   const sessions = new Map<number, Ha4usUser>()
 
@@ -263,21 +258,24 @@ function Adapter(
         filter(([chatId, event]) => !!chatId)
       )
       .subscribe(async ([chatId, event]: [string, Ha4usTelegramMessage]) => {
-        bot.telegram.sendMessage(chatId, event.msg, { parse_mode: 'Markdown' })
+        if (event.image) {
+          const media = await $media.getById(event.image)
+          const stream = ($media.getReadStream(
+            media
+          ) as unknown) as NodeJS.ReadableStream
 
-        /* const media = await $media.getById('5c6425564f1e30b866f411b0')
-
-        const stream = ($media.getReadStream(
-          media
-        ) as unknown) as NodeJS.ReadableStream
-
-        const msg = await bot.telegram.sendPhoto(
-          chatId,
-          { source: stream },
-          {
-            caption: 'Testbild',
-          }
-        )*/
+          const msg = await bot.telegram.sendPhoto(
+            chatId,
+            { source: stream },
+            {
+              caption: event.msg,
+            }
+          )
+        } else {
+          bot.telegram.sendMessage(chatId, event.msg, {
+            parse_mode: 'Markdown',
+          })
+        }
       })
 
     bot.launch({})
