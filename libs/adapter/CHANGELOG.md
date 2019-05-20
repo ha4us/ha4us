@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.1](https://github.com/ha4us/ha4us/compare/@ha4us/adapter@1.3.0...@ha4us/adapter@1.3.1) (2019-05-20)
+
+**Note:** Version bump only for package @ha4us/adapter
+
+
+
+
+
 # [1.3.0](https://github.com/ha4us/ha4us/compare/@ha4us/adapter@1.2.1...@ha4us/adapter@1.3.0) (2019-05-18)
 
 
