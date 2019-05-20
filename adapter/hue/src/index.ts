@@ -1,35 +1,22 @@
 import {
+  CreateObjectMode,
+  ha4us,
+  MediaService,
+  ObjectService,
+  StateService,
+} from '@ha4us/adapter'
+import {
+  get,
   Ha4usError,
-  MqttUtil,
   Ha4usObject,
   Ha4usObjectType,
-  isEqual,
+  MqttUtil,
 } from '@ha4us/core'
-
-import {
-  ha4us,
-  StateService,
-  ObjectService,
-  DBMediaService,
-  CreateObjectMode,
-} from '@ha4us/adapter'
-
-import { Observable, of, interval, from, zip, combineLatest } from 'rxjs'
-import {
-  mergeMap,
-  catchError,
-  startWith,
-  filter,
-  count,
-  tap,
-} from 'rxjs/operators'
-
 import { HueApi, upnpSearch } from 'node-hue-api'
-
-import { XY2RGBConverter } from './rgb'
+import { combineLatest, from, interval, of, zip } from 'rxjs'
+import { count, filter, mergeMap, startWith, tap } from 'rxjs/operators'
 import { HUE_MODELS } from './models'
-
-const get = require('lodash.get')
+import { XY2RGBConverter } from './rgb'
 
 const ADAPTER_OPTIONS = {
   name: 'hue',
@@ -61,7 +48,7 @@ function Adapter(
   $args,
   $states: StateService,
   $objects: ObjectService,
-  $media: DBMediaService
+  $media: MediaService
 ) {
   const converterMap: Map<string, XY2RGBConverter> = new Map()
 
@@ -110,9 +97,9 @@ function Adapter(
           })
         }
         objects.push(group)
-      });
+      })
 
-    (await client.lights()).lights.forEach(light => {
+    await client.lights().lights.forEach(light => {
       light._type = 'light'
       const roomName = light2room[light.id]
       light._topic = roomName ? [roomName, light.name].join('/') : light.name
@@ -220,23 +207,23 @@ function Adapter(
             default:
               newObject.can.read = false
               newObject.can.write = false
-              newObject.can.trigger = false;
-              (newObject.role = HUE_MODELS[obj.modelid]
+              newObject.can.trigger = false
+              newObject.role = HUE_MODELS[obj.modelid]
                 ? HUE_MODELS[obj.modelid].role
-                : 'Device/Hue/Unknown'),
-                (newObject.image = HUE_MODELS[obj.modelid]
-                  ? HUE_MODELS[obj.modelid].image
-                  : undefined),
-                (newObject.native = {
-                  id: obj.id,
-                  class: obj.class,
-                  type: obj.type,
-                  lights: obj.lights,
-                  modelid: obj.modelid,
-                  manufacturername: obj.manufacturername,
-                  productname: obj.productname,
-                  uniqueid: obj.uniqueid,
-                })
+                : 'Device/Hue/Unknown'
+              newObject.image = HUE_MODELS[obj.modelid]
+                ? HUE_MODELS[obj.modelid].image
+                : undefined
+              newObject.native = {
+                id: obj.id,
+                class: obj.class,
+                type: obj.type,
+                lights: obj.lights,
+                modelid: obj.modelid,
+                manufacturername: obj.manufacturername,
+                productname: obj.productname,
+                uniqueid: obj.uniqueid,
+              }
               break
           }
           const topic = !state ? obj._topic : MqttUtil.join(obj._topic, state)
