@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 0.3.0 (2019-05-20)
+
+
+### Features
+
+* **fritz.adapter:** added fritz in new structure ([5165ddc](https://github.com/ha4us/ha4us/commit/5165ddc))
+
+
+
+
+
 ## [0.2.1](https://github.com/ha4us/ha4us/compare/ha4us-fritz@0.2.1-alpha.1...ha4us-fritz@0.2.1) (2019-05-14)
 
 

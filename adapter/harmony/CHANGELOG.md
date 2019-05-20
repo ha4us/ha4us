@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 0.4.0 (2019-05-20)
+
+
+### Features
+
+* **harmony:** added harmony in new structure ([c8099e2](https://github.com/ha4us/ha4us/commit/c8099e2))
+
+
+
+
+
 ## [0.3.1](https://github.com/ha4us/ha4us/compare/ha4us-harmony@0.3.1-alpha.1...ha4us-harmony@0.3.1) (2019-05-14)
 
 

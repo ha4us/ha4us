@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "ha4us-landroid",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "a mqtt adapter for a worx landroid lawn mower robot",
   "main": "index.js",
   "author": "ulfalfa",
