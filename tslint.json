@@ -74,9 +74,7 @@
 
     "semicolon": [true, "never"],
     "variable-name": [true, "check-format", "allow-leading-underscore"],
-    "no-namespace": {
-      "severity": "warning"
-    }
+    "no-namespace": false
 
   }
 }

@@ -15,7 +15,7 @@
     "cov": "yarn unit && yarn html-coverage",
     "send-coverage": "nyc report --reporter=lcov > coverage.lcov && codecov",
     "docs": "yarn docs:html && opn build/docs/index.html",
-    "docs:html": "typedoc --options typedoc.json",
+    "docs:html": "typedoc --options typedoc.json --plugin typedoc-plugin-external-module-name",
     "docs:json": "typedoc --mode file --json build/docs/typedoc.json src/index.ts",
     "docs:publish": "yarn docs:html && gh-pages -d build/docs"
   },

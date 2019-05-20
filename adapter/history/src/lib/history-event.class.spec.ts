@@ -1,6 +1,6 @@
 import test from 'ava'
 
-import { Ha4usMessage } from 'ha4us/core'
+import { Ha4usMessage } from '@ha4us/core'
 
 import {
   HistoryEvent,

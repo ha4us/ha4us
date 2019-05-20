@@ -1,4 +1,4 @@
-import { MqttClient } from '@ha4us/core/types'
+import { MqttClient } from '@ha4us/core'
 import { EventEmitter } from 'events'
 
 import * as Debug from 'debug'
@@ -20,7 +20,7 @@ export class MqttClientStub extends EventEmitter implements MqttClient {
     debug('Subscribe', topic)
     const qos: number = opts && opts.qos ? opts.qos : 0
     if (callback) {
-      callback(null, [{ topic: <string>topic, qos: qos }])
+      callback(null, [{ topic: topic as string, qos }])
     }
     return this
   }
@@ -28,7 +28,7 @@ export class MqttClientStub extends EventEmitter implements MqttClient {
     debug('Unsubscribe', topic)
 
     if (callback) {
-      callback(null, { cmd: 'unsubscribe', unsubscriptions: <string[]>topic })
+      callback(null, { cmd: 'unsubscribe', unsubscriptions: topic as string[] })
     }
     return this
   }
@@ -40,14 +40,14 @@ export class MqttClientStub extends EventEmitter implements MqttClient {
   ): this {
     const buffered =
       typeof topic === 'string' && message !== null
-        ? Buffer.from(<string>message)
+        ? Buffer.from(message as string)
         : message
     const packet = {
       cmd: 'publish',
       qos: options.qos,
       dup: false,
       retain: options.retain,
-      topic: topic,
+      topic,
       payload: buffered,
     }
     this.emit('message', topic, buffered, packet)

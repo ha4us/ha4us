@@ -3,18 +3,11 @@ import anyTest, { TestInterface, ExecutionContext } from 'ava'
 import { MongoClient, Db, Server } from 'mongodb'
 
 import { from } from 'rxjs'
-import {
-  take,
-  mergeMap,
-  tap,
-  map,
-  toArray,
-  debounceTime,
-} from 'rxjs/operators'
+import { take, mergeMap, tap, map, toArray, debounceTime } from 'rxjs/operators'
 
 import { HistoryDb, reduceResult, Unit, AggUnit } from './history-db.service'
 
-import { randomString, Ha4usMessage, merge } from 'ha4us/core'
+import { randomString, Ha4usMessage, merge } from '@ha4us/core'
 
 import { loadMessages } from '../test/testloader'
 
