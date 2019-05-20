@@ -1,18 +1,14 @@
 import {
   ha4us,
-  Ha4usLogger,
   Ha4usArguments,
   ObjectService,
   StateService,
-  Ha4usObjectType,
-  DBMediaService,
-} from 'ha4us'
+  MediaService,
+} from '@ha4us/adapter'
 
-import {
-  FritzCallmonitor,
-  EventType,
-  Direction,
-} from './lib/fritz-callmonitor'
+import { Ha4usLogger, Ha4usObjectType } from '@ha4us/core'
+
+import { FritzCallmonitor, EventType, Direction } from './lib/fritz-callmonitor'
 
 import { CardDav, Card } from './lib/carddav'
 import { Subscription } from 'rxjs'
@@ -61,7 +57,7 @@ function Adapter(
   $args: Ha4usArguments,
   $objects: ObjectService,
   $states: StateService,
-  $media: DBMediaService
+  $media: MediaService
 ) {
   let sub: Subscription
   let activeLines = 0

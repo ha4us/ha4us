@@ -1,0 +1,29 @@
+{
+  "name": "@ha4us/fritz.adapter",
+  "version": "0.2.1",
+  "description": "Ha4us Adapter for the avm fritzbox",
+  "main": "dist/index.js",
+  "author": "ulfalfa",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "rimraf dist && yarn build:main",
+    "build:main": "tsc -p tsconfig.json",
+    "watch": "nodemon",
+    "lint": "tslint --project tsconfig.json"
+  },
+  "dependencies": {
+    "@ha4us/adapter": "^1.3.1",
+    "@ha4us/core": "^1.0.1",
+    "dav": "^1.8.0",
+    "libphonenumber-js": "^1.7.14",
+    "luxon": "^1.12.0",
+    "vcard-parser": "^1.0.0",
+    "vcf": "^2.0.4"
+  },
+  "peerDependencies": {
+    "rxjs": "6.x"
+  }
+}
