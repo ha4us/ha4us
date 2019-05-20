@@ -1,8 +1,8 @@
 import { getHarmonyClient, HarmonyClient } from '@harmonyhub/client-ws'
 import { Explorer, HubData } from '@harmonyhub/discover'
-import { ha4us, MqttUtil } from 'ha4us'
-import { ObjectService, StateService } from 'ha4us/adapter'
-import { Ha4usError, Ha4usObjectType } from 'ha4us/core'
+
+import { ObjectService, StateService, ha4us } from '@ha4us/adapter'
+import { Ha4usError, Ha4usObjectType, MqttUtil } from '@ha4us/core'
 import { Subscription } from 'rxjs'
 const ADAPTER_OPTIONS = {
   name: 'harmony',
@@ -128,11 +128,7 @@ function Adapter(
       const config = await client.getAvailableCommands()
       hubs.set(data.friendlyName, { data, client, activities, config })
       activities.forEach(async activity => {
-        const topic = MqttUtil.join(
-          data.friendlyName,
-          ACTIVITY,
-          activity.label
-        )
+        const topic = MqttUtil.join(data.friendlyName, ACTIVITY, activity.label)
         await $objects.install(topic, {
           type: Ha4usObjectType.Boolean,
           role: 'Toggle/Media/Activity',
@@ -184,10 +180,7 @@ function Adapter(
             'Finished activity change = working:false, activate running'
           )
 
-          const activity = resolveActivity(
-            data.friendlyName,
-            digest.activityId
-          )
+          const activity = resolveActivity(data.friendlyName, digest.activityId)
           $states.status(
             MqttUtil.join('$' + data.friendlyName, 'activity', activity.label),
             true,
@@ -234,9 +227,8 @@ function Adapter(
 
     // observing activity changes
     harmonysub = $states.observe('/$set/+/activity/+').subscribe(msg => {
-      let hubName
-      let activityLabel
-      [hubName, activityLabel] = msg.match.params
+      // tslint:disable-next-line
+      let [hubName, activityLabel] = msg.match.params
 
       if (msg.val === false && activityLabel === 'PowerOff') {
         $log.warn('Not able to switch off in power off state')
