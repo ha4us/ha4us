@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.3](https://github.com/ha4us/ha4us/compare/@ha4us/ng-gui@1.2.2...@ha4us/ng-gui@1.2.3) (2019-05-22)
+
+
+### Bug Fixes
+
+* **gui:** fixed problem, that when editing an object, the native field is deleted ([2517b23](https://github.com/ha4us/ha4us/commit/2517b23))
+
+
+
+
+
 ## [1.2.2](https://github.com/ha4us/ha4us/compare/@ha4us/ng-gui@1.2.1...@ha4us/ng-gui@1.2.2) (2019-05-20)
 
 **Note:** Version bump only for package @ha4us/ng-gui
