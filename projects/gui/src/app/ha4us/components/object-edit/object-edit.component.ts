@@ -64,6 +64,7 @@ export class ObjectEditComponent implements OnInit, OnDestroy {
         write: [false],
         trigger: [false],
       }),
+      native: [{}],
     })
     this.objectEditForm.disable()
   }
