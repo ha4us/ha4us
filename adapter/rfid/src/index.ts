@@ -1,41 +1,12 @@
-import { Subject, Subscription, from, of, never } from 'rxjs'
-
 import {
-  mergeMap,
-  switchMap,
-  map,
-  toArray,
-  delay,
-  catchError,
-  filter,
-  onErrorResumeNext,
-} from 'rxjs/operators'
-
-import {
-  ha4us,
-  StateService,
-  ObjectService,
   CreateObjectMode,
-  DBMediaService,
-  MediaService,
-  // EventService,
+  ha4us,
+  ObjectService,
+  StateService,
 } from '@ha4us/adapter'
-import {
-  Ha4usError,
-  Ha4usRole,
-  MqttUtil,
-  Ha4usObject,
-  Ha4usLogger,
-  Ha4usObjectType,
-} from '@ha4us/core'
-
+import { Ha4usLogger, Ha4usObjectType } from '@ha4us/core'
 import { createRfid, RFIDReader } from '@ulfalfa/rfid'
-
-import * as path from 'path'
-import * as fs from 'fs'
-// import * as watch from 'watch';
-
-import * as chokidar from 'chokidar'
+import { Subscription } from 'rxjs'
 
 const ADAPTER_OPTIONS = {
   name: 'rfid',
