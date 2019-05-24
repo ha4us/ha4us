@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.1](https://github.com/ha4us/ha4us/compare/@ha4us/rfid.adapter@0.1.0...@ha4us/rfid.adapter@0.1.1) (2019-05-24)
+
+
+### Bug Fixes
+
+* cleanup and build ([edabda5](https://github.com/ha4us/ha4us/commit/edabda5))
+
+
+
+
+
 # 0.1.0 (2019-05-24)
 
 
