@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.4](https://github.com/ha4us/ha4us/compare/@ha4us/ng-gui@1.2.3...@ha4us/ng-gui@1.2.4) (2019-05-24)
+
+**Note:** Version bump only for package @ha4us/ng-gui
+
+
+
+
+
 ## [1.2.3](https://github.com/ha4us/ha4us/compare/@ha4us/ng-gui@1.2.2...@ha4us/ng-gui@1.2.3) (2019-05-22)
 
 
