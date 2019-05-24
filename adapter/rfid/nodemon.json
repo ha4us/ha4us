@@ -1,9 +1,6 @@
 {
   "restartable": "rs",
-  "ignore": [
-    ".git",
-    "node_modules/**/node_modules"
-  ],
+  "ignore": [".git", "node_modules/**/node_modules", "src/**/*.spec.ts"],
   "verbose": true,
   "execMap": {
     "js": "node"
@@ -11,13 +8,13 @@
   "events": {
     "restart": "osascript -e 'display notification \"App restarted due to:\n'$FILENAME'\" with title \"nodemon\"'"
   },
-  "watch": [
-    "index.js"
-  ],
+  "watch": ["src"],
+  "ext": "ts",
+
+  "exec": "ts-node --project tsconfig.json src/index.ts",
   "env": {
     "NODE_ENV": "development",
     "HA4US_LOGLEVEL": "debug",
-    "HA4US_CHAFON_PORT": "/dev/tty.usbserial"
-  },
-  "ext": "js json"
+    "HA4US_RFID_PORT": "/dev/tty.wchusbserial14320"
+  }
 }

@@ -73,6 +73,7 @@
     "zone.js": "~0.8.26"
   },
   "dependencies": {
+    "@ulfalfa/rfid": "^2.1.1",
     "rxjs": "6.4.x",
     "typedoc-plugin-external-module-name": "^2.1.0"
   },
