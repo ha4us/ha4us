@@ -19,5 +19,8 @@
   },
   "peerDependencies": {
     "rxjs": "6.x"
+  },
+  "dependencies": {
+    "axios": "^0.18.0"
   }
 }
