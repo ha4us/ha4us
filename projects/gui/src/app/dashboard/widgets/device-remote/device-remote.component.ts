@@ -1,7 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core'
-import { Observable } from 'rxjs'
-import { take, map } from 'rxjs/operators'
-import { Ha4usObject } from '@ha4us/core'
+import { Component, Input } from '@angular/core'
 
 import { Ha4usWidget } from '@app/widgets'
 
@@ -23,10 +20,6 @@ import { ObjectService } from '@ha4us/ng'
     },
   ],
 })
-export class DeviceRemoteComponent implements OnInit {
+export class DeviceRemoteComponent {
   @Input() topic: string
-
-  constructor(protected os: ObjectService) {}
-
-  ngOnInit() {}
 }

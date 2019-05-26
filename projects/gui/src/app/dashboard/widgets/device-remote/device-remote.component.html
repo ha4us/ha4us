@@ -1,6 +1,8 @@
 <ha4us-dashboard-card [object]="topic | ha4usObject">
-  <div *ngIf="topic+'/+'|ha4usObject|groupBy:'role' as dps" fxLayout="row wrap">
-    <ha4us-button fxFlex="25" fxFlex.lt-sm="100" *ngFor="let button of dps|get:'Channel/Button'" [topic]="button.topic+'/PRESS_SHORT'"
-      [label]="button.name" value="true"></ha4us-button>
+  <div ha4us-card-content *ngIf="topic+'/+'|ha4usObject|groupBy:'role' as dps" fxLayout="row wrap">
+    <ng-container *ngFor="let button of dps|get:'Channel/Button'">
+      <ha4us-button *ngIf="button.hidden !== true" fxFlexfxFlex.lt-sm="100" [topic]="button.topic+'/PRESS_SHORT'"
+        [label]="button.label" value="true"></ha4us-button>
+    </ng-container>
   </div>
 </ha4us-dashboard-card>
