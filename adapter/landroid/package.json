@@ -1,6 +1,6 @@
 {
   "name": "@ha4us/landroid.adapter",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Worx/Landroid S1500 Adapter for the ha4us",
   "main": "dist/index.js",
   "author": "ulfalfa",
@@ -16,12 +16,6 @@
     "build": "rimraf dist && tsc -p src/tsconfig.main.json",
     "lint": "tslint --project tsconfig.json",
     "watch": "nodemon"
-  },
-  "devDependencies": {
-
-  },
-  "dependencies": {
-
   },
   "peerDependencies": {
     "rxjs": "6.x"
