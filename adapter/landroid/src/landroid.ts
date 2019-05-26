@@ -34,7 +34,6 @@ export interface LandroidData {
   ore_funz: number[]
   ora_on: number[]
   min_on: number[]
-  allarmi: number[]
   /**
    *  [0] "Blade blocked"
    *  [1] "Repositioning error"
@@ -49,7 +48,9 @@ export interface LandroidData {
    *  [10] "Mower tilted"
    *  [11] "Charge error" (Set when "Lifted up"?)
    *  [12] "Battery error"
-   **/
+   *
+   */
+  allarmi: number[]
 
   settaggi: number[]
   mac: number[]

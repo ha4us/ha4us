@@ -63,7 +63,6 @@ function Adapter(
 
   $objects: ObjectService
 ) {
-  let sub: Subscription
   async function $onInit() {
     //  `http://${$args.landroidIp}:80/jsondata.cgi`,
 
