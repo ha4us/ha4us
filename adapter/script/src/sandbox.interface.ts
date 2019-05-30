@@ -7,7 +7,7 @@
 
 import { Observable } from 'rxjs'
 import { Ha4usMessage } from '@ha4us/core'
-import { ScheduleEvent, SimpleTime, SchedulingOptions } from 'us-scheduler'
+import { ScheduleEvent, SimpleTime } from 'us-scheduler'
 /**
  * Logger interface
  */
@@ -72,7 +72,7 @@ export interface Ha4usScriptingEnvironment {
   status(topic: string, value: any, retained: boolean): void
 
   schedule(
-    eventOrOpts: SimpleTime | SchedulingOptions,
+    eventOrOpts: SimpleTime,
     ...times: SimpleTime[]
   ): Observable<ScheduleEvent>
 

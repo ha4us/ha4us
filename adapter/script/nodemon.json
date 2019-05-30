@@ -6,10 +6,9 @@
     "js": "node"
   },
   "events": {
-    "restart":
-      "osascript -e 'display notification \"App restarted due to:\n'$FILENAME'\" with title \"nodemon\"'"
+    "restart": "osascript -e 'display notification \"app restarted\" with title \"nodemon\"'"
   },
-  "watch": ["src"],
+  "watch": ["./src"],
   "ext": "ts",
 
   "exec": "ts-node --project src/tsconfig.main.json src/index.ts",

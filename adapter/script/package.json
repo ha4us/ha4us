@@ -18,6 +18,7 @@
     "watch": "nodemon"
   },
   "devDependencies": {
+    "@types/babel-core": "^6.25.6",
     "@types/cheerio": "^0.22.7",
     "@types/chokidar": "^1.7.5",
     "@types/got": "^8.3.1",
@@ -25,11 +26,13 @@
     "@types/watch": "^1.0.0"
   },
   "dependencies": {
+    "@babel/core": "^7.4.5",
+    "@babel/preset-env": "^7.4.5",
     "@ha4us/adapter": "^1.3.1",
     "@ha4us/core": "^1.0.1",
     "cheerio": "^1.0.0-rc.2",
     "got": "^8.3.1",
-    "us-scheduler": "^1.2.3",
+    "us-scheduler": "^2.2.0",
     "winston": "^2.3.1"
   },
   "peerDependencies": {

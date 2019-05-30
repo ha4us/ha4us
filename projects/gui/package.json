@@ -46,7 +46,7 @@
     "ngx-color": "^2.0.5",
     "ngx-gauge": "^1.0.0-beta.7",
     "ngx-moment": "^3.3.0",
-    "ngx-monaco-editor": "^6.0.0",
+    "ngx-monaco-editor": "^7.0.0",
     "sprintf-js": "^1.1.1",
     "tslib": "^1.9.0",
     "zone.js": "~0.8.26"

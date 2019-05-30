@@ -14,13 +14,17 @@ import {
   MediaService,
   // EventService,
 } from '@ha4us/adapter'
+
+import { DateTime } from 'luxon'
 import {
-  UsScheduler,
   ScheduleEvent,
-  SimpleTime,
-  SchedulingOptions,
-  DateTime,
+  schedule,
+  TimeDefinition,
+  doIn,
+  doAt,
+  cron,
 } from 'us-scheduler'
+
 import {
   Ha4usOperators,
   Ha4usLogger,
@@ -46,10 +50,9 @@ import * as winston from 'winston'
 
 import { Settings } from 'luxon'
 
-import { Ha4usScriptingEnvironment } from './sandbox.interface'
 import { Ha4usScript, ScriptEventType } from './ha4us-script'
 
-export class Sandbox implements Ha4usScriptingEnvironment {
+export class Sandbox {
   stop$ = new rxjs.Subject<void>()
   protected _log: Ha4usLogger
 
@@ -72,7 +75,6 @@ export class Sandbox implements Ha4usScriptingEnvironment {
   protected _$states: StateService
   protected _$yaml: YamlService
   protected _$objects: ObjectService
-  protected _scheduler: UsScheduler
   protected $media: MediaService
 
   http = {
@@ -106,14 +108,14 @@ export class Sandbox implements Ha4usScriptingEnvironment {
     this._$objects = _script.opts.$objects
     this._$yaml = _script.opts.$yaml
     this.$media = _script.opts.$media
-    this._scheduler = new UsScheduler({
+    /*
       latitude: _script.opts.$args.lat,
       longitude: _script.opts.$args.long,
-      customTimes: _script.opts.$args.times,
-    })
+
+    */
   }
 
-  get sandbox(): Ha4usScriptingEnvironment {
+  get sandbox(): Sandbox {
     const resultingSandbox: any = {}
     Object.getOwnPropertyNames(Object.getPrototypeOf(this))
       .filter(
@@ -229,39 +231,39 @@ export class Sandbox implements Ha4usScriptingEnvironment {
     )
   }
 
-  public schedule(
-    eventOrOpts: SimpleTime | SchedulingOptions,
-    ...times: SimpleTime[]
-  ): Observable<ScheduleEvent> {
-    return this._scheduler
-      .schedule(eventOrOpts, ...times)
-      .pipe(rxjsoperators.takeUntil(this.stop$))
+  public emit(topic: string, value: any, retained = true) {
+    return this._$states.status(
+      MqttUtil.join(this._script.name, topic),
+      value,
+      retained
+    )
   }
 
-  public getTimes(now?: DateTime) {
-    return this._scheduler.getTimes(now ? now : this._scheduler.now)
+  public schedule(...times: TimeDefinition[]): Observable<ScheduleEvent> {
+    return schedule(...times, {
+      latitude: this._script.opts.$args.lat,
+      longitude: this._script.opts.$args.long,
+      skipPast: true,
+      skipStart: true,
+      now: DateTime.local().toISO(),
+    }).pipe(rxjsoperators.takeUntil(this.stop$))
   }
 
-  public cron(cronPattern: string): Observable<number> {
-    return this._scheduler
-      .cron(cronPattern)
-      .pipe(rxjsoperators.takeUntil(this.stop$))
+  public cron(cronPattern: string): Observable<DateTime> {
+    return cron(cronPattern, DateTime.local()).pipe(
+      rxjsoperators.takeUntil(this.stop$)
+    )
   }
 
-  public setTimes(...times: string[]) {
-    this._scheduler.setCustomTimes(...times)
-  }
-
-  public doIn(duration: string | number): Observable<ScheduleEvent> {
+  public doIn<T>(duration: string | number, data?: T): Observable<T> {
     this._script.enterDomain()
-    return this._scheduler
-      .in(duration)
-      .pipe(rxjsoperators.takeUntil(this.stop$))
+    return doIn(duration, data).pipe(rxjsoperators.takeUntil(this.stop$))
   }
 
-  public doAt(date: DateTime): Observable<ScheduleEvent> {
+  public doAt<T>(date: DateTime | string, data?: T): Observable<T> {
     this._script.enterDomain()
-    return this._scheduler.at(date).pipe(rxjsoperators.takeUntil(this.stop$))
+    date = typeof date === 'string' ? DateTime.fromISO(date) : date
+    return doAt(date, data).pipe(rxjsoperators.takeUntil(this.stop$))
   }
 
   public load(file: string): any {

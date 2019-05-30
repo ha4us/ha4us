@@ -1,10 +1,16 @@
 import { Injectable } from '@angular/core'
-import { Observable } from 'rxjs'
-import { map, tap, filter } from 'rxjs/operators'
+import { Observable, of, concat, merge } from 'rxjs'
+import { map, tap, filter, toArray } from 'rxjs/operators'
 import { ObjectService } from '@ha4us/ng'
 import { Ha4usRole, Ha4usObject, MqttUtil } from '@ha4us/core'
 import { Ha4usScript } from '../models'
-
+import {
+  HttpClient,
+  HttpParams,
+  HttpRequest,
+  HttpEventType,
+  HttpResponse,
+} from '@angular/common/http'
 export * from '../models'
 
 const debug = require('debug')('ha4us:gui:scripts')
@@ -29,7 +35,7 @@ export class ScriptService {
     )
   )
 
-  constructor(protected os: ObjectService) {}
+  constructor(protected os: ObjectService, protected http: HttpClient) {}
 
   search() {
     this.os.search({ role: Ha4usRole.Script })
@@ -47,6 +53,12 @@ export class ScriptService {
         scripts.filter(script => script.name.indexOf(adapter) === 0)
       )
     )
+  }
+
+  loadHelper(path: string): Observable<string> {
+    return this.http.get('/assets/scriptdef/' + path, {
+      responseType: 'text',
+    })
   }
 
   save(script: Ha4usScript) {

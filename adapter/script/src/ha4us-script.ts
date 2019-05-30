@@ -5,6 +5,8 @@ import * as path from 'path'
 
 import { Subject, timer } from 'rxjs'
 
+import { transform } from '@babel/core'
+
 import {
   Ha4usObject,
   MqttUtil,
@@ -18,7 +20,7 @@ import {
   ObjectService,
   YamlService,
   Ha4usArguments,
-  DBMediaService,
+  MediaService,
   // EventService
 } from '@ha4us/adapter'
 import { Sandbox } from './sandbox.class'
@@ -43,7 +45,7 @@ export interface ScriptOptions {
   $yaml: YamlService
   $states: StateService
   $objects: ObjectService
-  $media: DBMediaService
+  $media: MediaService
   // $event: EventService;
 }
 
@@ -57,7 +59,6 @@ export class Ha4usScript {
   _source: string
   set source(val: string) {
     this._source = val
-    this.compile()
   }
 
   sandbox: Sandbox
@@ -123,13 +124,26 @@ export class Ha4usScript {
     return this
   }
 
+  async transpile(source: string): Promise<string> {
+    return new Promise((resolve, reject) => {
+      transform(source, { presets: ['@babel/preset-env'] }, (err, res) => {
+        if (err) {
+          reject(err)
+        } else {
+          this.$log.debug('Transpiled', res.code)
+          resolve(res.code)
+        }
+      })
+    })
+  }
   async compile(): Promise<Ha4usScript> {
     if (!this._source) {
       throw new Ha4usError(500, `source not available`)
     }
 
-    const extSource = `((async ()=>{${this._source}})())`
     try {
+      const transpiled = await this.transpile(this._source)
+      const extSource = `((async ()=>{${transpiled}})())`
       this.script = new vm.Script(extSource, {
         filename: this.name,
         timeout: 1000,
@@ -162,6 +176,7 @@ export class Ha4usScript {
     if (!this.script) {
       throw new Ha4usError(500, `script is not compiled`)
     }
+    this.$log.debug('Starting script')
     this.emit(ScriptEventType.Error, '')
     const context = vm.createContext(this.sandbox.sandbox)
 
@@ -191,6 +206,7 @@ export class Ha4usScript {
     if (!this.running) {
       return this
     }
+    this.$log.debug('Stopping script')
 
     this.sandbox.stop$.next()
 
@@ -211,6 +227,7 @@ export class Ha4usScript {
   }
 
   async restart() {
+    this.$log.debug('Restarting script')
     await this.stop()
 
     if (this.autostart === true) {

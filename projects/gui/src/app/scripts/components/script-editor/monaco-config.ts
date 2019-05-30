@@ -6,71 +6,83 @@ import { ScriptService } from '../../services/script.service'
 
 import Editor = monaco.editor
 
-function createHa4usSnippets(): monaco.languages.CompletionItem[] {
-    // returning a static list of proposals, not even looking at the prefix (filtering is done by the Monaco editor),
-    // here you could do a server side lookup
-    return [
-        {
-            label: 'observe',
-            filterText: 'observe',
-            documentation: `public observe(topic: string, ...params: any[]) {
-    return this._services.$states.observe(topic, ...params)
-  }`,
-            kind: monaco.languages.CompletionItemKind.Method,
-            insertText: {
-                value: ['observe (${1:topic}).pipe().subscribe(', ')'].join(
-                    '\n'
-                ),
-            },
-            detail: 'ha4us',
-        },
-    ]
-}
-
 @Injectable()
 export class MonacoConfig implements NgxMonacoEditorConfig {
-    constructor(protected scripts: ScriptService) {}
+  constructor(protected scripts: ScriptService) {}
 
-    defaultOptions: Editor.IEditorOptions = {
-        fontSize: 16,
-        minimap: { enabled: false },
-    }
-    onMonacoLoad() {
-        monaco.languages.registerCompletionItemProvider('javascript', {
-            triggerCharacters: ['$'],
-            provideCompletionItems: (
-                model,
-                position,
-                token,
-                context
-            ):
-                | Promise<monaco.languages.CompletionItem[]>
-                | monaco.languages.CompletionItem[] => {
-                if (context.triggerCharacter === '$') {
-                    return this.scripts.topics$
-                        .pipe(
-                            map((tree: string[]) =>
-                                tree.map(node => {
-                                    return {
-                                        label: node,
-                                        filterText: '$' + node,
-                                        kind:
-                                            monaco.languages.CompletionItemKind
-                                                .Text,
-                                        // documentation: 'The Lodash library exported as Node.js modules.',
-                                        insertText: `'${node}'`,
-                                        detail: 'ha4us',
-                                    }
-                                })
-                            ),
+  defaultOptions: Editor.IEditorOptions = {
+    fontSize: 16,
+    minimap: { enabled: false },
+  }
+  onMonacoLoad() {
+    monaco.languages.typescript.javascriptDefaults.setDiagnosticsOptions({
+      noSemanticValidation: true,
+      noSyntaxValidation: false,
+    })
 
-                            take(1)
-                        )
-                        .toPromise()
-                } else {
-                    return createHa4usSnippets()
+    // compiler options
+    monaco.languages.typescript.javascriptDefaults.setCompilerOptions({
+      moduleResolution: monaco.languages.typescript.ModuleResolutionKind.NodeJs,
+      module: monaco.languages.typescript.ModuleKind.CommonJS,
+      target: monaco.languages.typescript.ScriptTarget.ES2018,
+      allowNonTsExtensions: true,
+      checkJs: true,
+      typeRoots: ['node_modules/@types'],
+    })
+    this.scripts.loadHelper('luxon.d.ts').subscribe(data => {
+      console.log('DATA', data)
+      monaco.languages.typescript.javascriptDefaults.addExtraLib(
+        data,
+        'node_modules/@types/luxon.d.ts'
+      )
+    })
+    this.scripts.loadHelper('rxjs.d.ts').subscribe(data => {
+      console.log('DATA', data)
+      monaco.languages.typescript.javascriptDefaults.addExtraLib(
+        data,
+        'rxjs.d.ts'
+      )
+    })
+
+    this.scripts.loadHelper('./ha4us.d.ts').subscribe(data => {
+      console.log('DATA', data)
+      monaco.languages.typescript.javascriptDefaults.addExtraLib(data, 'global')
+    })
+
+    monaco.languages.registerCompletionItemProvider('javascript', {
+      provideCompletionItems: (
+        model,
+        position,
+        context,
+        token
+      ): monaco.languages.ProviderResult<monaco.languages.CompletionList> => {
+        const lastChar = model.getWordAtPosition(position)
+        console.log(lastChar)
+        //  if (context.triggerCharacter === '$') {
+        return this.scripts.topics$
+          .pipe(
+            map((tree: string[]) =>
+              tree.map(node => {
+                return {
+                  label: node,
+                  kind: monaco.languages.CompletionItemKind.Value,
+                  // documentation: '',
+                  insertText: `'${node}'`,
+                  detail: 'ha4us-topic',
                 }
-            },
-        })
-    }
+              })
+            ),
+
+            take(1)
+          )
+          .toPromise()
+          .then(suggestions => ({
+            suggestions,
+          })) as monaco.languages.ProviderResult<
+          monaco.languages.CompletionList
+        >
+        // }
+      },
+    })
+  }
 }

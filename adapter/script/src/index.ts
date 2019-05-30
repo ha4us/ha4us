@@ -1,4 +1,13 @@
-import { Subject, Subscription, from, of, never } from 'rxjs'
+import {
+  Subject,
+  Subscription,
+  from,
+  of,
+  never,
+  NEVER,
+  interval,
+  timer,
+} from 'rxjs'
 
 import {
   mergeMap,
@@ -20,12 +29,18 @@ import {
   MediaService,
   // EventService,
 } from '@ha4us/adapter'
-import { Ha4usError, Ha4usRole, MqttUtil, Ha4usObject } from '@ha4us/core'
+import {
+  Ha4usError,
+  Ha4usRole,
+  MqttUtil,
+  Ha4usObject,
+  Ha4usObjectType,
+} from '@ha4us/core'
 
 import { Sandbox } from './sandbox.class'
 import { Ha4usScript, ScriptEventType } from './ha4us-script'
 
-import { UsScheduler } from 'us-scheduler'
+import { schedule, SunTimes } from 'us-scheduler'
 
 import * as path from 'path'
 import * as fs from 'fs'
@@ -57,13 +72,6 @@ const ADAPTER_OPTIONS = {
       demandOption: false,
       describe: 'Longitutde for sun calculation',
       type: 'number',
-    },
-    times: {
-      alias: 'times',
-      default: '',
-      demandOption: false,
-      describe: 'List of custom times',
-      type: 'string',
     },
     watch: {
       alias: 'w',
@@ -164,6 +172,7 @@ function Adapter(
       'sun',
       {
         role: 'value/sunposition',
+        type: Ha4usObjectType.Object,
         can: { read: false, write: false, trigger: true },
       },
       CreateObjectMode.create
@@ -225,7 +234,7 @@ function Adapter(
                     event.val.object.native.autostart
                   )
 
-                  return script.restart()
+                  return script.compile().then(() => script.restart())
                 case 'insert':
                   if (script) {
                     throw new Ha4usError(
@@ -266,7 +275,7 @@ function Adapter(
             }),
             catchError(e => {
               $log.error(`action errored: ${e.message}`)
-              return never()
+              return NEVER
             })
           )
         })
@@ -308,7 +317,7 @@ function Adapter(
                     e.message
                   }`
                 )
-                return never()
+                return NEVER
               })
             )
           })
@@ -334,18 +343,17 @@ function Adapter(
       throw new Error('No script directory given')
     }
 
-    const scheduler = new UsScheduler({
+    const st = new SunTimes({
       latitude: $args.lat,
       longitude: $args.long,
-      customTimes: $args.times,
     })
-
     sub.add(
-      scheduler.sunPositions(1).subscribe(pos => {
-        $log.debug('Sunposition', pos)
-        const { azimuth, altitude } = pos
-        $states.status('$sun', { azimuth, altitude }, true)
-      })
+      timer(0, 300000)
+        .pipe(map(() => st.sun))
+        .subscribe(position => {
+          $log.debug('Sunposition', position)
+          $states.status('$sun', position, true)
+        })
     )
 
     sub.add(
