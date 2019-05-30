@@ -1917,16 +1917,6 @@
   dependencies:
     "@types/node" "*"
 
-"@types/chai-as-promised@^7.1.0":
-  version "7.1.0"
-  resolved "https://registry.yarnpkg.com/@types/chai-as-promised/-/chai-as-promised-7.1.0.tgz#010b04cde78eacfb6e72bfddb3e58fe23c2e78b9"
-  dependencies:
-    "@types/chai" "*"
-
-"@types/chai@*":
-  version "4.1.7"
-  resolved "https://registry.yarnpkg.com/@types/chai/-/chai-4.1.7.tgz#1b8e33b61a8c09cbe1f85133071baa0dbf9fa71a"
-
 "@types/cheerio@^0.22.7":
   version "0.22.11"
   resolved "https://registry.yarnpkg.com/@types/cheerio/-/cheerio-0.22.11.tgz#61c0facf9636d14ba5f77fc65ed8913aa845d717"
@@ -2015,7 +2005,7 @@
     "@types/mongodb" "*"
     "@types/node" "*"
 
-"@types/handlebars@^4.0.36", "@types/handlebars@^4.0.38":
+"@types/handlebars@^4.0.38":
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/@types/handlebars/-/handlebars-4.1.0.tgz#3fcce9bf88f85fe73dc932240ab3fb682c624850"
   dependencies:
@@ -2490,37 +2480,12 @@ ajv@^6.1.0, ajv@^6.5.5:
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
 
-alexa-app@^4.2.0:
-  version "4.2.3"
-  resolved "https://registry.yarnpkg.com/alexa-app/-/alexa-app-4.2.3.tgz#394ef21368a1ef048d45bd4b42ae4cad958da9bf"
-  dependencies:
-    "@types/chai-as-promised" "^7.1.0"
-    alexa-utterances "^0.2.0"
-    alexa-verifier-middleware "^1.0.0"
-    bluebird "^2.10.2"
-    body-parser "^1.15.2"
-    lodash.defaults "^4.2.0"
-    numbered "^1.0.0"
-
-alexa-utterances@^0.2.0, alexa-utterances@^0.2.1:
+alexa-utterances@^0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/alexa-utterances/-/alexa-utterances-0.2.1.tgz#f2b70b6afd3ad886711da8f994e7e49549e60bf1"
   dependencies:
     js-combinatorics "^0.5.0"
     numbered "^1.0.0"
-
-alexa-verifier-middleware@^1.0.0:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/alexa-verifier-middleware/-/alexa-verifier-middleware-1.0.2.tgz#395858b8b78297a208f4a03f698edcca6abb7b26"
-  dependencies:
-    alexa-verifier "^2.0.1"
-
-alexa-verifier@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/alexa-verifier/-/alexa-verifier-2.0.1.tgz#90bf4e08b5c8aa9073e211e9cd1dbc43acc69b83"
-  dependencies:
-    node-forge "^0.7.0"
-    validator "^9.0.0"
 
 amdefine@>=0.0.4:
   version "1.0.1"
@@ -2920,20 +2885,6 @@ awilix@^3.0.9:
     camel-case "^3.0.0"
     glob "^7.1.2"
 
-aws-sdk@^2.132.0:
-  version "2.452.0"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.452.0.tgz#b33c29c4250d45a803f9b8b26dedacc96f60699d"
-  dependencies:
-    buffer "4.9.1"
-    events "1.1.1"
-    ieee754 "1.1.8"
-    jmespath "0.15.0"
-    querystring "0.2.0"
-    sax "1.2.1"
-    url "0.10.3"
-    uuid "3.3.2"
-    xml2js "0.4.19"
-
 aws-sign2@~0.7.0:
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/aws-sign2/-/aws-sign2-0.7.0.tgz#b46e890934a9591f2d2f6f86d7e6a9f1b3fe76a8"
@@ -3167,10 +3118,6 @@ blocking-proxy@^1.0.0:
   dependencies:
     minimist "^1.2.0"
 
-bluebird@^2.10.2:
-  version "2.11.0"
-  resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-2.11.0.tgz#534b9033c022c9579c56ba3b3e5a5caafbb650e1"
-
 bluebird@^3.3.0, bluebird@^3.5.0, bluebird@^3.5.1, bluebird@^3.5.3:
   version "3.5.4"
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.5.4.tgz#d6cc661595de30d5b3af5fcedd3c0b3ef6ec5714"
@@ -3194,7 +3141,7 @@ body-parser@1.18.3:
     raw-body "2.3.3"
     type-is "~1.6.16"
 
-body-parser@1.19.0, body-parser@^1.15.2, body-parser@^1.16.1, body-parser@^1.18.1, body-parser@^1.18.3:
+body-parser@1.19.0, body-parser@^1.16.1, body-parser@^1.18.1, body-parser@^1.18.3:
   version "1.19.0"
   resolved "https://registry.yarnpkg.com/body-parser/-/body-parser-1.19.0.tgz#96b2709e57c9c4e09a6fd66a8fd979844f69f08a"
   dependencies:
@@ -3392,7 +3339,7 @@ buffer-xor@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/buffer-xor/-/buffer-xor-1.0.3.tgz#26e61ed1422fb70dd42e6e36729ed51d855fe8d9"
 
-buffer@4.9.1, buffer@^4.3.0:
+buffer@^4.3.0:
   version "4.9.1"
   resolved "https://registry.yarnpkg.com/buffer/-/buffer-4.9.1.tgz#6d1bb601b07a4efced97094132093027c95bc298"
   dependencies:
@@ -5659,10 +5606,6 @@ eventemitter3@^3.0.0, eventemitter3@^3.1.0:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/eventemitter3/-/eventemitter3-3.1.2.tgz#2d3d48f9c346698fce83a85d7d664e98535df6e7"
 
-events@1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/events/-/events-1.1.1.tgz#9ebdb7635ad099c70dcc4c2a1f5004288e8bd924"
-
 events@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/events/-/events-3.0.0.tgz#9a0a0dfaf62893d92b875b8f2698ca4114973e88"
@@ -6648,37 +6591,6 @@ gzip-size@^5.0.0:
     duplexer "^0.1.1"
     pify "^4.0.1"
 
-ha4us@^0.2.3:
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/ha4us/-/ha4us-0.2.3.tgz#e7aa5e38c4e7124a4851c95578887462e2442b54"
-  dependencies:
-    "@types/express" "^4.0.37"
-    "@types/gridfs-stream" "^0.5.30"
-    "@types/jsonwebtoken" "^7.2.3"
-    "@types/mongodb" "^2.2.11"
-    "@types/node" "^8.0.7"
-    "@types/winston" "^2.3.3"
-    awilix "^2.4.0"
-    bcryptjs "^2.4.3"
-    body-parser "^1.18.1"
-    cookie-parser "^1.4.3"
-    debug "^2.6.8"
-    express "^4.15.4"
-    fast-json-patch "^2.0.2"
-    gridfs-stream "^1.1.1"
-    js-yaml "^3.8.4"
-    jsonwebtoken "^8.0.1"
-    mime-types "^2.1.17"
-    mongodb "^2.2.29"
-    mqtt "^2.9.0"
-    mqtt-ha4us "^0.0.4"
-    multer "^1.3.0"
-    obj-ease "^1.0.0"
-    object-hash "^1.1.8"
-    request "^2.81.0"
-    winston "^2.3.1"
-    yargs yargs/yargs
-
 ha4us@^0.5.0:
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/ha4us/-/ha4us-0.5.0.tgz#87075ea2046d9483b640db2fd92ec289a4f22919"
@@ -6719,7 +6631,7 @@ handle-thing@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/handle-thing/-/handle-thing-2.0.0.tgz#0e039695ff50c93fc288557d696f3c1dc6776754"
 
-handlebars@*, handlebars@^4.0.10, handlebars@^4.0.11, handlebars@^4.0.6, handlebars@^4.1.0, handlebars@^4.1.2:
+handlebars@*, handlebars@^4.0.10, handlebars@^4.0.6, handlebars@^4.1.0, handlebars@^4.1.2:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/handlebars/-/handlebars-4.1.2.tgz#b6b37c1ced0306b221e094fc7aca3ec23b131b67"
   dependencies:
@@ -7005,10 +6917,6 @@ iconv-lite@0.4.23:
   dependencies:
     safer-buffer ">= 2.1.2 < 3"
 
-ieee754@1.1.8:
-  version "1.1.8"
-  resolved "https://registry.yarnpkg.com/ieee754/-/ieee754-1.1.8.tgz#be33d40ac10ef1926701f6f08a2d86fbfd1ad3e4"
-
 ieee754@^1.1.4:
   version "1.1.13"
   resolved "https://registry.yarnpkg.com/ieee754/-/ieee754-1.1.13.tgz#ec168558e95aa181fd87d37f55c32bbcb6708b84"
@@ -7207,10 +7115,6 @@ inquirer@^6.2.0:
     string-width "^2.1.0"
     strip-ansi "^5.1.0"
     through "^2.3.6"
-
-install@^0.10.1:
-  version "0.10.4"
-  resolved "https://registry.yarnpkg.com/install/-/install-0.10.4.tgz#9cb09115768b93a582d1450a6ba3f275975b49aa"
 
 internal-ip@^3.0.1:
   version "3.0.1"
@@ -7765,10 +7669,6 @@ java-properties@^0.2.9:
   version "0.2.10"
   resolved "https://registry.yarnpkg.com/java-properties/-/java-properties-0.2.10.tgz#2551560c25fa1ad94d998218178f233ad9b18f60"
 
-jmespath@0.15.0:
-  version "0.15.0"
-  resolved "https://registry.yarnpkg.com/jmespath/-/jmespath-0.15.0.tgz#a3f222a9aae9f966f5d27c796510e28091764217"
-
 js-base64@^2.1.8:
   version "2.5.1"
   resolved "https://registry.yarnpkg.com/js-base64/-/js-base64-2.5.1.tgz#1efa39ef2c5f7980bb1784ade4a8af2de3291121"
@@ -7882,7 +7782,7 @@ jsonparse@^1.2.0:
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/jsonparse/-/jsonparse-1.3.1.tgz#3f4dae4a91fac315f71062f8521cc239f1366280"
 
-jsonwebtoken@^8.0.1, jsonwebtoken@^8.1.0, jsonwebtoken@^8.3.0:
+jsonwebtoken@^8.0.1, jsonwebtoken@^8.3.0:
   version "8.5.1"
   resolved "https://registry.yarnpkg.com/jsonwebtoken/-/jsonwebtoken-8.5.1.tgz#00e71e0b8df54c2121a1f26137df2280673bcc0d"
   dependencies:
@@ -8377,10 +8277,6 @@ lodash.clonedeepwith@^4.5.0:
 lodash.debounce@^4.0.3, lodash.debounce@^4.0.8:
   version "4.0.8"
   resolved "https://registry.yarnpkg.com/lodash.debounce/-/lodash.debounce-4.0.8.tgz#82d79bff30a67c4005ffd5e2515300ad9ca4d7af"
-
-lodash.defaults@^4.2.0:
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/lodash.defaults/-/lodash.defaults-4.2.0.tgz#d09178716ffea4dde9e5fb7b37f6f0802274580c"
 
 lodash.difference@^4.3.0:
   version "4.5.0"
@@ -9282,10 +9178,6 @@ node-fetch@^2.3.0:
 node-forge@0.7.5:
   version "0.7.5"
   resolved "https://registry.yarnpkg.com/node-forge/-/node-forge-0.7.5.tgz#6c152c345ce11c52f465c2abd957e8639cd674df"
-
-node-forge@^0.7.0:
-  version "0.7.6"
-  resolved "https://registry.yarnpkg.com/node-forge/-/node-forge-0.7.6.tgz#fdf3b418aee1f94f0ef642cd63486c77ca9724ac"
 
 node-gyp@^3.8.0:
   version "3.8.0"
@@ -11334,7 +11226,7 @@ rxjs@6.4.x:
   dependencies:
     tslib "^1.9.0"
 
-rxjs@^5.4.2, rxjs@^5.4.3:
+rxjs@^5.4.2:
   version "5.5.12"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-5.5.12.tgz#6fa61b8a77c3d793dbaf270bee2f43f652d741cc"
   dependencies:
@@ -11403,10 +11295,6 @@ sax@0.4.x:
 sax@0.5.x:
   version "0.5.8"
   resolved "https://registry.yarnpkg.com/sax/-/sax-0.5.8.tgz#d472db228eb331c2506b0e8c15524adb939d12c1"
-
-sax@1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.1.tgz#7b8e656190b228e81a66aea748480d828cd2d37a"
 
 sax@>=0.6.0, sax@^1.2.4:
   version "1.2.4"
@@ -13079,13 +12967,6 @@ url-to-options@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/url-to-options/-/url-to-options-1.0.1.tgz#1505a03a289a48cbd7a434efbaeec5055f5633a9"
 
-url@0.10.3:
-  version "0.10.3"
-  resolved "https://registry.yarnpkg.com/url/-/url-0.10.3.tgz#021e4d9c7705f21bbf37d03ceb58767402774c64"
-  dependencies:
-    punycode "1.3.2"
-    querystring "0.2.0"
-
 url@^0.11.0:
   version "0.11.0"
   resolved "https://registry.yarnpkg.com/url/-/url-0.11.0.tgz#3838e97cfc60521eb73c525a8e55bfdd9e2e28f1"
@@ -13152,7 +13033,7 @@ utils-merge@1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/utils-merge/-/utils-merge-1.0.1.tgz#9f95710f50a267947b2ccc124741c1028427e713"
 
-uuid@3.3.2, uuid@^3.0.1, uuid@^3.3.2:
+uuid@^3.0.1, uuid@^3.3.2:
   version "3.3.2"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.3.2.tgz#1b4af4955eb3077c501c23872fc6513811587131"
 
@@ -13168,10 +13049,6 @@ validate-npm-package-name@^3.0.0, validate-npm-package-name@~3.0.0:
   resolved "https://registry.yarnpkg.com/validate-npm-package-name/-/validate-npm-package-name-3.0.0.tgz#5fa912d81eb7d0c74afc140de7317f0ca7df437e"
   dependencies:
     builtins "^1.0.3"
-
-validator@^9.0.0:
-  version "9.4.1"
-  resolved "https://registry.yarnpkg.com/validator/-/validator-9.4.1.tgz#abf466d398b561cd243050112c6ff1de6cc12663"
 
 vary@~1.1.1, vary@~1.1.2:
   version "1.1.2"
@@ -13621,7 +13498,7 @@ xml-flow@^1.0.1:
   dependencies:
     sax "^1.2.4"
 
-xml2js@0.4.19, xml2js@^0.4.17, xml2js@~0.4:
+xml2js@^0.4.17, xml2js@~0.4:
   version "0.4.19"
   resolved "https://registry.yarnpkg.com/xml2js/-/xml2js-0.4.19.tgz#686c20f213209e94abf0d1bcf1efaa291c7827a7"
   dependencies:

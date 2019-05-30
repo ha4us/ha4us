@@ -1,24 +1,10 @@
 import { IHa4usLogger } from 'ha4us/adapter'
 import { Ha4usError } from 'ha4us/core'
 import { StatesService } from 'ha4us/adapter/features'
-import {
-  MongoClient,
-  Db,
-  Collection,
-  Cursor,
-  AggregationCursor,
-} from 'mongodb'
+import { MongoClient, Db, Collection, Cursor, AggregationCursor } from 'mongodb'
 import { cursorToRx } from 'ha4us/adapter/features/mongoFactory'
 import * as got from 'got'
-import { Observable } from 'rxjs/Observable'
-
-import 'rxjs/add/observable/from'
-import 'rxjs/add/operator/toArray'
-import 'rxjs/add/operator/toPromise'
-import 'rxjs/add/operator/map'
-import 'rxjs/add/operator/do'
-import 'rxjs/add/operator/mergeMap'
-import 'rxjs/add/operator/concatMap'
+import { Observable } from 'rxjs'
 
 export interface IAlexaEndpoint {
   endpointId: string
@@ -38,31 +24,31 @@ export interface CustomSkill {
 export interface IAlexaRequest {
   directive: {
     header: {
-      namespace: string;
-      name: string;
-      payloadVersion: string;
-      messageId: string;
-      correlationToken?: string;
-    };
-    payload: any;
-    endpoint?: IAlexaEndpoint;
+      namespace: string
+      name: string
+      payloadVersion: string
+      messageId: string
+      correlationToken?: string
+    }
+    payload: any
+    endpoint?: IAlexaEndpoint
   }
 }
 
 export interface IAlexaResponse {
   event: {
     header: {
-      namespace: string;
-      name: string;
-      payloadVersion: string;
-      messageId: string;
-      correlationToken?: string;
-    };
+      namespace: string
+      name: string
+      payloadVersion: string
+      messageId: string
+      correlationToken?: string
+    }
     payload: {
-      endpoints?: IAlexaEndpoint[];
-      [prop: string]: any;
-    };
-    endpoint?: IAlexaEndpoint;
+      endpoints?: IAlexaEndpoint[]
+      [prop: string]: any
+    }
+    endpoint?: IAlexaEndpoint
   }
 }
 
