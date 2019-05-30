@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://github.com/ha4us/ha4us/compare/@ha4us/ng-gui@1.2.5...@ha4us/ng-gui@1.3.0) (2019-05-30)
+
+
+### Features
+
+* **scripts:** updated to a new scheduler and added typedefinitions for editor and added babel for u ([315bffd](https://github.com/ha4us/ha4us/commit/315bffd))
+
+
+
+
+
 ## [1.2.5](https://github.com/ha4us/ha4us/compare/@ha4us/ng-gui@1.2.4...@ha4us/ng-gui@1.2.5) (2019-05-26)
 
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.7.0](https://github.com/ha4us/ha4us/compare/@ha4us/script.adapter@0.6.4...@ha4us/script.adapter@0.7.0) (2019-05-30)
+
+
+### Features
+
+* **scripts:** updated to a new scheduler and added typedefinitions for editor and added babel for u ([315bffd](https://github.com/ha4us/ha4us/commit/315bffd))
+
+
+
+
+
 ## [0.6.4](https://github.com/ha4us/ha4us/compare/@ha4us/script.adapter@0.6.3...@ha4us/script.adapter@0.6.4) (2019-05-20)
 
 **Note:** Version bump only for package @ha4us/script.adapter
