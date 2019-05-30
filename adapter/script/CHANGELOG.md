@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.1](https://github.com/ha4us/ha4us/compare/@ha4us/script.adapter@0.7.0...@ha4us/script.adapter@0.7.1) (2019-05-30)
+
+
+### Bug Fixes
+
+* **script:** transpiling to the correct nodejs version (include aysync) ([c9b7a41](https://github.com/ha4us/ha4us/commit/c9b7a41))
+
+
+
+
+
 # [0.7.0](https://github.com/ha4us/ha4us/compare/@ha4us/script.adapter@0.6.4...@ha4us/script.adapter@0.7.0) (2019-05-30)
 
 

@@ -1,6 +1,6 @@
 {
   "name": "@ha4us/script.adapter",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Scripting Adapter for the ha4us",
   "main": "dist/index.js",
   "author": "ulfalfa",
