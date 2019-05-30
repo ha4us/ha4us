@@ -263,7 +263,9 @@ export class Sandbox {
   public doAt<T>(date: DateTime | string, data?: T): Observable<T> {
     this._script.enterDomain()
     date = typeof date === 'string' ? DateTime.fromISO(date) : date
-    return doAt(date, data).pipe(rxjsoperators.takeUntil(this.stop$))
+    return doAt(date, data, DateTime.local()).pipe(
+      rxjsoperators.takeUntil(this.stop$)
+    )
   }
 
   public load(file: string): any {
