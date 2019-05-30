@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.2](https://github.com/ha4us/ha4us/compare/@ha4us/script.adapter@0.7.1...@ha4us/script.adapter@0.7.2) (2019-05-30)
+
+
+### Bug Fixes
+
+* **script:** sandbox doAt workaround scheduler bug ([03b25ec](https://github.com/ha4us/ha4us/commit/03b25ec))
+
+
+
+
+
 ## [0.7.1](https://github.com/ha4us/ha4us/compare/@ha4us/script.adapter@0.7.0...@ha4us/script.adapter@0.7.1) (2019-05-30)
 
 
