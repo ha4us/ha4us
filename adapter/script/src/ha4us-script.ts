@@ -126,14 +126,29 @@ export class Ha4usScript {
 
   async transpile(source: string): Promise<string> {
     return new Promise((resolve, reject) => {
-      transform(source, { presets: ['@babel/preset-env'] }, (err, res) => {
-        if (err) {
-          reject(err)
-        } else {
-          this.$log.debug('Transpiled', res.code)
-          resolve(res.code)
+      transform(
+        source,
+        {
+          presets: [
+            [
+              '@babel/env',
+              {
+                targets: {
+                  node: 'current',
+                },
+              },
+            ],
+          ],
+        },
+        (err, res) => {
+          if (err) {
+            reject(err)
+          } else {
+            this.$log.debug('Transpiled', res.code)
+            resolve(res.code)
+          }
         }
-      })
+      )
     })
   }
   async compile(): Promise<Ha4usScript> {
