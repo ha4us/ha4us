@@ -113,7 +113,7 @@ export class MqttService {
         // `observe` gets actually subscribed.
         () => merge(rejected, this.messages)
       ).pipe(
-        Ha4usOperators.mqttToHa4us,
+        Ha4usOperators.mqttToHa4us(),
         map(message => {
           const match = pattern.match(message.topic)
           if (match) {

@@ -229,7 +229,7 @@ test('observe multi pattern', t => {
   const service = new MqttService(t.context.mqtt)
   const obs = service.observe('/test1/hallo1', '/test/+', '/#').pipe(
     take(6),
-    Ha4usOperators.pickTopic,
+    Ha4usOperators.pickTopic(),
     toArray()
   )
   obs.subscribe((topics: string[]) => {

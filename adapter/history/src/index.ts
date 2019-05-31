@@ -49,7 +49,7 @@ function Adapter($log, $args, $states: StateService, $objects: ObjectService) {
 
     hs.processMessages(
       $states.observe('+/#').pipe(
-        Ha4usOperators.noRetained,
+        Ha4usOperators.noRetained(),
         tap(msg => $log.debug('Message', msg.match.params)),
         filter(msg => msg.match.params[0] !== $args.name),
         filter(msg => !isEqual(msg.val, msg.old)),
