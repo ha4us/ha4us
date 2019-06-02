@@ -1,6 +1,6 @@
 import axios from 'axios'
-import { interval, combineLatest } from 'rxjs'
-import { switchMap, combineAll, map } from 'rxjs/operators'
+import { interval, combineLatest, of } from 'rxjs'
+import { switchMap, combineAll, map, catchError } from 'rxjs/operators'
 export type LandroidState =
   | 'home'
   | 'start sequence'
@@ -215,7 +215,8 @@ export class Landroid {
     return interval(anInterval * 1000).pipe(
       switchMap(() => {
         return combineLatest([this.readData(), this.readDebug()]).pipe(
-          map(data => ({ data: data[0], debug: data[1] }))
+          map(data => ({ data: data[0], debug: data[1] })),
+          catchError(e => of(`landroid not reachable (${this.ip})`))
         )
       })
     )

@@ -128,32 +128,40 @@ function Adapter(
     )
 
     landi.observe().subscribe(data => {
-      $log.debug('Work req', data.data.workReq)
-      $states.status(
-        '$landroid/battery',
-        data.debug.landroid.battery.percentage,
-        true
-      )
-      $states.status('$landroid/state', data.debug.landroid.state, true)
-      $states.status(
-        '$landroid/error',
-        data.data.message !== 'none' ? data.data.message : '',
-        true
-      )
+      if (typeof data === 'string') {
+        $states.status('$landroid/error', data, true)
+      } else {
+        $log.debug('Work req', data.data.workReq)
+        $states.status(
+          '$landroid/battery',
+          data.debug.landroid.battery.percentage,
+          true
+        )
+        $states.status('$landroid/state', data.debug.landroid.state, true)
+        $states.status(
+          '$landroid/error',
+          data.data.message !== 'none' ? data.data.message : '',
+          true
+        )
+      }
     })
 
     $states
       .observe('/$set/landroid/start')
       .pipe(filter(msg => msg.val === true || msg.val === 'true'))
       .subscribe(msg => {
-        landi.start()
+        landi.start().catch(e => {
+          $states.status('$landroid/error', `not reachable`, true)
+        })
       })
 
     $states
       .observe('/$set/landroid/stop')
       .pipe(filter(msg => msg.val === true || msg.val === 'true'))
       .subscribe(msg => {
-        landi.stop()
+        landi.stop().catch(e => {
+          $states.status('$landroid/error', `not reachable`, true)
+        })
       })
 
     /* publish('distance', data.distance);
