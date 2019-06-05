@@ -15,17 +15,17 @@ export {
 
 type NodeEventHandler = (...args: any[]) => void
 
-export class Ha4usMessage {
+export class Ha4usMessage<T = any> {
   /** the mqtt topic to which this message was published to */
   topic: string
   /** the if matched by the mqtt matcher here goes the data */
   match?: {
-    pattern: string
-    params: string[]
+    pattern: string;
+    params: string[];
   }
-  val: any
+  val: T
   ts: string
-  old?: any
+  old?: T
   lc?: string
   retain: boolean
 }
