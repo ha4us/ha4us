@@ -32,5 +32,11 @@
         "gui/src/app/*"
       ]
     }
-  }
+  },
+  "include": [
+    "gui/src/**/*.ts"
+  ],
+  "exclude": [
+    "**/assets/scriptdef/*.ts",
+  ]
 }

@@ -7,7 +7,7 @@
   },
   "exclude": [
     "test.ts",
-    "src/assets/scriptdef/*.ts",
+    "**/assets/scriptdef/*.ts",
     "**/*.spec.ts"
   ]
 }

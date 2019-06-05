@@ -13,7 +13,11 @@
     "types": ["node"],
     "strict": false,
   },
+  "include": [
+    "**/*.ts"
+  ],
   "exclude": [
-    "**assets/scriptdef/**"
+    "**/assets/scriptdef/*.ts",
   ]
+
 }
