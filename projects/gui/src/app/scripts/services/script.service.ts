@@ -27,7 +27,7 @@ export class ScriptService {
   adapter$ = this.os.observeRole(Ha4usRole.ScriptAdapter)
   topics$ = this.os.topics$
 
-  adapterScripts$ = this.os.observeRole('adapter/scripts').pipe(
+  adapterScripts$ = this.adapter$.pipe(
     map((adapters: Ha4usObject[]) =>
       adapters.map(adapter => {
         return { ...adapter, scripts: this.getScripts(adapter.topic) }

@@ -1,20 +1,23 @@
-import { Component, OnInit, OnDestroy, HostListener } from '@angular/core'
-import { Router, ActivatedRoute } from '@angular/router'
-
-import { FormGroup, FormControl, FormBuilder } from '@angular/forms'
-
-import { Subscription, Observable } from 'rxjs'
-import { map, tap, mergeMap, filter, take } from 'rxjs/operators'
-
-import { MqttUtil } from '@ha4us/core'
-import { ScriptService } from '../../services/script.service'
-
-import { MonacoConfig } from './monaco-config'
-import { NGX_MONACO_EDITOR_CONFIG } from 'ngx-monaco-editor'
-
-import { CanComponentDeactivate } from '@ha4us/ng'
-
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  OnDestroy,
+  OnInit,
+  QueryList,
+  ViewChildren,
+  ViewChild,
+} from '@angular/core'
+import { FormBuilder } from '@angular/forms'
+import { ActivatedRoute, Router } from '@angular/router'
 import { MessageService, Msg } from '@app/main'
+import { CanComponentDeactivate } from '@ha4us/ng'
+import { NGX_MONACO_EDITOR_CONFIG } from 'ngx-monaco-editor'
+import { Observable, Subscription } from 'rxjs'
+import { map, mergeMap, take, tap, debounceTime } from 'rxjs/operators'
+import { ScriptService } from '../../services/script.service'
+import { MonacoConfig } from './monaco-config'
+import { CdkScrollable } from '@angular/cdk/overlay'
 
 const debug = require('debug')('ha4us:gui:scripts:editor')
 
@@ -30,6 +33,23 @@ export class ScriptEditorComponent
     tap(params => debug('current route topic', params.get('topic'))),
     map(params => params.get('topic'))
   )
+
+  @ViewChild(CdkScrollable) logList: CdkScrollable
+
+  _logEntries: QueryList<ElementRef<HTMLDivElement>>
+  @ViewChildren('logEntry') set logEntries(
+    ql: QueryList<ElementRef<HTMLDivElement>>
+  ) {
+    if (ql && !this._logEntries) {
+      this._logEntries = ql
+
+      this._logEntries.changes.pipe(debounceTime(100)).subscribe(event => {
+        if (this._logEntries && this._logEntries.last) {
+          this.logList.scrollTo({ bottom: 0, behavior: 'smooth' })
+        }
+      })
+    }
+  }
 
   script$ = this.currentTopic$.pipe(mergeMap(topic => this.scripts.get(topic)))
 

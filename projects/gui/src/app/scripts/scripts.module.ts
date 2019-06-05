@@ -14,6 +14,8 @@ import {
   ShowOnDirtyErrorStateMatcher,
 } from '@angular/material'
 
+import { ScrollingModule } from '@angular/cdk/scrolling'
+
 import { FlexLayoutModule } from '@angular/flex-layout'
 
 import { MonacoEditorModule } from 'ngx-monaco-editor'
@@ -31,6 +33,7 @@ import { MainModule } from '@app/main/main.module'
     Ha4usModule,
     FormsModule,
     FlexLayoutModule,
+    ScrollingModule,
     ReactiveFormsModule,
     UsLayoutModule,
     MatInputModule,
