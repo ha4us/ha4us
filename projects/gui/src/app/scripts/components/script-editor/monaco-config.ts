@@ -30,14 +30,12 @@ export class MonacoConfig implements NgxMonacoEditorConfig {
       typeRoots: ['node_modules/@types'],
     })
     this.scripts.loadHelper('luxon.d.ts').subscribe(data => {
-      console.log('DATA', data)
       monaco.languages.typescript.javascriptDefaults.addExtraLib(
         data,
         'node_modules/@types/luxon.d.ts'
       )
     })
     this.scripts.loadHelper('rxjs.d.ts').subscribe(data => {
-      console.log('DATA', data)
       monaco.languages.typescript.javascriptDefaults.addExtraLib(
         data,
         'rxjs.d.ts'
@@ -45,8 +43,10 @@ export class MonacoConfig implements NgxMonacoEditorConfig {
     })
 
     this.scripts.loadHelper('./ha4us.d.ts').subscribe(data => {
-      console.log('DATA', data)
-      monaco.languages.typescript.javascriptDefaults.addExtraLib(data, 'global')
+      monaco.languages.typescript.javascriptDefaults.addExtraLib(
+        data,
+        'global'
+      )
     })
 
     monaco.languages.registerCompletionItemProvider('javascript', {
