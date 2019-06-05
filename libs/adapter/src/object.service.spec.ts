@@ -4,7 +4,7 @@ import { TestMongo } from './test/mongo-db.mock'
 import { Db } from 'mongodb'
 import { LoggerMock } from './test/logger.mock'
 
-import { take, map, toArray } from 'rxjs/operators'
+import { take, map, toArray, tap } from 'rxjs/operators'
 
 import { ObjectService } from './object.service'
 import { Ha4usObjectType } from '@ha4us/core'
@@ -37,7 +37,7 @@ test.beforeEach(async t => {
   await t.context.os.connect()
 })
 
-test.afterEach(async t => {
+test.afterEach.always(async t => {
   t.context.mongo.drop()
 })
 
@@ -178,3 +178,115 @@ test.todo('Getting all tags')
 test.todo('Autocomplete')
 
 test.todo('Install new objects')
+
+test.skip('Builder', t => {
+  const result = t.context.os.create(
+    [
+      { label: 'ROOT' },
+      {
+        a: {
+          label: '1',
+          can: { read: true, trigger: true },
+        },
+        b: [
+          { label: '2', can: { read: true, write: true, trigger: true } },
+          {
+            I: { label: '2-1', type: Ha4usObjectType.String },
+            II: { label: '2-2' },
+            III: [
+              { label: '2-3' },
+              {
+                i: { topic: 'SHOULDNOTAPPEAR', label: '2-3-1' },
+                ii: { label: '2-3-2' },
+              },
+            ],
+          },
+        ],
+      },
+    ],
+    { root: null, mode: 'update' }
+  )
+  /*const result = t.context.os.build('$', {
+    1: { label: 'ROOT1' },
+    2: { label: 'ROOT2' },
+    3: { label: 'ROOT3' },
+  })*/
+  /*
+  const result = t.context.os.build('$', [
+    { label: 'root' },
+    {
+      1: { label: 'child1' },
+      2: { label: 'child2' },
+      3: { label: 'child3' },
+    },
+  ])*/
+
+  return result.pipe(
+    tap(res => t.log(res.objects)),
+    tap(res => t.deepEqual(res, { inserted: 8, updated: 0 }))
+  )
+})
+
+test.only('Create objects with builder', async t => {
+  let result = await t.context.os
+    .create(
+      [
+        { label: 'root' },
+        {
+          child1: {
+            label: '1',
+            can: { read: true, trigger: true },
+          },
+          child2: {
+            label: '2',
+            can: { read: true, write: true, trigger: true },
+          },
+        },
+      ],
+      { root: '$', mode: 'create' }
+    )
+    .toPromise()
+
+  t.is(result.inserted, 3)
+  t.is(result.objects[2].topic, 'test/child2')
+  t.is(result.updated, 0)
+
+  result = await t.context.os
+    .create(
+      [
+        { label: 'root' },
+        {
+          child1: {
+            label: '1',
+            can: { read: true, trigger: true },
+          },
+          child2: {
+            label: '2',
+            can: { read: true, write: true, trigger: true },
+          },
+        },
+      ],
+      { root: '$', mode: 'create' }
+    )
+    .toPromise()
+
+  t.is(result.inserted, 0)
+  t.is(result.objects.length, 0)
+  t.is(result.updated, 0)
+
+  result = await t.context.os
+    .create(
+      { root: { label: 'rootneu', can: { write: true } } },
+      {
+        mode: 'update',
+      }
+    )
+    .toPromise()
+  t.log(result.objects[0])
+  t.is(result.inserted, 0)
+  t.is(result.objects[0].label, 'rootneu')
+  t.is(result.objects[0].topic, 'root')
+  t.true(result.objects[0].can.write)
+  t.is(result.objects.length, 1)
+  t.is(result.updated, 1)
+})

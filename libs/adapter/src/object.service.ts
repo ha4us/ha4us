@@ -15,13 +15,48 @@ import {
   defaultsDeep,
   merge,
 } from '@ha4us/core'
-import { Db } from 'mongodb'
-import { Observable, Subject } from 'rxjs'
+import { Db, ReplaceWriteOpResult } from 'mongodb'
+import { Observable, Subject, from } from 'rxjs'
+import { mergeMap, reduce, filter } from 'rxjs/operators'
 
 export enum CreateObjectMode {
   create,
   expand,
   force,
+}
+
+function join(name: string, ...topic: string[]) {
+  return topic
+    .filter(subtopic => typeof subtopic !== 'undefined')
+    .map(subtopic => subtopic.replace(/^\$/, name))
+    .join(MqttUtil.MQTT_SEP)
+}
+
+export type _Without<T> = { [P in keyof T]?: never }
+export type _XOR<T, U> = (_Without<T> & U) | (_Without<U> & T)
+
+export interface Ha4usObjectDictionary {
+  [subtopic: string]: Partial<Ha4usObject> | Ha4usObjectWithChildren
+}
+
+export type WithTopic<T> = T & { topic: string }
+
+type Ha4usObjectWithChildren = [Partial<Ha4usObject>, Ha4usObjectDictionary]
+
+type BuilderContent = Ha4usObjectDictionary | Ha4usObjectWithChildren
+
+function isHa4usObjectWithChildren(
+  val: BuilderContent
+): val is Ha4usObjectWithChildren {
+  return (
+    (val as Ha4usObjectDictionary).length &&
+    (val as Ha4usObjectDictionary).length === 2
+  )
+}
+function isHa4usObjectDictionary(
+  val: BuilderContent
+): val is Ha4usObjectDictionary {
+  return typeof val === 'object' && !Array.isArray(val)
 }
 
 export class ObjectService extends Ha4usMongoAccess
@@ -192,6 +227,8 @@ export class ObjectService extends Ha4usMongoAccess
    * @param  obj    the object data (Ha4usObjectLike)
    * @param  mode the mode (defaults to expand)
    * @return returns the final object
+   *
+   * @deprecated the install method is deprecated and will be removed in next major release - please use @see create
    */
   public async install(
     topic: string,
@@ -241,8 +278,7 @@ export class ObjectService extends Ha4usMongoAccess
   allTags(pattern: string) {
     const match = new Matcher(pattern)
     this.$log.info('All Tags for %s', pattern)
-    return
-    this.collection
+    return this.collection
       .aggregate([
         { $match: { topic: match.regexp } },
         { $unwind: '$tags' },
@@ -282,5 +318,122 @@ export class ObjectService extends Ha4usMongoAccess
       .toArray()
 
       .then(result => result.map(element => element._id.join('/')))
+  }
+
+  protected build(
+    root: string,
+    children: BuilderContent
+  ): WithTopic<Partial<Ha4usObject>>[] {
+    const recursiveBuild = (
+      parent: string,
+      content: BuilderContent
+    ): WithTopic<Partial<Ha4usObject>>[] => {
+      let result: WithTopic<Partial<Ha4usObject>>[] = []
+
+      if (isHa4usObjectWithChildren(content)) {
+        result.push({ ...content[0], topic: join(this.$args.name, parent) })
+        result = [
+          ...result,
+          ...recursiveBuild(join(this.$args.name, parent), content[1]),
+        ]
+      } else if (isHa4usObjectDictionary(content)) {
+        Object.keys(content).forEach(subTopic => {
+          const child = content[subTopic]
+          if (isHa4usObjectWithChildren(child as BuilderContent)) {
+            result = [
+              ...result,
+              ...recursiveBuild(
+                join(this.$args.name, parent, subTopic),
+                child as BuilderContent
+              ),
+            ]
+          } else {
+            result.push({
+              ...(child as Partial<Ha4usObject>),
+              topic: join(this.$args.name, parent, subTopic),
+            })
+          }
+        })
+      } else {
+        throw new Error('Unknown content')
+      }
+
+      return result
+    }
+
+    return recursiveBuild(root, children)
+  }
+  create(
+    children: BuilderContent,
+    options: { mode?: 'update' | 'create'; root?: string } = {}
+  ): Observable<{ inserted: number; updated: number; objects: Ha4usObject[] }> {
+    return from(this.build(options.root, children)).pipe(
+      mergeMap(object => this.upsertOne(object, options.mode || 'update'), 1),
+      filter(event => !!event),
+      reduce<
+        Ha4usObjectEvent,
+        { inserted: number; updated: number; objects: Ha4usObject[] }
+      >(
+        (acc, cur) => {
+          acc.inserted += cur.action === 'insert' ? 1 : 0
+          acc.updated += cur.action === 'update' ? 1 : 0
+          acc.objects.push(cur.object)
+          return acc
+        },
+        { inserted: 0, updated: 0, objects: [] }
+      )
+    )
+  }
+
+  upsertOne(
+    object: WithTopic<Partial<Ha4usObject>>,
+    mode: 'create' | 'update'
+  ): Promise<Ha4usObjectEvent> {
+    if (mode === 'create') {
+      const completedObject = defaultsDeep(object, HA4US_OBJECT)
+      return this.collection
+        .insertOne(completedObject)
+        .catch(e => {
+          if (e.name === 'MongoError' && e.code === 11000) {
+            return undefined
+          } else {
+            throw Ha4usError.wrapErr<Ha4usObjectEvent>(e)
+          }
+        })
+        .then(result => {
+          if (result) {
+            return {
+              action: 'insert',
+              object: completedObject,
+            } as Ha4usObjectEvent
+          }
+        })
+    } else if (mode === 'update') {
+      return this.getOne(object.topic)
+        .then(loadedObject => {
+          return defaultsDeep(object, loadedObject)
+        })
+        .catch(e => {
+          if (e.code === 404) {
+            return defaultsDeep(object, HA4US_OBJECT)
+          } else {
+            throw e
+          }
+        })
+        .then((objectToUpdate: Ha4usObject) =>
+          this.collection
+            .replaceOne({ topic: objectToUpdate.topic }, objectToUpdate, {
+              upsert: true,
+            })
+            .then(res => [res, objectToUpdate])
+        )
+        .then(
+          ([res, updObject]: [ReplaceWriteOpResult, Ha4usObject]) =>
+            ({ action: 'update', object: updObject } as Ha4usObjectEvent)
+        )
+        .catch(e => Ha4usError.wrapErr as any)
+    } else {
+      throw new Ha4usError(400, `wrong upsertOne Operation '${mode}' given`)
+    }
   }
 }
