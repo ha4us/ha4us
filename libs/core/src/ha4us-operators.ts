@@ -7,7 +7,10 @@ export namespace Ha4usOperators {
   /**
    * converts a any standard mqtt message to a Ha4usMessage
    */
-  export function mqttToHa4us(): OperatorFunction<MqttMessage, Ha4usMessage> {
+  export function mqttToHa4us<T = any>(): OperatorFunction<
+    MqttMessage,
+    Ha4usMessage<T>
+  > {
     return map((message: MqttMessage) => {
       const msg = convertBuffer(message.payload)
 

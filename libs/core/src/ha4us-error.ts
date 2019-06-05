@@ -6,7 +6,7 @@ export class Ha4usError extends Error {
   public static generateError(code: number, msg: string, e?: Error) {
     return new Ha4usError(code, msg, e)
   }
-  public static wrapErr<T>(err: any): any {
+  public static wrapErr<T = any>(err: any): T {
     if (err.name === 'MongoError' && err.code === 11000) {
       throw new Ha4usError(409, 'object already exists', err)
     } else if (err.code === 'ENOENT') {

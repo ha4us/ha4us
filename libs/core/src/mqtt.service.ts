@@ -47,11 +47,10 @@ export class MqttService {
    * @param client an instance of MQTT.Client
    */
   constructor(protected client: MqttClient) {
-    this.messages = fromEvent(
-      client,
-      'message',
-      (_topic, _message, packet) => packet as MqttMessage
-    ).pipe(share())
+    this.messages = fromEvent(client, 'message').pipe(
+      map(([_topic, _message, packet]) => packet as MqttMessage),
+      share()
+    )
   }
 
   /**
@@ -62,14 +61,14 @@ export class MqttService {
    * @param       filterInput filter as string
    * @return      the observable you can subscribe to
    */
-  public observe(
+  public observe<T = any>(
     filterInput: string,
     ...addFilter: string[]
-  ): Observable<Ha4usMessage> {
+  ): Observable<Ha4usMessage<T>> {
     if (addFilter.length > 0) {
       addFilter.unshift(filterInput)
 
-      return merge(...addFilter.map((_f: string) => this.observe(_f)))
+      return merge(...addFilter.map((_f: string) => this.observe<T>(_f)))
     }
 
     const pattern = new Matcher(
@@ -113,7 +112,7 @@ export class MqttService {
         // `observe` gets actually subscribed.
         () => merge(rejected, this.messages)
       ).pipe(
-        Ha4usOperators.mqttToHa4us(),
+        Ha4usOperators.mqttToHa4us<T>(),
         map(message => {
           const match = pattern.match(message.topic)
           if (match) {
@@ -126,11 +125,11 @@ export class MqttService {
           return message
         }),
         filter(msg => msg.hasOwnProperty('match')),
-        publishReplay(1),
-        refCount()
+        publishReplay<Ha4usMessage<T>>(1),
+        refCount<Ha4usMessage<T>>()
       )
     }
-    return this.observables[pattern.pattern]
+    return this.observables[pattern.pattern] as Observable<Ha4usMessage<T>>
   }
 
   /**
@@ -139,12 +138,14 @@ export class MqttService {
    * @param  pattern list of pattern
    * @return            observable of the combined latest emits
    */
-  public observeLatest(...pattern: string[]): Observable<Ha4usMessage[]> {
+  public observeLatest<T = any>(
+    ...pattern: string[]
+  ): Observable<Ha4usMessage<T>[]> {
     if (pattern.length < 2) {
       throw new Error('observe latest must have a least two pattern')
     }
 
-    return combineLatest(...pattern.map((_f: string) => this.observe(_f)))
+    return combineLatest(...pattern.map((_f: string) => this.observe<T>(_f)))
   }
 
   /**
@@ -188,7 +189,7 @@ export class MqttService {
     })
   }
 
-  public async get(
+  public async get<T = any>(
     topic: string,
     opts: { emitGet?: boolean; timeout?: number } = {}
   ): Promise<Ha4usMessage | undefined> {
@@ -200,7 +201,7 @@ export class MqttService {
       opts
     )
 
-    const observer = this.observe(topic).pipe(
+    const observer = this.observe<T>(topic).pipe(
       timeout(opts.timeout),
       take(1)
     )
@@ -231,16 +232,16 @@ export class MqttService {
     )
   }
 
-  public async request(
+  public async request<REQ = any, RES = any>(
     topic: string,
-    body: any,
+    body: REQ,
     aTimeout: number = 5000
-  ): Promise<any> {
+  ): Promise<Ha4usMessage<RES>> {
     topic = MqttUtil.join([topic, randomString(10)])
 
     const commandTopic = MqttUtil.resolve(topic, 'command')
 
-    const result = this.observe(topic)
+    const result = this.observe<RES>(topic)
       .pipe(
         take(1),
         timeout(aTimeout)

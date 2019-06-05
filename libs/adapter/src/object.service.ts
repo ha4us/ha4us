@@ -188,9 +188,9 @@ export class ObjectService extends Ha4usMongoAccess
       .then(result => {
         this.$log.debug('Post Response', result.result)
         this._events$.next({ action: 'insert', object: newObject })
-        return newObject
+        return newObject as T
       })
-      .catch(Ha4usError.wrapErr)
+      .catch(e => Ha4usError.wrapErr<T>(e))
   }
 
   public delete<T extends Ha4usObject>(topic: string): Promise<T> {

@@ -148,11 +148,14 @@ export class UserService extends Ha4usMongoAccess {
   }
 
   public post(newUser: Ha4usUser): Promise<Ha4usUser> {
-    const user = defaultsDeep(newUser, HA4US_USER)
+    const user: Ha4usUser = defaultsDeep(newUser, HA4US_USER)
     return this.collection
       .insertOne(this.scramblePassword(user))
 
-      .then(() => user, /*istanbul ignore next*/ Ha4usError.wrapErr)
+      .then(
+        () => user,
+        /*istanbul ignore next*/ e => Ha4usError.wrapErr<Ha4usUser>(e)
+      )
   }
 
   public put(userObject: Ha4usUser): Promise<Ha4usUser> {

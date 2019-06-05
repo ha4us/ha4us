@@ -1,7 +1,10 @@
 import { StateService } from './state.service'
 import { ObjectService, CreateObjectMode } from './object.service'
 // Create the container and set the resolutionMode to PROXY (which is also the default).
-import { createHa4usContainer, destroyContainer } from './lib/container.factory'
+import {
+  createHa4usContainer,
+  destroyContainer,
+} from './lib/container.factory'
 
 import { Ha4usLogger, MqttUtil, union } from '@ha4us/core'
 
@@ -72,11 +75,13 @@ export async function ha4us(options: Ha4usOptions, adapter: AdapterFactory) {
 
     $log.debug(`ObjectService connected`)
 
-    await $objects.install(
-      null,
-      { role: MqttUtil.join('adapter', options.name) },
-      CreateObjectMode.create
-    )
+    const res = await $objects
+      .create([{ role: MqttUtil.join('Adapter', options.name) }, {}], {
+        mode: 'create',
+        root: '$',
+      })
+      .toPromise()
+
     $objects.events$
       .pipe(
         mergeMap(ev => {
