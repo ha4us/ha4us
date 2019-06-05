@@ -52,9 +52,9 @@ export class Ha4usObject extends Ha4usObjectDisplay {
   max?: number
   unit?: string
   can: {
-    read: boolean;
-    write: boolean;
-    trigger: boolean;
+    read?: boolean;
+    write?: boolean;
+    trigger?: boolean;
   }
   native: {
     [props: string]: any;
