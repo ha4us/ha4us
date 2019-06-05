@@ -4,7 +4,7 @@
   "scripts": {
     "start": "lerna run watch  --parallel ",
     "build": "lerna run build",
-    "lint": "lerna run lint",
+    "lint": "lerna run lint --parallel",
     "e2e": "ng e2e",
     "analyze": "webpack-bundle-analyzer projects/gui/dist/stats.json",
     "unit": "nyc ava",
