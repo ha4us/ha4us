@@ -18,11 +18,11 @@ import {
 import { DateTime } from 'luxon'
 import {
   ScheduleEvent,
-  schedule,
+  SunTimes,
+  Scheduler,
   TimeDefinition,
-  doIn,
-  doAt,
   cron,
+  CalculatedTime,
 } from 'us-scheduler'
 
 import {
@@ -67,7 +67,7 @@ export class Sandbox {
   public randomString = randomString
 
   protected _modules: {
-    [moduleName: string]: any
+    [moduleName: string]: any;
   } = { path, fs, rxjs, 'rxjs/operators': rxjsoperators }
 
   protected _name: string
@@ -101,6 +101,8 @@ export class Sandbox {
 
   public log = this.console
 
+  protected _scheduler: Scheduler
+
   constructor(protected _script: Ha4usScript) {
     this._log = this._setupLogger()
     Settings.defaultLocale = 'de'
@@ -108,11 +110,11 @@ export class Sandbox {
     this._$objects = _script.opts.$objects
     this._$yaml = _script.opts.$yaml
     this.$media = _script.opts.$media
-    /*
+    this._scheduler = new Scheduler({
       latitude: _script.opts.$args.lat,
       longitude: _script.opts.$args.long,
-
-    */
+      skipPast: true,
+    })
   }
 
   get sandbox(): Sandbox {
@@ -239,14 +241,11 @@ export class Sandbox {
     )
   }
 
-  public schedule(...times: TimeDefinition[]): Observable<ScheduleEvent> {
-    return schedule(...times, {
-      latitude: this._script.opts.$args.lat,
-      longitude: this._script.opts.$args.long,
-      skipPast: true,
-      skipStart: true,
-      now: DateTime.local().toISO(),
-    }).pipe(rxjsoperators.takeUntil(this.stop$))
+  public schedule(...times: TimeDefinition<any>[]): Observable<ScheduleEvent> {
+    this._script.enterDomain()
+    return this._scheduler
+      .schedule(...times)
+      .pipe(rxjsoperators.takeUntil(this.stop$))
   }
 
   public cron(cronPattern: string): Observable<DateTime> {
@@ -257,15 +256,15 @@ export class Sandbox {
 
   public doIn<T>(duration: string | number, data?: T): Observable<T> {
     this._script.enterDomain()
-    return doIn(duration, data).pipe(rxjsoperators.takeUntil(this.stop$))
+    return this._scheduler
+      .in(duration, data)
+      .pipe(rxjsoperators.takeUntil(this.stop$))
   }
 
-  public doAt<T>(date: DateTime | string, data?: T): Observable<T> {
+  public doAt<T>(date: TimeDefinition<any>): Observable<CalculatedTime<any>> {
     this._script.enterDomain()
-    date = typeof date === 'string' ? DateTime.fromISO(date) : date
-    return doAt(date, data, DateTime.local()).pipe(
-      rxjsoperators.takeUntil(this.stop$)
-    )
+
+    return this._scheduler.at(date).pipe(rxjsoperators.takeUntil(this.stop$))
   }
 
   public load(file: string): any {

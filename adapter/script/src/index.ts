@@ -40,7 +40,7 @@ import {
 import { Sandbox } from './sandbox.class'
 import { Ha4usScript, ScriptEventType } from './ha4us-script'
 
-import { schedule, SunTimes } from 'us-scheduler'
+import { Scheduler, SunTimes } from 'us-scheduler'
 
 import * as path from 'path'
 import * as fs from 'fs'
@@ -103,6 +103,10 @@ function Adapter(
 ) {
   const scripts = new Map<string, Ha4usScript>()
 
+  interface Ha4usBuildObject extends Partial<Ha4usObject> {
+    topic: string
+  }
+
   const scriptEvent$ = new Subject<Ha4usScript>()
   let sub: Subscription
 
@@ -110,26 +114,34 @@ function Adapter(
     $log.debug(`creating objects for ${script.name}`)
 
     return $objects
-      .install(
-        MqttUtil.join(script.topic, 'state'),
-        {},
-        CreateObjectMode.create
+      .create(
+        {
+          state: {
+            role: 'Value/State',
+
+            type: Ha4usObjectType.Number,
+            can: { trigger: true },
+          },
+          error: {
+            role: 'Value/String',
+            type: Ha4usObjectType.String,
+            can: { trigger: true },
+          },
+          log: {
+            role: 'Value/String',
+            type: Ha4usObjectType.String,
+            can: { trigger: true },
+          },
+        },
+        { root: MqttUtil.join('$', script.topic) }
       )
-      .then(() =>
-        $objects.install(
-          MqttUtil.join(script.topic, 'error'),
-          {},
-          CreateObjectMode.create
+      .toPromise()
+      .then(res => {
+        $log.debug(
+          `Topics ${res.objects.map(obj => obj.topic).join(',')} installed`
         )
-      )
-      .then(() =>
-        $objects.install(
-          MqttUtil.join(script.topic, 'log'),
-          {},
-          CreateObjectMode.create
-        )
-      )
-      .then(() => script)
+        return script
+      })
   }
 
   async function installScript(aScript: Ha4usScript): Promise<Ha4usScript> {
@@ -162,21 +174,37 @@ function Adapter(
     await $objects.connect()
     await $media.connect()
 
-    await $objects.install(
-      null,
-      { role: Ha4usRole.ScriptAdapter },
-      CreateObjectMode.create
-    )
+    const res = await $objects
+      .create(
+        [
+          {
+            role: Ha4usRole.ScriptAdapter,
+          },
+          {
+            sun: [
+              {
+                role: 'Device/Sun',
+              },
+              {
+                position: {
+                  role: 'Value/SunPosition',
+                  type: Ha4usObjectType.Object,
+                  can: { trigger: true },
+                },
+                time: {
+                  role: 'Value/SunTime',
+                  type: Ha4usObjectType.String,
+                  can: { trigger: true },
+                },
+              },
+            ],
+          },
+        ],
+        { mode: 'update', root: '$' }
+      )
+      .toPromise()
 
-    await $objects.install(
-      'sun',
-      {
-        role: 'value/sunposition',
-        type: Ha4usObjectType.Object,
-        can: { read: false, write: false, trigger: true },
-      },
-      CreateObjectMode.create
-    )
+    $log.info(`${res.updated} Objects updated. ${res.inserted} created`)
 
     // first loading script from database
     //
@@ -209,6 +237,7 @@ function Adapter(
     sub = $states
       .observe('/$object/+')
       .pipe(
+        filter(event => event.val.object.role === Ha4usRole.Script),
         switchMap(event => {
           const action = event.val.action
           const name = event.val.object.topic
@@ -351,10 +380,28 @@ function Adapter(
       timer(0, 300000)
         .pipe(map(() => st.sun))
         .subscribe(position => {
-          $log.debug('Sunposition', position)
-          $states.status('$sun', position, true)
+          $log.debug(
+            `Sunposition calculated altitude ${position.altitude}°, azimuth: ${
+              position.azimuth
+            }° `
+          )
+          $states.status('$sun/position', position, true)
         })
     )
+
+    const scheduler = new Scheduler({
+      latitude: $args.lat,
+      longitude: $args.long,
+      skipPast: false, // also emit the past event to get the most recent one
+    })
+    sub.add(
+      scheduler.schedule().subscribe(event => {
+        $log.debug('SunTime', event.label, event.target.toISO())
+        $states.status('$sun/time', event.label, true)
+      })
+    )
+
+    $states.status('$sun/all', st.sortedTimes, true)
 
     sub.add(
       scriptEvent$.pipe(mergeMap(script => script.event$)).subscribe(
@@ -395,44 +442,7 @@ function Adapter(
   }
 }
 
-ha4us(ADAPTER_OPTIONS, Adapter)
-
-/*function loadDir(dir) {
-    async function destroyScript(name: string): Promise<Ha4usScript> {
-      if (!scripts.has(name)) {
-        throw new Ha4usError(404, `script ${name} does not exist`)
-      }
-      const script = scripts.get(name)
-      $log.info('Stopping script', script.name)
-      // run cleanup
-      try {
-        script.destroy()
-      } catch (e) {
-        $log.error('Probles cleaning up script', e)
-        throw e
-      } finally {
-        scripts.delete(name)
-      }
-
-      return script
-    }
-
-    dir = path.resolve(dir)
-    $log.debug('Loading dir', dir)
-    const watch = chokidar.watch(dir + '/*.js')
-    watch.on('ready', () => {
-      $log.debug('Watching', watch.getWatched())
-    })
-    watch.on('add', (file: string, _?: fs.Stats) => {
-      $log.info('Loading and Run script', file)
-      installScript(new Ha4usScript(file), file)
-    })
-    watch.on('change', (file: string, _?: fs.Stats) => {
-      $log.info('Script %s changed', file)
-      //reloadScript(file)
-    })
-    watch.on('unlink', (file: string) => {
-      $log.info('Script %s deleted', file)
-      destroyScript(file)
-    })
-  }*/
+ha4us(ADAPTER_OPTIONS, Adapter).catch(e => {
+  console.error('Error occurred', e)
+  process.exit(1)
+})
