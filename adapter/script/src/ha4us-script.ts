@@ -124,7 +124,7 @@ export class Ha4usScript {
     return this
   }
 
-  async transpile(source: string): Promise<string> {
+  protected async transpile(source: string): Promise<string> {
     return new Promise((resolve, reject) => {
       transform(
         source,
@@ -144,7 +144,7 @@ export class Ha4usScript {
           if (err) {
             reject(err)
           } else {
-            this.$log.debug('Transpiled', res.code)
+            this.$log.debug(`${this.name} transpiled`)
             resolve(res.code)
           }
         }
