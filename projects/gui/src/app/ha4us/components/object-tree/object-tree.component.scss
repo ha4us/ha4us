@@ -3,6 +3,10 @@
 // Create a config with the default typography levels.
 $config: mat-typography-config();
 
+mat-tree {
+  padding: 15px;
+}
+
 .virtual-node {
   @include mat-typography-level-to-styles($config, title);
   color: lightgray;
