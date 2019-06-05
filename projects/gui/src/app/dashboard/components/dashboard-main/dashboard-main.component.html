@@ -5,25 +5,13 @@
   </button>
 </ha4us-toolbar>
 
-<mat-tab-group
-  backgroundColor="primary"
-  color="accent"
-  class="widget-list"
-  (selectedTabChange)="tabchanged($event)"
-  [selectedIndex]="activeTag"
->
-  <mat-tab
-    *ngFor="let taggedObject of (taggedObjects$ | async)"
-    [label]="taggedObject.tag"
-  >
+<mat-tab-group fxFlex backgroundColor="primary" color="accent" class="content widget-list"
+  (selectedTabChange)="tabchanged($event)" [selectedIndex]="activeTag">
+  <mat-tab *ngFor="let taggedObject of (taggedObjects$ | async)" [label]="taggedObject.tag">
     <ng-template matTabContent>
       <us-card-grid [style.padding.px]="10">
         <us-card *ngFor="let object of (taggedObject.object$ | async)">
-          <ha4us-widget
-            [widget]="object.role"
-            [props]="object"
-            library="dashboard"
-          ></ha4us-widget>
+          <ha4us-widget [widget]="object.role" [props]="object" library="dashboard"></ha4us-widget>
         </us-card>
       </us-card-grid>
     </ng-template>
