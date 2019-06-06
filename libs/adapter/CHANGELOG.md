@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://github.com/ha4us/ha4us/compare/@ha4us/adapter@1.3.1...@ha4us/adapter@1.4.0) (2019-06-06)
+
+
+### Features
+
+* **objectservice:** added  new method to create multiple objects at once ([edefe6b](https://github.com/ha4us/ha4us/commit/edefe6b))
+* some type hints and removed deprecated calls ([4de773f](https://github.com/ha4us/ha4us/commit/4de773f))
+
+
+
+
+
 ## [1.3.1](https://github.com/ha4us/ha4us/compare/@ha4us/adapter@1.3.0...@ha4us/adapter@1.3.1) (2019-05-20)
 
 **Note:** Version bump only for package @ha4us/adapter

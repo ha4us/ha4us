@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.1](https://github.com/ha4us/ha4us/compare/@ha4us/harmony.adapter@0.4.0...@ha4us/harmony.adapter@0.4.1) (2019-06-06)
+
+**Note:** Version bump only for package @ha4us/harmony.adapter
+
+
+
+
+
 # 0.4.0 (2019-05-20)
 
 

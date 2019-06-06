@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.5](https://github.com/ha4us/ha4us/compare/@ha4us/sonos.adapter@0.4.4...@ha4us/sonos.adapter@0.4.5) (2019-06-06)
+
+**Note:** Version bump only for package @ha4us/sonos.adapter
+
+
+
+
+
 ## [0.4.4](https://github.com/ha4us/ha4us/compare/@ha4us/sonos.adapter@0.4.3...@ha4us/sonos.adapter@0.4.4) (2019-05-20)
 
 **Note:** Version bump only for package @ha4us/sonos.adapter

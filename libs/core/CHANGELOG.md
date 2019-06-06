@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0](https://github.com/ha4us/ha4us/compare/@ha4us/core@1.0.1...@ha4us/core@1.1.0) (2019-06-06)
+
+
+### Bug Fixes
+
+* **core:** operators are now defined as function to be consistent and have better documentation ([0125105](https://github.com/ha4us/ha4us/commit/0125105))
+* **ha4usobject:** make capabilities (property "can") optional for the ease of creation ([adf178d](https://github.com/ha4us/ha4us/commit/adf178d))
+
+
+### Features
+
+* **model:** ha4usMessage with typed values possible ([8353ae5](https://github.com/ha4us/ha4us/commit/8353ae5))
+* some type hints and removed deprecated calls ([4de773f](https://github.com/ha4us/ha4us/commit/4de773f))
+
+
+
+
+
 ## [1.0.1](https://github.com/ha4us/ha4us/compare/@ha4us/core@1.0.0...@ha4us/core@1.0.1) (2019-05-20)
 
 **Note:** Version bump only for package @ha4us/core

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.2](https://github.com/ha4us/ha4us/compare/@ha4us/landroid.adapter@0.1.1...@ha4us/landroid.adapter@0.1.2) (2019-06-06)
+
+
+### Bug Fixes
+
+* **landroid:** better error handling if landroid not reachable ([8fa1fd8](https://github.com/ha4us/ha4us/commit/8fa1fd8))
+
+
+
+
+
 ## [0.1.1](https://github.com/ha4us/ha4us/compare/@ha4us/landroid.adapter@0.1.0...@ha4us/landroid.adapter@0.1.1) (2019-05-30)
 
 **Note:** Version bump only for package @ha4us/landroid.adapter

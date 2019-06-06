@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.8.0](https://github.com/ha4us/ha4us/compare/@ha4us/script.adapter@0.7.2...@ha4us/script.adapter@0.8.0) (2019-06-06)
+
+
+### Features
+
+* **sandbox:** make use of new scheduler and object creation in adapter ([f132f44](https://github.com/ha4us/ha4us/commit/f132f44))
+* **script.adapter:** added new logging capabilities and status updates ([778c578](https://github.com/ha4us/ha4us/commit/778c578))
+* **script.adapter:** added new logging capabilities and status updates ([8b44bcb](https://github.com/ha4us/ha4us/commit/8b44bcb))
+* **script.adapter:** added new logging capabilities and status updates ([d5a1b42](https://github.com/ha4us/ha4us/commit/d5a1b42))
+
+
+
+
+
 ## [0.7.2](https://github.com/ha4us/ha4us/compare/@ha4us/script.adapter@0.7.1...@ha4us/script.adapter@0.7.2) (2019-05-30)
 
 

@@ -1,6 +1,6 @@
 {
   "name": "@ha4us/harmony.adapter",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Ha4us Adapter for the logitech harmony-hub",
   "main": "dist/index.js",
   "author": "ulfalfa",
@@ -15,8 +15,8 @@
     "watch": "nodemon"
   },
   "dependencies": {
-    "@ha4us/adapter": "^1.3.1",
-    "@ha4us/core": "^1.0.1",
+    "@ha4us/adapter": "^1.4.0",
+    "@ha4us/core": "^1.1.0",
     "@harmonyhub/client-ws": "^1.0.4",
     "@harmonyhub/discover": "^1.0.8",
     "debug": "^3.1.0"

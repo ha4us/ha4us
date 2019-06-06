@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://github.com/ha4us/ha4us/compare/@ha4us/ng-gui@1.3.0...@ha4us/ng-gui@1.4.0) (2019-06-06)
+
+
+### Bug Fixes
+
+* **dashboard:** scrolling in dashboard (tabs stay) ([7af1e65](https://github.com/ha4us/ha4us/commit/7af1e65))
+* **menu:** removed test entry ([2bef051](https://github.com/ha4us/ha4us/commit/2bef051))
+* **script:** removed console.log statements ([1745a42](https://github.com/ha4us/ha4us/commit/1745a42))
+* **user:** avater change was not saved ([64ec2e2](https://github.com/ha4us/ha4us/commit/64ec2e2))
+* **welcome:** shortened the welcome screen ([9a6731d](https://github.com/ha4us/ha4us/commit/9a6731d))
+
+
+### Features
+
+* **objects:** minor layout updates ([98e351a](https://github.com/ha4us/ha4us/commit/98e351a))
+* **script-editor:** loginformation formatted and autoscroll ([6e67c88](https://github.com/ha4us/ha4us/commit/6e67c88))
+* **script-editor:** loginformation formatted and autoscroll ([eea3ea1](https://github.com/ha4us/ha4us/commit/eea3ea1))
+* **scripteditor:** always scroll to last log message ([6189d55](https://github.com/ha4us/ha4us/commit/6189d55))
+
+
+
+
+
 # [1.3.0](https://github.com/ha4us/ha4us/compare/@ha4us/ng-gui@1.2.5...@ha4us/ng-gui@1.3.0) (2019-05-30)
 
 

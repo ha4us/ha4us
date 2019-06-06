@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.6](https://github.com/ha4us/ha4us/compare/@ha4us/history.adapter@1.0.5...@ha4us/history.adapter@1.0.6) (2019-06-06)
+
+
+### Bug Fixes
+
+* **core:** operators are now defined as function to be consistent and have better documentation ([0125105](https://github.com/ha4us/ha4us/commit/0125105))
+
+
+
+
+
 ## [1.0.5](https://github.com/ha4us/ha4us/compare/@ha4us/history.adapter@1.0.4...@ha4us/history.adapter@1.0.5) (2019-05-20)
 
 **Note:** Version bump only for package @ha4us/history.adapter
