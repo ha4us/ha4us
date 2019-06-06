@@ -184,7 +184,10 @@ export class Ha4usScript {
     } catch (e) {
       this.$log.warn(`compilation of ${this.name} failed ${e.message}`)
       this.status = 'error'
-      this.log('error', this.prepareStack(e, /at Ha4usScript.compile/))
+      this.log(
+        'error',
+        this.prepareStack(e, /at Ha4usScript.compile|at Parser.raise/)
+      )
       throw e
     }
   }
@@ -219,10 +222,7 @@ export class Ha4usScript {
         return this
       })
       .catch(e => {
-        this.log(
-          'error',
-          this.prepareStack(e, /at ContextifyScript.Script.runInContext/)
-        )
+        this.log('error', this.prepareStack(e, /Script.runInContext/))
         this.status = 'error'
         throw new Ha4usError(500, 'error script execution', e)
       })
