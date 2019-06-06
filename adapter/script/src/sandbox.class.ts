@@ -89,14 +89,26 @@ export class Sandbox {
   }
 
   public console = {
-    log: (...args) => {
-      this._script.emit(ScriptEventType.Log, args)
-      this._script.domain.bind(this._log.debug)(...args)
+    log: (message: string, ...args: any[]) => {
+      this._script.log('debug', message, args)
+      // this._script.domain.bind(this._log.debug)(...args)
     },
-    debug: (...args) => this._script.domain.bind(this._log.debug)(...args),
-    warn: (...args) => this._script.domain.bind(this._log.warn)(...args),
-    info: (...args) => this._script.domain.bind(this._log.info)(...args),
-    error: (...args) => this._script.domain.bind(this._log.error)(...args),
+    debug: (message: string, ...args: any[]) => {
+      this._script.log('debug', message, args)
+      // this._script.domain.bind(this._log.debug)(...args)
+    },
+    info: (message: string, ...args: any[]) => {
+      this._script.log('info', message, args)
+      // this._script.domain.bind(this._log.debug)(...args)
+    },
+    warn: (message: string, ...args: any[]) => {
+      this._script.log('warn', message, args)
+      // this._script.domain.bind(this._log.debug)(...args)
+    },
+    error: (message: string, ...args: any[]) => {
+      this._script.log('error', message, args)
+      // this._script.domain.bind(this._log.debug)(...args)
+    },
   }
 
   public log = this.console
@@ -276,12 +288,13 @@ export class Sandbox {
     })
   }
 
-  public createObject(topic: string, data: Partial<Ha4usObject>) {
-    return this._$objects.install(
-      MqttUtil.join(this._script.topic, topic),
-      data,
-      CreateObjectMode.expand
-    )
+  public createObject(topic: string, data: Partial<Ha4usObject>): Promise<any> {
+    return this._$objects
+      .create([data, {}], {
+        root: MqttUtil.join('$', this._script.topic, topic),
+        mode: 'update',
+      })
+      .toPromise()
   }
 
   public $onDestroy(destroyFunc: () => void) {

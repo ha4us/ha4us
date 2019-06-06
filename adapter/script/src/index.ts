@@ -38,7 +38,7 @@ import {
 } from '@ha4us/core'
 
 import { Sandbox } from './sandbox.class'
-import { Ha4usScript, ScriptEventType } from './ha4us-script'
+import { Ha4usScript, ScriptEventType, LogEvent } from './ha4us-script'
 
 import { Scheduler, SunTimes } from 'us-scheduler'
 
@@ -152,6 +152,34 @@ function Adapter(
     $log.debug(`creating script ${aScript.name}`)
     scripts.set(aScript.name, aScript)
     scriptEvent$.next(aScript)
+
+    aScript.log$
+      .pipe(
+        mergeMap(event =>
+          $states.status(MqttUtil.join(aScript.name, 'log'), event, true)
+        )
+      )
+      .subscribe(
+        msg => {
+          $log.debug(`Message send`, msg.topic, msg.val)
+        },
+        e => $log.error('error in script event listener', e),
+        () => $log.info('Script event listener completed')
+      )
+
+    aScript.status$
+      .pipe(
+        mergeMap(status =>
+          $states.status(MqttUtil.join(aScript.name, 'state'), status, true)
+        )
+      )
+      .subscribe(
+        msg => {
+          $log.debug(`Status update`, msg.topic, msg.val)
+        },
+        e => $log.error('error in script event listener', e),
+        () => $log.info('Script event listener completed')
+      )
 
     return aScript
       .init()
@@ -353,11 +381,7 @@ function Adapter(
         )
         .subscribe(
           (script: Ha4usScript) => {
-            $log.info(
-              `script ${script.name} is ${
-                script.running ? 'running' : 'stopped'
-              }`
-            )
+            $log.info(`script ${script.name} is ${script.status}`)
           },
           e => {
             $log.error(`BUMMER`, e)
@@ -402,20 +426,6 @@ function Adapter(
     )
 
     $states.status('$sun/all', st.sortedTimes, true)
-
-    sub.add(
-      scriptEvent$.pipe(mergeMap(script => script.event$)).subscribe(
-        async data => {
-          await $states.status(
-            MqttUtil.join(data.name, data.type),
-            data.data,
-            true
-          )
-        },
-        e => $log.error('error in script event listener', e),
-        () => $log.info('Script event listener completed')
-      )
-    )
 
     $states.connected = 2
 

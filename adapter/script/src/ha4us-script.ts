@@ -39,6 +39,16 @@ export class ScriptEvent {
   ) {}
 }
 
+export type Severity = 'debug' | 'info' | 'warn' | 'error'
+export class LogEvent {
+  constructor(
+    public readonly severity: Severity,
+    public readonly message: string,
+    public readonly attachments?: any[]
+  ) {}
+}
+export type Status = 'stopped' | 'running' | 'error'
+
 export interface ScriptOptions {
   $args: Ha4usArguments
   $log: Ha4usLogger
@@ -66,18 +76,19 @@ export class Ha4usScript {
   script: vm.Script
   result: any
 
-  _running = false
+  _status: Status = 'stopped'
 
-  set running(val: boolean) {
-    this._running = val
-    this.emit(ScriptEventType.State, val)
+  set status(val: Status) {
+    this._status = val
+    this.status$.next(val)
   }
 
-  get running(): boolean {
-    return this._running
+  get status(): Status {
+    return this._status
   }
 
-  event$ = new Subject<ScriptEvent>()
+  status$ = new Subject<Status>()
+  log$ = new Subject<LogEvent>()
 
   $log: Ha4usLogger
 
@@ -91,6 +102,10 @@ export class Ha4usScript {
     this.autostart =
       scriptObject.native.autostart ||
       typeof scriptObject.native.autostart === 'undefined'
+  }
+
+  log(severity: Severity, msg: string, attachments?: any[]) {
+    this.log$.next(new LogEvent(severity, msg, attachments))
   }
 
   prepareStack(e: Error, match: RegExp): string {
@@ -110,7 +125,7 @@ export class Ha4usScript {
   }
 
   async init(): Promise<Ha4usScript> {
-    this.running = false
+    this.status = 'stopped'
     this.sandbox = new Sandbox(this)
 
     this.domain = domain.create()
@@ -119,7 +134,7 @@ export class Ha4usScript {
 
     this.domain.on('error', e => {
       this.$log.warn(`catched domain error ${e.message} in ${this.name}`)
-      this.emit(ScriptEventType.Error, this.prepareStack(e, /domain:$/))
+      this.log$.next(new LogEvent('error', this.prepareStack(e, /domain:$/)))
     })
     return this
   }
@@ -163,16 +178,13 @@ export class Ha4usScript {
         filename: this.name,
         timeout: 1000,
       })
-      this.emit(ScriptEventType.Log, `script successfully compiled`)
+      this.log('info', `script successfully compiled`)
       this.$log.debug(`${this.name} compiled`)
       return this
     } catch (e) {
       this.$log.warn(`compilation of ${this.name} failed ${e.message}`)
-      this.running = false
-      this.emit(
-        ScriptEventType.Error,
-        this.prepareStack(e, /at Ha4usScript.compile/)
-      )
+      this.status = 'error'
+      this.log('error', this.prepareStack(e, /at Ha4usScript.compile/))
       throw e
     }
   }
@@ -185,14 +197,13 @@ export class Ha4usScript {
   }
 
   async start(): Promise<Ha4usScript> {
-    if (this.running) {
+    if (this.status === 'running') {
       return this
     }
     if (!this.script) {
       throw new Ha4usError(500, `script is not compiled`)
     }
     this.$log.debug('Starting script')
-    this.emit(ScriptEventType.Error, '')
     const context = vm.createContext(this.sandbox.sandbox)
 
     return this.script
@@ -200,25 +211,25 @@ export class Ha4usScript {
       .then((val: any) => {
         this.result = val
         if (!this.sandbox._onDestroy) {
-          this.emit(ScriptEventType.Log, `script has no $onDestroy function`)
+          this.log('info', `script has no $onDestroy function`)
         }
-        this.emit(ScriptEventType.Log, `script finished with result ${val}`)
+        this.log('info', `script finished with result ${val}`)
 
-        this.running = true
+        this.status = 'running'
         return this
       })
       .catch(e => {
-        this.emit(
-          ScriptEventType.Error,
+        this.log(
+          'error',
           this.prepareStack(e, /at ContextifyScript.Script.runInContext/)
         )
-        this.running = false
+        this.status = 'error'
         throw new Ha4usError(500, 'error script execution', e)
       })
   }
 
   async stop(): Promise<Ha4usScript> {
-    if (!this.running) {
+    if (this.status !== 'running') {
       return this
     }
     this.$log.debug('Stopping script')
@@ -230,13 +241,12 @@ export class Ha4usScript {
         this.sandbox._onDestroy()
       }
     } catch (e) {
-      this.emit(
-        ScriptEventType.Error,
+      this.log(
+        'error',
         this.prepareStack(e, /at ContextifyScript.Script.runInContext/)
       )
     } finally {
-      this.running = false
-      this.emit(ScriptEventType.Log, `script stopped`)
+      this.status = 'stopped'
     }
     return this
   }
@@ -254,8 +264,9 @@ export class Ha4usScript {
 
   async destroy(): Promise<Ha4usScript> {
     await this.stop()
-    this.emit(ScriptEventType.Log, `script destroyed`)
-    this.event$.complete()
+    this.log('info', `script destroyed`)
+    this.log$.complete()
+    this.status$.complete()
     if (this.domain) {
       this.domain.removeAllListeners()
       this.domain.exit()
@@ -270,9 +281,5 @@ export class Ha4usScript {
         source: this._source,
       },
     }
-  }
-
-  emit(type: ScriptEventType, data?: any) {
-    this.event$.next(new ScriptEvent(this.name, type, data))
   }
 }
