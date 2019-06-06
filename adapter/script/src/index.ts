@@ -117,19 +117,15 @@ function Adapter(
       .create(
         {
           state: {
-            role: 'Value/State',
+            role: 'Value/Script/State',
 
-            type: Ha4usObjectType.Number,
-            can: { trigger: true },
-          },
-          error: {
-            role: 'Value/String',
             type: Ha4usObjectType.String,
+
             can: { trigger: true },
           },
           log: {
-            role: 'Value/String',
-            type: Ha4usObjectType.String,
+            role: 'Value/Script/Log',
+            type: Ha4usObjectType.Object,
             can: { trigger: true },
           },
         },
