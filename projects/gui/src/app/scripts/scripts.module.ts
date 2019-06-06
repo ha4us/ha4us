@@ -25,7 +25,7 @@ import { UsLayoutModule } from '@ulfalfa/ng-util'
 import { ScriptsRoutingModule } from './scripts-routing.module'
 import { ScriptListComponent } from './components/script-list/script-list.component'
 import { ScriptEditorComponent } from './components/script-editor/script-editor.component'
-import { MainModule } from '@app/main/main.module';
+import { MainModule } from '@app/main/main.module'
 import { LogComponent } from './components/log/log.component'
 @NgModule({
   imports: [
