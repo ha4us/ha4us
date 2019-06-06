@@ -7,28 +7,7 @@
 }
 
 .editor {
-  ngx-monaco-editor {
-    height: 100%;
-  }
-
-  position: relative;
-  padding: 15px;
-
-  .error {
-    @include mat-elevation(4);
-    position: absolute;
-    border-radius: 10px;
-    opacity: 0.8;
-    padding: 10px;
-    bottom: 15px;
-    right: 15px;
-    left: 15px;
-    background-color: red;
-    color: white;
-    white-space: pre;
-  }
-}
-
-.errors {
-  overflow: auto
+  @include mat-elevation(4);
+  height: 100%;
+  margin: 15px;
 }

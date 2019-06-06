@@ -11,8 +11,8 @@
 
     <mat-list-item *ngFor="let script of adapter.scripts | async">
       <h2 matLine (click)="goDetail(script)">{{script.name}}</h2>
-      <mat-slide-toggle *ha4us="let state of script.name+'/state'; ha4us as ha4us" [checked]="state.val"
-        (change)="state.val=true;ha4us.set($event.checked)"></mat-slide-toggle>
+      <mat-slide-toggle *ha4us="let state of script.name+'/state'; ha4us as ha4us" [checked]="state.val==='running'"
+        (change)="ha4us.set($event.checked)"></mat-slide-toggle>
     </mat-list-item>
 
     <ng-template usPortal #newTopic="usPortal">

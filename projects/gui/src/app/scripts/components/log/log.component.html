@@ -1,0 +1,15 @@
+<div class="log" cdkScrollable>
+  <div [ngClass]="log.val.severity + ' logentry'" #logEntry fxLayout="row" fxLayout="start center"
+    *ngFor="let log of (topic | ha4usState:100)">
+    <span>{{log.ts|date:'yyyy-MM-ddThh:mm:ss'}}</span>
+    <span>
+      <mat-icon>{{iconMap[log.val.severity]}}</mat-icon>
+    </span>
+    <div fxFlex fxLayout="column">
+      <pre class="message" fxFlex>{{log.val.message}}
+          </pre>
+      <pre class="attachments" *ngFor="let attachment of log.val.attachments">{{attachment | json}}</pre>
+    </div>
+
+  </div>
+</div>

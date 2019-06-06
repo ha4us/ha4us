@@ -1,0 +1,38 @@
+:host {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.log {
+  font: 400 14px/10px Roboto;
+  line-height: 14px;
+  height: 100%;
+  overflow: auto;
+
+  pre.message {
+    font-family: inherit;
+    margin: 0
+  }
+
+  pre.attachments {
+    margin: o
+  }
+
+
+
+  .error {
+    color: red;
+    background-color: rgba(255, 0, 0, 0.2);
+
+  }
+
+  .warn {
+    color: orange;
+    background-color: rgba(100%, 76.9%, 0%, 0.2)
+  }
+
+  .info {
+    color: green
+  }
+}
