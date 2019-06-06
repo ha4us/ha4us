@@ -1,11 +1,11 @@
 import * as got from 'got'
 import {
-  DBMediaService,
   ha4us,
   Ha4usArguments,
   Ha4usOptions,
   ObjectService,
   StateService,
+  MediaService,
 } from '@ha4us/adapter'
 import {
   extractTags,
@@ -63,7 +63,7 @@ function Adapter(
   $args: Ha4usArguments,
   $states: StateService,
   $objects: ObjectService,
-  $media: DBMediaService
+  $media: MediaService
 ) {
   let sonos: Sonos
   async function $onInit() {
@@ -258,7 +258,7 @@ function Adapter(
         })
       )
       .subscribe(({ members, state }) => {
-        $log.info('Transport-Change', members)
+        $log.debug('Transport-Change', members)
 
         getAlbumArt(state.currentTrack.absoluteAlbumArtUri).subscribe(cover => {
           members.forEach(room => {
@@ -305,7 +305,7 @@ function Adapter(
           return sonos.previous(roomName)
         case 'announce':
           const loginUrl: URL = new URL($args.restUrl + '/api/auth/login')
-          $log.info('Logging into Ha4us-Rest @%s', loginUrl.origin)
+          $log.debug('Logging into Ha4us-Rest @%s', loginUrl.origin)
           return got
             .get(loginUrl, { json: true })
             .then(response => {
@@ -351,7 +351,7 @@ function Adapter(
       switch (action) {
         case 'announce':
           const loginUrl: URL = new URL($args.restUrl + '/api/auth/login')
-          $log.info('Logging into Ha4us-Rest @%s', loginUrl.origin)
+          $log.debug('Logging into Ha4us-Rest @%s', loginUrl.origin)
           return got
             .get(loginUrl, { json: true })
             .then(response => {

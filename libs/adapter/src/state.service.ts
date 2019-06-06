@@ -65,7 +65,7 @@ export class StateService extends MqttService {
     })
 
     mqtt.on('close', () => {
-      $log.warn('closing mqtt')
+      $log.debug('closing mqtt')
     })
 
     super(mqtt)

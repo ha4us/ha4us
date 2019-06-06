@@ -228,7 +228,7 @@ export class ObjectService extends Ha4usMongoAccess
    * @param  mode the mode (defaults to expand)
    * @return returns the final object
    *
-   * @deprecated the install method is deprecated and will be removed in next major release - please use @see create
+   * @deprecated it will be removed in next major release - please use create method
    */
   public async install(
     topic: string,

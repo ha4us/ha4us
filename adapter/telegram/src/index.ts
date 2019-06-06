@@ -1,4 +1,10 @@
-import { asClass, asFunction, asValue, createContainer, Lifetime } from 'awilix'
+import {
+  asClass,
+  asFunction,
+  asValue,
+  createContainer,
+  Lifetime,
+} from 'awilix'
 
 import {
   ha4us,
@@ -26,7 +32,7 @@ import {
 import { ContextMessageUpdate, Middleware, Telegraf } from 'telegraf'
 
 // tslint:disable-next-line
-const Graf = require('telegraf')
+const Graf = require('telegraf');
 const extra = require('telegraf/extra')
 
 import { AlexaUtterance } from './utterances/alexautterance'
@@ -107,7 +113,7 @@ function Adapter(
 
     if (users.length > 0) {
       sessions.set(ctx.chat.id, users[0])
-      $log.info('%s logged in with %n', users[0].username, ctx.chat.id)
+      $log.debug('%s logged in with %n', users[0].username, ctx.chat.id)
       return next(ctx)
     } else {
       $log.warn('Unauthorized', ctx.chat)

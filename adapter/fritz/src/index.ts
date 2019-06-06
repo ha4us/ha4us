@@ -8,7 +8,11 @@ import {
 
 import { Ha4usLogger, Ha4usObjectType } from '@ha4us/core'
 
-import { FritzCallmonitor, EventType, Direction } from './lib/fritz-callmonitor'
+import {
+  FritzCallmonitor,
+  EventType,
+  Direction,
+} from './lib/fritz-callmonitor'
 
 import { CardDav, Card } from './lib/carddav'
 import { Subscription } from 'rxjs'
@@ -74,7 +78,7 @@ function Adapter(
             'DAV',
             [card.fn, card.photo.type].join('.')
           )
-          $log.info('Hash', hash)
+          $log.debug('Hash', hash)
           return $media
             .postString([card.fn, card.photo.type].join('.'), card.photo.data, {
               id: hash,

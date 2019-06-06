@@ -498,7 +498,7 @@ function Adapter(
       url = 'http://' + $args.hmHostIp + ':' + $args.hmListenPort
     }
     const params = [url, $args.name + '_' + name]
-    $log.info('Initializing interface', name)
+    $log.debug('Initializing interface', name)
     $log.debug('rpc', name, '> init', params)
     lastEvent[name] = new Date().getTime()
     rpcClient[name].methodCall('init', params, (err, res) => {

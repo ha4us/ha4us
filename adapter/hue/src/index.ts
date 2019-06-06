@@ -334,14 +334,17 @@ function Adapter(
               .setLightState(target.id, { xy: target.converter.toXY(msg.val) })
               .catch(e => {
                 // just log error and swallow the exception
-                $log.error('Error occurred', e)
+                $log.error('Error occurred for color', e.message)
               })
           } else {
             return client
               .setLightState(target.id, { [state]: msg.val })
               .catch(e => {
                 // just log error and swallow the exception
-                $log.error('Error occurred', e)
+                $log.error(
+                  'Error occurred for normal set operation',
+                  e.message
+                )
               })
           }
         })
