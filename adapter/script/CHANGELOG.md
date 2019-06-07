@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.8.2](https://github.com/ha4us/ha4us/compare/@ha4us/script.adapter@0.8.1...@ha4us/script.adapter@0.8.2) (2019-06-07)
+
+**Note:** Version bump only for package @ha4us/script.adapter
+
+
+
+
+
 ## [0.8.1](https://github.com/ha4us/ha4us/compare/@ha4us/script.adapter@0.8.0...@ha4us/script.adapter@0.8.1) (2019-06-07)
 
 
