@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.8.1](https://github.com/ha4us/ha4us/compare/@ha4us/script.adapter@0.8.0...@ha4us/script.adapter@0.8.1) (2019-06-07)
+
+
+### Bug Fixes
+
+* **script:** only load the first sublevel of adapter for scripts ([771e571](https://github.com/ha4us/ha4us/commit/771e571))
+
+
+
+
+
 # [0.8.0](https://github.com/ha4us/ha4us/compare/@ha4us/script.adapter@0.7.2...@ha4us/script.adapter@0.8.0) (2019-06-06)
 
 
