@@ -234,7 +234,7 @@ function Adapter(
     //
     $objects
       .observe({
-        pattern: MqttUtil.join($args.name, '#'),
+        pattern: MqttUtil.join($args.name, '+'),
         role: Ha4usRole.Script,
       })
       .pipe(
