@@ -233,11 +233,9 @@ function Adapter(
     // first loading script from database
     //
     $objects
-      .observe({
-        pattern: MqttUtil.join($args.name, '+'),
-        role: Ha4usRole.Script,
-      })
+      .observe(MqttUtil.join($args.name, '+'))
       .pipe(
+        filter(script => script.role === 'Script'),
         mergeMap(scriptObject =>
           installScript(
             new Ha4usScript(scriptObject, {
