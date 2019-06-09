@@ -789,7 +789,6 @@ function Adapter(
 
                 const obj: Ha4usObject = {
                   topic: MqttUtil.join(info.name, value.ID),
-                  label: info.name.replace(/\//g, ' '),
                   type: HM_TYPEMAP[value.TYPE],
                   min: value.MIN,
                   max: value.MAX,
