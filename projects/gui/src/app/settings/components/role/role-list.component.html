@@ -8,12 +8,13 @@
     </mat-autocomplete>
   </mat-form-field>
   <form fxFlex>
-    <div class="rolelist" fxLayout="column" fxLayoutAlign="start" fxLayoutGap="15px" cdkDropList (cdkDropListDropped)="drop($event)">
+    <div class="rolelist" fxLayout="column" fxLayoutAlign="start" fxLayoutGap="15px" cdkDropList
+      (cdkDropListDropped)="drop($event)">
       <ng-container *ngFor="let role of rolesForm?.controls; let i = index;">
         <div [ngClass]="{'matched':(searchRole.value|wildcard:role.value.selector)}" class="editpanel" fxLayout="row"
           fxLayoutAlign="start center" cdkDrag [formGroup]="role">
-
-          <ha4us-media cdkDragHandle avatar ha4usPick="image/*" formControlName="image" size="64"></ha4us-media>
+          <ha4us-media cdkDragHandle [color]="role.value.color" [backgroundColor]="role.value.backgroundColor"
+            ha4usPick="image" formControlName="image" size="64" avatar matTooltip="Klicke um zu ändern"></ha4us-media>
           <div fxFlex fxLayout="column" fxLayoutAlign="start stretch">
             <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="5px">
               <mat-form-field fxFlex>
@@ -27,12 +28,12 @@
 
               <mat-form-field fxFlex>
                 <mat-label>Vordergrund</mat-label>
-                <ha4us-color-picker matPrefix formControlName="color"> </ha4us-color-picker>
+                <ha4us-color-picker matPrefix formControlName="color" delete> </ha4us-color-picker>
                 <input matInput formControlName="color" />
               </mat-form-field>
               <mat-form-field fxFlex>
                 <mat-label>Hintergrund</mat-label>
-                <ha4us-color-picker matPrefix formControlName="backgroundColor"> </ha4us-color-picker>
+                <ha4us-color-picker matPrefix formControlName="backgroundColor" delete> </ha4us-color-picker>
                 <input matInput formControlName="backgroundColor" />
               </mat-form-field>
               <mat-form-field fxFlex>

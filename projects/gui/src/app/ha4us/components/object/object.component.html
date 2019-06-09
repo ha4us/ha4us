@@ -19,7 +19,7 @@
 
 <div fxLayout="row" fxLayoutAlign="start center" *ngIf="object | ha4usRole as display">
 
-  <ha4us-media fxFlex="none" [media]="display.image" avatar size="48" [color]="display.color"
+  <ha4us-media fxFlex="none" [media]="object.image || display.image" avatar size="48" [color]="display.color"
     [backgroundColor]="display.backgroundColor" [alt]="display.label || display.role || display.topic"></ha4us-media>
   <div fxFlex="nogrow" class="text">
     <h2 class="line mat-h3">{{object.label || object.topic | topicPart}}</h2>

@@ -20,9 +20,9 @@
   [avatar] {
 
     // retrieve particular color from variable, rg: text, base, divider, ...
-    color: mat-color($primary, darker-contrast);
-    background-color: mat-color($primary);
-    fill: mat-color($primary, darker-contrast);
+    //color: mat-color($primary, darker-contrast);
+    // background-color: mat-color($primary);
+    //fill: mat-color($primary, darker-contrast);
 
     font: {
       family: mat-font-family($config, caption);
