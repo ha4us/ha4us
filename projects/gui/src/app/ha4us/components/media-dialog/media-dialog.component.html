@@ -1,10 +1,14 @@
 <mat-toolbar color="primary">
   <button tabindex="-1" mat-icon-button (click)=cancel()>
     <mat-icon>{{state ==='upload' ? 'arrow_back' : 'close'}}</mat-icon>
-  </button><span fxFlex>{{state === 'upload'? 'Hochladen':'Medium aussuchen'}}</span></mat-toolbar>
+  </button><span fxFlex>{{state === 'upload'? 'Hochladen':'Medium aussuchen'}}</span>
+  <button tabindex="-1" mat-icon-button (click)=clearImage()>
+    <mat-icon>clear</mat-icon>
+  </button></mat-toolbar>
 <div [@stateSlider]="state" fxFlex class="container" flexLayout="row">
   <div flex="100" fxFlexLayout="column" class="page">
-    <ha4us-media-gallery fxFlex [cols]='cols' [mimeType]="data.mimeType" (select)="onSelect($event)"></ha4us-media-gallery>
+    <ha4us-media-gallery fxFlex [cols]='cols' [mimeType]="data.mimeType" (select)="onSelect($event)">
+    </ha4us-media-gallery>
     <button mat-fab (click)="state='upload'">
       <mat-icon>add</mat-icon>
     </button>

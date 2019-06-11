@@ -5,7 +5,12 @@ import { map, shareReplay } from 'rxjs/operators'
 
 import { Ha4usRoleDefinition } from '../models'
 import { SettingsService } from '../services/settings.service'
-import { convertWildcarded, Ha4usObject, Ha4usObjectDisplay } from '@ha4us/core'
+import {
+  convertWildcarded,
+  Ha4usObject,
+  Ha4usObjectDisplay,
+  defaultsDeep,
+} from '@ha4us/core'
 import merge from 'lodash/merge'
 const DEF_ROLE: Ha4usRoleDefinition = {
   selector: '*',
@@ -55,7 +60,7 @@ export class Ha4usRolePipe implements PipeTransform, OnDestroy {
           this.curValue = foundRole ? foundRole.role : DEF_ROLE
         } else {
           this.curValue = foundRole
-            ? merge({}, roleId, foundRole.role)
+            ? defaultsDeep({}, roleId as Ha4usObject, foundRole.role)
             : (roleId as Ha4usObjectDisplay)
         }
       })

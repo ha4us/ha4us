@@ -106,6 +106,7 @@ export class ObjectService {
   edit(topic: string) {
     debug('Editing', topic)
     const dialogRef = this.dialog.open(ObjectEditDialogComponent, {
+      maxHeight: '90vh!important',
       data: { topic },
     })
 
