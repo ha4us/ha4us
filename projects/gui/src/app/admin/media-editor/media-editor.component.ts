@@ -13,8 +13,6 @@ import { MediaService } from '@ha4us/ng'
 export class MediaEditorComponent implements OnInit, OnDestroy {
   selectedMedia = this.ms.selectedMedia$
 
-  mimeType: string
-
   constructor(protected ms: MediaService) {}
 
   ngOnInit() {}

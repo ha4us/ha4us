@@ -82,15 +82,16 @@ export class MediaService {
         .filter(media => mimeMatch.test(media.contentType))
         .filter(media =>
           search.tags.reduce(
-            (res, tagToFind) => res && media.tags.indexOf(tagToFind) > -1,
+            (res, tagToFind) =>
+              res && media.tags && media.tags.indexOf(tagToFind) > -1,
             true
           )
         )
         .filter(
           media =>
             !search.fileName ||
-            search.fileName.length < 3 ||
-            media.filename.indexOf(search.fileName) > 0
+            search.fileName.length === 0 ||
+            media.filename.match(new RegExp(search.fileName, 'i'))
         )
 
       return result

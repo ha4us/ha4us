@@ -22,7 +22,7 @@ import * as Actions from './actions'
 import { Types } from './actions'
 
 export function searchReducer(
-  state: MediaSearchEvent,
+  state: MediaSearchEvent = { mimeType: '*', tags: [], fileName: undefined },
   action: Actions.Union
 ): MediaSearchEvent {
   switch (action.type) {

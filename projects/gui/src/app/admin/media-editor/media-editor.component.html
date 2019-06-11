@@ -13,12 +13,12 @@
         </div>
       </mat-drawer>
       <mat-drawer-content fxFlexLayout="column">
-        <ha4us-media-gallery fxFlex [cols]='3' [mimeType]="mimeType" (select)="onSelect($event)"></ha4us-media-gallery>
+        <ha4us-media-gallery fxFlex [cols]='3' (select)="onSelect($event)"></ha4us-media-gallery>
       </mat-drawer-content>
     </mat-drawer-container>
   </mat-tab>
   <mat-tab label="Hochladen">
-    <ha4us-media-upload (upload)="onUpload($event)" [mimeType]="mimeType" fxFlex></ha4us-media-upload>
+    <ha4us-media-upload (upload)="onUpload($event)" fxFlex></ha4us-media-upload>
 
   </mat-tab>
 </mat-tab-group>
