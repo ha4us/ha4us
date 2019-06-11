@@ -1,8 +1,43 @@
+// Create a config with the default typography levels.
+
+
 :host {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .gallery {
+  position: relative;
+}
+
+.cell {
+  position: relative;
+  height: 300px;
+  width: 300px;
+
+
+  ha4us-media {
     position: relative;
+  }
+
+  .footer {
+
+    height: 48px;
+    color: #fff;
+    background: rgba(0, 0, 0, .38);
+    overflow: hidden;
+    padding: 5px 16px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    overflow: hidden;
+
+    div {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
 }

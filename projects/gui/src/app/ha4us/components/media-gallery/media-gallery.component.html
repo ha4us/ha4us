@@ -12,13 +12,18 @@
   <us-tag-input [availableTags]="allTags|async" formControlName="tags" placeholder="Tags bitte"></us-tag-input>
 </form>
 
-<cdk-virtual-scroll-viewport fxFlex [itemSize]="300" #viewport>
+<cdk-virtual-scroll-viewport fxFlex [itemSize]="310">
+  <div class="gallery" fxLayout="column" fxLayoutGap="10px">
+    <div class="row" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px" *cdkVirtualFor="let row of medias">
+      <div class="cell" *ngFor="let item of row" (click)="select.emit(item)">
 
-  <div class="gallery" fxLayout="column">
-    <div class="row" fxLayout="row" fxLayoutAlign="start start" *cdkVirtualFor="let row of medias">
-      <div fxFlex class="cell" *ngFor="let item of row">
-        <ha4us-media (click)="select.emit(item)" size="300" [media]="item.urn"></ha4us-media>
+        <ha4us-media size="300" [media]="item.urn"></ha4us-media>
+        <div class="footer">
+          <div>{{item.filename}}</div>
+          <div class="mat-caption">{{item.contentType}}</div>
+        </div>
       </div>
+
     </div>
   </div>
 </cdk-virtual-scroll-viewport>

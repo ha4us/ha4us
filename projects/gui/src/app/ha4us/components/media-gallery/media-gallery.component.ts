@@ -38,11 +38,7 @@ export class MediaGalleryComponent implements OnInit, OnDestroy {
 
   public partialMime = false
 
-  constructor(
-    protected ms: MediaService,
-    protected fb: FormBuilder,
-    protected el: ElementRef
-  ) {
+  constructor(protected ms: MediaService, protected fb: FormBuilder) {
     this.searchForm = this.fb.group({
       mimeType: '*',
       tags: [[]],
@@ -83,9 +79,5 @@ export class MediaGalleryComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this._sub.unsubscribe()
-  }
-
-  public isImage(item: Ha4usMedia): boolean {
-    return MediaService.isMime(item, 'image')
   }
 }
