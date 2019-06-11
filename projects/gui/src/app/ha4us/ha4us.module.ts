@@ -74,6 +74,8 @@ import { ObjectTreeComponent } from './components/object-tree/object-tree.compon
 import { ObjectComponent } from './components/object/object.component'
 import { TopicPartPipe } from './pipes/topic-part.pipe'
 import { ObjectEditDialogComponent } from './components/object-edit-dialog/object-edit-dialog.component'
+
+import { Ha4usColorPickerModule } from '@app/color-picker'
 @NgModule({
   imports: [
     CommonModule,
@@ -106,6 +108,7 @@ import { ObjectEditDialogComponent } from './components/object-edit-dialog/objec
     MatSelectModule,
     MatToolbarModule,
     MatTreeModule,
+    Ha4usColorPickerModule,
   ],
   declarations: [
     GetPipe,

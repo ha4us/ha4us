@@ -28,13 +28,15 @@
 
               <mat-form-field fxFlex>
                 <mat-label>Vordergrund</mat-label>
-                <ha4us-color-picker matPrefix formControlName="color" delete> </ha4us-color-picker>
-                <input matInput formControlName="color" />
+                <ha4us-color-picker [value]="role.value.color" matPrefix formControlName="color" delete>
+                </ha4us-color-picker>
+                <input matInput [value]="role.value.color" formControlName="color" />
               </mat-form-field>
               <mat-form-field fxFlex>
                 <mat-label>Hintergrund</mat-label>
-                <ha4us-color-picker matPrefix formControlName="backgroundColor" delete> </ha4us-color-picker>
-                <input matInput formControlName="backgroundColor" />
+                <ha4us-color-picker matPrefix [value]="role.value.backgroundColor" formControlName="backgroundColor"
+                  delete> </ha4us-color-picker>
+                <input matInput [value]="role.value.backgroundColor" formControlName="backgroundColor" />
               </mat-form-field>
               <mat-form-field fxFlex>
                 <mat-label>Template</mat-label>

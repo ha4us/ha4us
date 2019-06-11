@@ -57,6 +57,8 @@ export class ObjectEditComponent implements OnInit, OnDestroy {
       template: [undefined],
       role: [undefined],
       image: [undefined],
+      color: [undefined],
+      backgroundColor: [undefined],
       hidden: [undefined],
       map: [undefined],
       can: this._fb.group({

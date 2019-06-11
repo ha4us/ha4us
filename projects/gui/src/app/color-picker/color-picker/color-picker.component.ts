@@ -46,8 +46,17 @@ export class ColorPickerComponent implements OnInit, ControlValueAccessor {
     this.delete = coerceBooleanProperty(val)
   }
 
+  @Input() set value(hexColor: string) {
+    if (hexColor) {
+      this.color = toState(hexColor)
+    } else {
+      this.color = 'white'
+    }
+    this.colorStyle = hexColor
+  }
+
   public colorStyle: string
-  public color: Color
+  public color: any
   @ViewChild(CdkPortal) protected picker: CdkPortal
   @ViewChild('anchor') protected anchor: ElementRef
 

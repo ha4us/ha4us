@@ -1,8 +1,9 @@
 <form [formGroup]="objectEditForm" [style.padding.px]="15" fxLayout="column" fxLayoutGap="15px">
-  <div fxLayout="row">
-    <ha4us-media altImg="/assets/images/Sonos_Default_AlbumArt.png" alt="Wähle ein Bild" ha4usPick="image/*"
-      formControlName="image" size="128"></ha4us-media>
-    <h1 class="mat-h1" class="ellipsis">{{objectEditForm.value.topic}}</h1>
+  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
+    <ha4us-media altImg="/assets/images/Sonos_Default_AlbumArt.png" alt="Wähle ein Bild" ha4usPick="image"
+      formControlName="image" size="128" avatar [backgroundColor]="objectEditForm.value.backgroundColor"
+      [color]="objectEditForm.value.color"></ha4us-media>
+    <h1 fxFlex class="mat-h1" class="ellipsis">{{objectEditForm.value.topic}}</h1>
   </div>
   <mat-form-field>
     <input matInput placeholder="Bezeichnung" formControlName="label">
@@ -29,6 +30,19 @@
       <input matInput type="number" placeholder="Maximum" formControlName="max">
     </mat-form-field>
   </div>
+
+  <mat-form-field fxFlex>
+    <mat-label>Vordergrund</mat-label>
+    <ha4us-color-picker [value]="objectEditForm.value.color" matPrefix formControlName="color" delete>
+    </ha4us-color-picker>
+    <input matInput [value]="objectEditForm.value.color" formControlName="color" />
+  </mat-form-field>
+  <mat-form-field fxFlex>
+    <mat-label>Hintergrund</mat-label>
+    <ha4us-color-picker matPrefix [value]="objectEditForm.value.backgroundColor" formControlName="backgroundColor"
+      delete> </ha4us-color-picker>
+    <input matInput [value]="objectEditForm.value.backgroundColor" formControlName="backgroundColor" />
+  </mat-form-field>
 
   <mat-form-field>
     <input matInput placeholder="Format" formControlName="template">
