@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.1](https://github.com/ha4us/ha4us/compare/@ha4us/rest.adapter@1.2.0...@ha4us/rest.adapter@1.2.1) (2019-06-12)
+
+
+### Bug Fixes
+
+* **rest:** assets were missing ([ba2035e](https://github.com/ha4us/ha4us/commit/ba2035e))
+
+
+
+
+
 # [1.2.0](https://github.com/ha4us/ha4us/compare/@ha4us/rest.adapter@1.1.6...@ha4us/rest.adapter@1.2.0) (2019-06-12)
 
 
