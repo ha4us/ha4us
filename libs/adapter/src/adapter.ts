@@ -68,7 +68,7 @@ export async function ha4us(options: Ha4usOptions, adapter: AdapterFactory) {
     container.registerValue('$states', undefined)
     $log.warn('No connection to mqtt - please import the $state adapter')
   }
-  sub = interval(5000).subscribe(() => {
+  sub = interval(30000).subscribe(() => {
     const mem = process.memoryUsage()
     const rss = Math.round((mem.heapTotal / 1024 / 1024) * 100) / 100
     $states.status('$state/memoryUsage', rss, true)
