@@ -56,6 +56,7 @@ const ADAPTER_OPTIONS: Ha4usOptions = {
     },
   },
   imports: ['$log', '$args', '$states', '$objects', '$media'],
+  logo: 'sonos-logo.jpg',
 }
 
 function Adapter(
@@ -85,107 +86,104 @@ function Adapter(
             player.baseUrl
           )
         ),
-        mergeMap((player: ISonosPlayer) => {
-          const objectsToInstall: Partial<Ha4usObject>[] = [
-            {
-              topic: player.roomName,
-              label: player.roomName,
-              role: 'Device/Sonos',
-              tags: ['#sonos'],
-              native: {
-                uuid: player.uuid,
-                baseUrl: player.baseUrl,
+        mergeMap((player: ISonosPlayer) =>
+          $objects.create(
+            [
+              {
+                label: player.roomName,
+                role: 'Device/Sonos',
+                tags: ['#sonos'],
+                native: {
+                  uuid: player.uuid,
+                  baseUrl: player.baseUrl,
+                },
               },
-            },
-            {
-              topic: MqttUtil.join(player.roomName, 'volume'),
-              type: Ha4usObjectType.Number,
-              role: 'Range/Speaker/Volume',
-              min: 0,
-              max: 100,
-              can: {
-                read: true,
-                write: true,
-                trigger: true,
+              {
+                volume: {
+                  type: Ha4usObjectType.Number,
+                  role: 'Range/Speaker/Volume',
+                  min: 0,
+                  max: 100,
+                  can: {
+                    read: true,
+                    write: true,
+                    trigger: true,
+                  },
+                },
+                pause: {
+                  type: Ha4usObjectType.Boolean,
+                  role: 'Toggle/Media/Pause',
+                  can: {
+                    read: true,
+                    write: true,
+                    trigger: true,
+                  },
+                },
+                mute: {
+                  type: Ha4usObjectType.Boolean,
+                  role: 'Toggle/Speaker/Mute',
+                  can: {
+                    read: true,
+                    write: true,
+                    trigger: true,
+                  },
+                },
+                next: {
+                  type: Ha4usObjectType.Boolean,
+                  role: 'Action/Media/Next',
+                  can: {
+                    read: false,
+                    write: true,
+                    trigger: false,
+                  },
+                },
+                previous: {
+                  type: Ha4usObjectType.Boolean,
+                  role: 'Action/Media/Previous',
+                  can: {
+                    read: false,
+                    write: true,
+                    trigger: false,
+                  },
+                },
+                announce: {
+                  type: Ha4usObjectType.String,
+                  role: 'Input/Speaker/Announce',
+                  can: {
+                    read: false,
+                    write: true,
+                    trigger: false,
+                  },
+                },
+                info: {
+                  type: Ha4usObjectType.Object,
+                  role: 'Value/Sonos/Info',
+                  can: {
+                    read: false,
+                    write: false,
+                    trigger: true,
+                  },
+                },
+                cover: {
+                  type: Ha4usObjectType.Object,
+                  role: 'Media/Image/Raster/Coverart',
+                  can: {
+                    read: false,
+                    write: false,
+                    trigger: true,
+                  },
+                },
               },
-            },
+            ],
             {
-              topic: MqttUtil.join(player.roomName, 'pause'),
-              type: Ha4usObjectType.Boolean,
-              role: 'Toggle/Media/Pause',
-              can: {
-                read: true,
-                write: true,
-                trigger: true,
-              },
-            },
-            {
-              topic: MqttUtil.join(player.roomName, 'mute'),
-              type: Ha4usObjectType.Boolean,
-              role: 'Toggle/Speaker/Mute',
-              can: {
-                read: true,
-                write: true,
-                trigger: true,
-              },
-            },
-            {
-              topic: MqttUtil.join(player.roomName, 'next'),
-              type: Ha4usObjectType.Boolean,
-              role: 'Action/Media/Next',
-              can: {
-                read: false,
-                write: true,
-                trigger: false,
-              },
-            },
-            {
-              topic: MqttUtil.join(player.roomName, 'previous'),
-              type: Ha4usObjectType.Boolean,
-              role: 'Action/Media/Previous',
-              can: {
-                read: false,
-                write: true,
-                trigger: false,
-              },
-            },
-            {
-              topic: MqttUtil.join(player.roomName, 'announce'),
-              type: Ha4usObjectType.String,
-              role: 'Input/Speaker/Announce',
-              can: {
-                read: false,
-                write: true,
-                trigger: false,
-              },
-            },
-            {
-              topic: MqttUtil.join(player.roomName, 'info'),
-              type: Ha4usObjectType.Object,
-              role: 'Value/Sonos/Info',
-              can: {
-                read: false,
-                write: false,
-                trigger: true,
-              },
-            },
-            {
-              topic: MqttUtil.join(player.roomName, 'cover'),
-              type: Ha4usObjectType.Object,
-              role: 'Media/Image/Raster/Coverart',
-              can: {
-                read: false,
-                write: false,
-                trigger: true,
-              },
-            },
-          ]
-          return objectsToInstall
-        }),
-        mergeMap(obj => $objects.install(obj.topic, obj))
+              root: MqttUtil.join('$', player.roomName),
+              mode: 'create',
+            }
+          )
+        )
       )
-      .subscribe(obj => {
-        $log.debug(obj.topic)
+      .subscribe(res => {
+        $log.debug(`${res.inserted} objects created`)
       })
 
     sonos.observeVolume().subscribe((data: IVolumeChange) => {
