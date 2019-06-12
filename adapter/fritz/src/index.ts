@@ -54,6 +54,7 @@ const ADAPTER_OPTIONS = {
     },
   },
   imports: ['$log', '$args', '$states', '$objects', '$media'],
+  logo: 'fritz.png',
 }
 
 function Adapter(
