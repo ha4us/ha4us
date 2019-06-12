@@ -119,64 +119,68 @@ function Adapter(
       countryCode: $args.fritzCountry,
     })
 
-    $objects.install('activeLines', {
-      type: Ha4usObjectType.Number,
-      role: 'Value/Telephone/ActiveLines',
-      can: {
-        read: true,
-        write: false,
-        trigger: true,
-      },
-    })
-    $objects.install('ring', {
-      type: Ha4usObjectType.String,
-      role: 'Value/Telephone/Ring',
-      can: {
-        read: false,
-        write: false,
-        trigger: true,
-      },
-    })
-    $objects.install('call', {
-      type: Ha4usObjectType.String,
-      role: 'Value/Telephone/Call',
-      can: {
-        read: false,
-        write: false,
-        trigger: true,
-      },
-    })
-    $objects.install('missedCalls', {
-      type: Ha4usObjectType.Number,
-      role: 'Value/Telephone/missedCalls',
-      can: {
-        read: true,
-        write: true,
-        trigger: true,
-      },
-    })
-    $objects.install('resetMissed', {
-      type: Ha4usObjectType.Any,
-      role: 'Value/Telephone/resetMissed',
-      can: {
-        read: true,
-        write: false,
-        trigger: true,
-      },
-    })
-    $objects.install('lastCall', {
-      type: Ha4usObjectType.Object,
-      role: 'Value/Telephone/lastCall',
-      can: {
-        read: true,
-        write: false,
-        trigger: true,
-      },
-    })
-
-    $states.status('$missedCalls', 0, true)
-    $states.status('$activeLines', 0, true)
-    $states.status('$resetMissed', DateTime.local().toISO(), true)
+    $objects
+      .create(
+        [
+          {
+            role: 'Device/Fritz/Monitor',
+          },
+          {
+            activeLines: {
+              type: Ha4usObjectType.Number,
+              role: 'Value/Telephone/ActiveLines',
+              can: {
+                trigger: true,
+              },
+            },
+            ring: {
+              type: Ha4usObjectType.String,
+              role: 'Value/Telephone/Ring',
+              can: {
+                read: false,
+                write: false,
+                trigger: true,
+              },
+            },
+            call: {
+              type: Ha4usObjectType.String,
+              role: 'Value/Telephone/Call',
+              can: {
+                read: false,
+                write: false,
+                trigger: true,
+              },
+            },
+            missedCalls: {
+              type: Ha4usObjectType.Number,
+              role: 'Value/Telephone/missedCalls',
+              can: {
+                read: true,
+                write: true,
+                trigger: true,
+              },
+            },
+            resetMissed: {
+              type: Ha4usObjectType.Any,
+              role: 'Value/Telephone/resetMissed',
+              can: {
+                read: true,
+                write: true,
+                trigger: true,
+              },
+            },
+            lastCall: {
+              type: Ha4usObjectType.Object,
+              role: 'Value/Telephone/lastCall',
+              can: {
+                trigger: true,
+              },
+            },
+          },
+        ],
+        { root: '$/monitor', mode: 'create' }
+      )
+      .toPromise()
 
     if ($args.fritzCarddavUri) {
       carddav = new CardDav({
