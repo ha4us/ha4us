@@ -17,7 +17,7 @@ import { map, concatMap, mergeMap, toArray } from 'rxjs/operators'
 // tslint:disable-next-line
 module.exports = exports = function(route: Router, { $args, $log, $objects }) {
   function cursorToRx(source: AggregationCursor<any>): Observable<any> {
-    return Observable.create(observer => {
+    return new Observable(observer => {
       source.each((err, doc) => {
         if (err) {
           observer.error(err)

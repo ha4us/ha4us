@@ -42,7 +42,7 @@ module.exports = exports = function handler(
 
     const b64auth =
       ((req.headers.authorization as string) || '').split(' ')[1] || ''
-    const [userName, password] = new Buffer(b64auth, 'base64')
+    const [userName, password] = Buffer.from(b64auth, 'base64')
       .toString()
       .split(':')
     if (!(userName && password)) {

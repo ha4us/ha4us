@@ -1,4 +1,4 @@
-import { DBMediaService, fileToHa4usMedia } from '@ha4us/adapter'
+import { DBMediaService, fileToHa4usMedia, MediaService } from '@ha4us/adapter'
 import { Ha4usError, Ha4usLogger, Ha4usMedia } from '@ha4us/core'
 import axios from 'axios'
 import { Db } from 'mongodb'
@@ -18,7 +18,7 @@ module.exports = exports = function(
   }: {
     $args: { voicerssApikey: string };
     $log: Ha4usLogger;
-    $media: DBMediaService;
+    $media: MediaService
     $db: Db;
   }
 ) {
