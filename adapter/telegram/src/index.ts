@@ -59,6 +59,7 @@ const ADAPTER_OPTIONS = {
       type: 'number',
     },
   },
+  logo: 'telegram-logo.png',
   imports: [
     '$log',
     '$args',
@@ -117,7 +118,7 @@ function Adapter(
       return next(ctx)
     } else {
       $log.warn('Unauthorized', ctx.chat)
-      return ctx.reply('Unauthorized!')
+      // return ctx.reply('Unauthorized!')
     }
   }
 
@@ -128,7 +129,6 @@ function Adapter(
     $injector.awilix.register('turnOnIntent', asClass(TurnOnIntent))
 
     await $users.connect()
-    await $media.connect()
 
     // $states.establishCache('$#');
     bot = new Graf($args.telegramBotkey)
