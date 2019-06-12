@@ -14,6 +14,7 @@ import {
   ArgumentFactory,
   YamlService,
   CreateObjectMode,
+  Ha4usObjectDictionary,
 } from '@ha4us/adapter'
 
 import { getIp } from '@ha4us/adapter/dist/helper'
@@ -24,9 +25,18 @@ import * as yaml from 'js-yaml'
 import * as iconv from 'iconv-lite'
 import * as got from 'got'
 
-import { Observable, from, zip, EMPTY } from 'rxjs'
+import { Observable, from, zip, EMPTY, merge, concat } from 'rxjs'
 
-import { mergeMap, count, toArray, map, distinct, tap } from 'rxjs/operators'
+import {
+  mergeMap,
+  count,
+  toArray,
+  map,
+  distinct,
+  tap,
+  filter,
+  reduce,
+} from 'rxjs/operators'
 
 import { unescape } from 'querystring'
 import { HMJson } from './hmjson'
@@ -216,14 +226,15 @@ const DP_ROLE_MAP = {
 const ADAPTER_OPTIONS = {
   name: 'hm',
   path: __dirname + '/..',
-  imports: ['$log', '$args', '$yaml', '$states', '$objects'],
+  imports: ['$log', '$args', '$states', '$objects', '$media'],
+  logo: 'homematic-logo.png',
   args: {
     address: {
       alias: 'a',
       demandOption: false,
       describe: 'ip of the homematic ccu',
       type: 'string',
-      default: '192.168.1.10',
+      default: '192.168.168.10',
     },
     interfaces: {
       alias: 'i',
@@ -231,23 +242,6 @@ const ADAPTER_OPTIONS = {
       describe: 'interfaces of host system',
       type: 'string',
       default: 'eth0,utun0,en0,br0',
-    },
-    file: {
-      alias: 'file',
-      demandOption: false,
-      describe: 'mapping configuration (yml-file)',
-      type: 'string',
-      implies: 'names',
-      requiresArg: false,
-    },
-    names: {
-      alias: 'names',
-      choices: ['read', 'write'],
-      demandOption: false,
-      describe: 'read or write names from/to ccu',
-      type: 'string',
-      implies: 'hm-file',
-      requiresArg: false,
     },
     // hmPingIntervall
     // ,
@@ -309,7 +303,6 @@ const ADAPTER_OPTIONS = {
 
 function Adapter(
   $log: Ha4usLogger,
-  $yaml: YamlService,
   $args: Ha4usArguments,
   $states: StateService,
   $objects: ObjectService
@@ -670,7 +663,7 @@ function Adapter(
 
       const iname = ifaceName(params[0])
 
-      const newDevices = params[1].filter((device: any) => {
+      const newDevices: any[] = params[1].filter((device: any) => {
         if (
           // take if
           // theres is a VALUES Paramset
@@ -707,6 +700,7 @@ function Adapter(
           device.channels.forEach((channel, idx, arr) => {
             names[channel.address] = channel
             names[channel.address].model = device.type
+
             if (idx === 0) {
               names[channel.address].name = device.name
             }
@@ -719,16 +713,29 @@ function Adapter(
         } will be ignored`
       )
 
-      from(newDevices)
+      concat(
+        ...newDevices.map(device =>
+          from(
+            getParamsetDescription(
+              ifaceName(params[0]),
+              device.ADDRESS,
+              'VALUES'
+            )
+          ).pipe(
+            map(values => ({ device, values, info: names[device.ADDRESS] }))
+          )
+        )
+      )
         .pipe(
-          mergeMap((device: any) => {
-            const info = names[device.ADDRESS]
-            if (!info) {
-              $log.warn(`No rega information for ${device.ADDRESS}`)
-              return EMPTY
-            }
-
-            const object: Ha4usObject = {
+          /*tap(({ device, values, info }) =>
+            $log.debug(
+              `${info.name} (${device.ADDRESS}) arrived with ${Object.keys(
+                values
+              ).join(',')}`
+            )
+          ),*/
+          mergeMap(({ device, values, info }) => {
+            const object: Partial<Ha4usObject> = {
               topic: info.name,
               label: info.name.replace(/\//g, ' '),
               type: Ha4usObjectType.Object,
@@ -736,13 +743,6 @@ function Adapter(
               role: DEV_ROLE_MAP[device.TYPE]
                 ? DEV_ROLE_MAP[device.TYPE]
                 : DEV_ROLE_MAP[info.model],
-              can: {
-                // tslint:disable
-                read: false,
-                write: false,
-                trigger: false,
-                // tslint:enable
-              },
               native: {
                 address: device.ADDRESS,
                 version: device.VERSION,
@@ -759,90 +759,70 @@ function Adapter(
                 } not known - please contact developer`
               )
             }
+            const objDict: Ha4usObjectDictionary = {}
 
-            return $objects
-              .install(object.topic, object, CreateObjectMode.force)
-              .then(() =>
-                getParamsetDescription(
-                  ifaceName(params[0]),
-                  device.ADDRESS,
-                  'VALUES'
+            Object.keys(values).forEach(key => {
+              const value = values[key]
+              const role = DP_ROLE_MAP[value.ID]
+                ? DP_ROLE_MAP[value.ID]
+                : DP_ROLE_MAP[[info.type, value.ID].join('.')]
+              if (!role) {
+                $log.warn(
+                  `Datapoint ${value.ID} for type ${
+                    info.type
+                  } not known - please contact developer`
                 )
-              )
-              .then(values => ({ device, values, info }))
+              }
+              const obj: Partial<Ha4usObject> = {
+                type: HM_TYPEMAP[value.TYPE],
+                min: value.MIN,
+                max: value.MAX,
+                unit: value.UNIT === '�C' ? '°C' : value.UNIT,
+                tags: info.tags,
+                role,
+                can: {
+                  // tslint:disable
+                  read: (value.OPERATIONS & 1) !== 0,
+                  write: (value.OPERATIONS & 2) !== 0,
+                  trigger: (value.OPERATIONS & 4) !== 0,
+                  // tslint:enable
+                },
+                native: {
+                  address: device.ADDRESS,
+                  version: device.VERSION,
+                  interface: iname,
+                  dp: value.ID,
+                  type: value.TYPE,
+                  factor: null,
+                  id: info.id,
+                  devType: info.type,
+                },
+              }
+
+              if (value.UNIT === '100%') {
+                obj.unit = '%'
+                obj.native.factor = 100
+                obj.max = 100
+              }
+
+              objDict[value.ID] = obj
+            })
+
+            return $objects.create([object, objDict], {
+              root: MqttUtil.join('$', info.name),
+              mode: 'create',
+            })
           }, 10),
-
-          mergeMap(({ device, values, info }) => {
-            return from(
-              Object.keys(values).map(valueKey => {
-                const value = values[valueKey]
-                const role = DP_ROLE_MAP[value.ID]
-                  ? DP_ROLE_MAP[value.ID]
-                  : DP_ROLE_MAP[[info.type, value.ID].join('.')]
-                if (!role) {
-                  $log.warn(
-                    `Datapoint ${value.ID} for type ${
-                      info.type
-                    } not known - please contact developer`
-                  )
-                }
-
-                const obj: Ha4usObject = {
-                  topic: MqttUtil.join(info.name, value.ID),
-                  type: HM_TYPEMAP[value.TYPE],
-                  min: value.MIN,
-                  max: value.MAX,
-                  unit: value.UNIT === '�C' ? '°C' : value.UNIT,
-                  tags: info.tags,
-                  role,
-                  can: {
-                    // tslint:disable
-                    read: (value.OPERATIONS & 1) !== 0,
-                    write: (value.OPERATIONS & 2) !== 0,
-                    trigger: (value.OPERATIONS & 4) !== 0,
-                    // tslint:enable
-                  },
-                  native: {
-                    address: device.ADDRESS,
-                    version: device.VERSION,
-                    interface: iname,
-                    dp: value.ID,
-                    type: value.TYPE,
-                    min: value.MIN,
-                    max: value.MAX,
-                    factor: null,
-                    id: info.id,
-                    devType: info.type,
-                  },
-                }
-                if (value.UNIT === '100%') {
-                  obj.unit = '%'
-                  obj.native.factor = 100
-                  obj.max = 100
-                }
-                return obj
-              })
-            )
-          }),
-          mergeMap((object: Ha4usObject) => {
-            // $log.debug(`Installing object ${object.topic}`)
-            return $objects
-              .install(object.topic, object, CreateObjectMode.force)
-              .then(registerObject)
-          }),
-          count()
+          reduce((acc, cur) => {
+            acc.inserted += cur.inserted
+            acc.updated += cur.updated
+            acc.objects = [...cur.objects, ...acc.objects]
+            return acc
+          })
         )
         .subscribe(res => {
-          $log.info('%d objects handled (%d ignored)', res, ignored.length)
-          $objects.install(
-            $args.name,
-            {
-              native: {
-                ignored,
-              },
-            },
-            CreateObjectMode.force
-          )
+          res.objects.forEach(registerObject)
+          $log.debug(`${res.inserted} objects arrived for '${iname}'`)
         })
 
       return callback(null, '')
@@ -886,92 +866,6 @@ function Adapter(
       })
   }
 
-  async function namings() {
-    if ($args.names === 'write') {
-      $log.debug('Writing names to ccu')
-      const names = await $yaml.load($args.file)
-      const devices = await regaYaml(DEVICES_SCRIPT)
-      const renames = []
-      devices.forEach(device => {
-        let newDevName = names[device.address]
-        if (newDevName && newDevName !== device.name) {
-          $log.debug('%s -> %s', device.name, newDevName)
-          renames.push({
-            method: 'Device.setName',
-            params: { id: device.id, name: newDevName },
-          })
-        } else {
-          newDevName = device.name
-        }
-        device.channels
-          .filter(channel => IGNORE_TYPES.indexOf(channel.type) === -1)
-          .forEach((channel, idx, arr) => {
-            let newChName: string
-
-            if (idx === 0) {
-              newChName = newDevName + ':0'
-            } else if (idx > 0 && arr.length === 2) {
-              newChName = newDevName
-            } else if (names[channel.address]) {
-              newChName = names[channel.address]
-            } else {
-              newChName = newDevName + '/' + idx
-            }
-
-            if (channel.name !== newChName) {
-              $log.debug('%s -> %s', channel.name, newChName)
-              renames.push({
-                method: 'Channel.setName',
-                params: { id: channel.id, name: newChName },
-              })
-            } else {
-              $log.debug(
-                'Channel not renamed',
-                channel.name,
-                idx,
-                arr.length,
-                newChName
-              )
-            }
-          })
-      })
-
-      const result = await from(renames)
-        .pipe()
-        .toPromise()
-
-      $log.info('Finished', result)
-    } else {
-      $log.debug('Reading names from ccu')
-      const result = {}
-      const names = await regaYaml(DEVICES_SCRIPT)
-      $log.debug('Names', names)
-      names.forEach(device => {
-        result[device.address] = device.name
-
-        device.channels
-          .filter(channel => IGNORE_TYPES.indexOf(channel.type) === -1)
-          .forEach((channel, idx, arr) => {
-            // only export channel name definition
-            // channel 0 is not labeled according to devicname
-            if (
-              (idx === 0 && channel.name !== device.name + ':0') ||
-              // we have only one productive channel, that is not namen equal to the device
-              (arr.length <= 2 && idx === 1 && channel.name !== device.name) ||
-              // or we have multiple channel
-              (arr.length > 2 && idx !== 0)
-            ) {
-              result[channel.address] = channel.name
-            } else {
-              $log.debug('Ignoring channel %s', channel.name)
-            }
-          })
-      })
-      await $yaml.save(result, $args.file)
-    }
-    return
-  }
-
   async function $onInit(): Promise<boolean> {
     $log.info('Starting hm as %s', $args.name)
 
@@ -991,6 +885,7 @@ function Adapter(
     const data = await $objects
       .observe(MqttUtil.join($args.name, '#'))
       .pipe(
+        filter(obj => obj.native && obj.native.address),
         map((object: Ha4usObject) => {
           registerObject(object)
           return {
@@ -1023,14 +918,12 @@ function Adapter(
       knownDevices = []
     }
 
-    if ($args.names) {
-      $log.info(namings)
-      return false
-    }
+    $log.debug('Loading interfaces via hmjson')
 
     const interfaces = (await hmjson.sendCommand(
       'Interface.listInterfaces'
     )).map(iface => {
+      $log.debug('Interface found', iface)
       iface.protocol = HM_PROTOCOLS[iface.name]
       return iface
     })
@@ -1081,7 +974,7 @@ function Adapter(
     Object.keys(stopIface).forEach(iface => {
       cmdQueue.push(stopIface[iface]())
     })
-    // await $p.timeout(Promise.all(cmdQueue), 2500, 'Timeout stopping interfaces');
+
     await Promise.all(cmdQueue)
     $states.connected = 0
 
@@ -1095,5 +988,5 @@ function Adapter(
 }
 
 ha4us(ADAPTER_OPTIONS, Adapter).catch(e => {
-  console.log(e)
+  console.error('Unexpected Error catched', e)
 })

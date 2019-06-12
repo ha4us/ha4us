@@ -26,7 +26,7 @@ export class HMJson {
   }
 
   protected async sendRequest(req) {
-    // this.$log.debug ('Sending request',req, typeof req);
+    this.$log.debug(`Sending request '${req.method}' to ${this.host}`)
     return got(`http://${this.host}${JSON_URL}`, {
       body: req,
       json: true,
