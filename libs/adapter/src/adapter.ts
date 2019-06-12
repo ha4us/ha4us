@@ -122,7 +122,7 @@ export async function ha4us(options: Ha4usOptions, adapter: AdapterFactory) {
                   type: Ha4usObjectType.String,
                   can: { trigger: true },
                 },
-                memUsage: {
+                memoryUsage: {
                   role: 'Value/Adapter/MemUsage',
                   type: Ha4usObjectType.Number,
                   can: { trigger: true },
