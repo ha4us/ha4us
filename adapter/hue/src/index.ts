@@ -41,6 +41,7 @@ const ADAPTER_OPTIONS = {
     },
   },
   imports: ['$states', '$objects', '$media'],
+  logo: 'logos/hue_logo.png',
 }
 
 function Adapter(
@@ -84,6 +85,7 @@ function Adapter(
     const objects = []
 
     const groups = await client.groups()
+    $log.debug('Groups', groups)
     const light2room = {}
 
     groups
@@ -99,7 +101,10 @@ function Adapter(
         objects.push(group)
       })
 
-    await client.lights().lights.forEach(light => {
+    const lights = await client.lights()
+    $log.debug('Lights', lights)
+
+    lights.lights.forEach(light => {
       light._type = 'light'
       const roomName = light2room[light.id]
       light._topic = roomName ? [roomName, light.name].join('/') : light.name
@@ -242,9 +247,6 @@ function Adapter(
 
   async function $onInit(): Promise<boolean> {
     $log.info('Starting hue')
-    await $media.connect()
-    const medias = await $media.import('assets/**/*', ADAPTER_OPTIONS.path)
-    $log.info('%s of %s medias imported', medias.imported.length, medias.count)
 
     // do autoip discover
     if ($args.hueIp === 'auto') {
@@ -271,7 +273,7 @@ function Adapter(
     const client = await connectHue()
     // now normally save configuration
 
-    $states.establishCache('$#')
+    $log.debug('Connected to hue', client)
 
     const objects = await getObjects(client)
 
