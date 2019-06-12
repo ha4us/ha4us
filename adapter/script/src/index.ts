@@ -52,6 +52,7 @@ const ADAPTER_OPTIONS = {
   // h,m,u,p,l,n
   name: 'scripts',
   path: __dirname + '/..',
+  logo: 'scripts-logo.png',
   args: {
     dir: {
       alias: 'dir',
