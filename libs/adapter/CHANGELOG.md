@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0](https://github.com/ha4us/ha4us/compare/@ha4us/adapter@1.4.0...@ha4us/adapter@1.5.0) (2019-06-12)
+
+
+### Bug Fixes
+
+* **adapter:** system update only every minute ([0cce6df](https://github.com/ha4us/ha4us/commit/0cce6df))
+* **adapter:** wrong datepoint name memUsage = memoryUsage ([9cd7635](https://github.com/ha4us/ha4us/commit/9cd7635))
+* **object:** create also emits an insert if the object already existed ([920138b](https://github.com/ha4us/ha4us/commit/920138b))
+
+
+### Features
+
+* **adapter:** added $states by default in adapter (no adapter without states) ([541d272](https://github.com/ha4us/ha4us/commit/541d272))
+* **adapter:** status messages and default object creation and media import ([40dfaa9](https://github.com/ha4us/ha4us/commit/40dfaa9))
+
+
+
+
+
 # [1.4.0](https://github.com/ha4us/ha4us/compare/@ha4us/adapter@1.3.1...@ha4us/adapter@1.4.0) (2019-06-06)
 
 

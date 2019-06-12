@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.7.0](https://github.com/ha4us/ha4us/compare/@ha4us/hm.adapter@0.6.7...@ha4us/hm.adapter@0.7.0) (2019-06-12)
+
+
+### Bug Fixes
+
+* **hm:** don't set label for datapoints ([74256bd](https://github.com/ha4us/ha4us/commit/74256bd))
+
+
+### Features
+
+* **homematic:** added logo and rewrote the object creation process ([72906a4](https://github.com/ha4us/ha4us/commit/72906a4))
+
+
+
+
+
 ## [0.6.7](https://github.com/ha4us/ha4us/compare/@ha4us/hm.adapter@0.6.6...@ha4us/hm.adapter@0.6.7) (2019-06-06)
 
 **Note:** Version bump only for package @ha4us/hm.adapter

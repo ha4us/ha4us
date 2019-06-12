@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0](https://github.com/ha4us/ha4us/compare/@ha4us/ng-gui@1.4.0...@ha4us/ng-gui@1.5.0) (2019-06-12)
+
+
+### Bug Fixes
+
+* **layout:** layout changes for defaulting color and image ([c292cb0](https://github.com/ha4us/ha4us/commit/c292cb0))
+* **media:** correct handling of input mimeType (partial or not) ([dc5ef22](https://github.com/ha4us/ha4us/commit/dc5ef22))
+
+
+### Features
+
+* **color:** synched color picker with input and added color properties to objects ([39422c6](https://github.com/ha4us/ha4us/commit/39422c6))
+* **mediagallery:** adding titles ([e502b45](https://github.com/ha4us/ha4us/commit/e502b45))
+* **rolepipe:** switch to defaulting (first object, then role) - so the most specific config counts ([373f322](https://github.com/ha4us/ha4us/commit/373f322))
+
+
+
+
+
 # [1.4.0](https://github.com/ha4us/ha4us/compare/@ha4us/ng-gui@1.3.0...@ha4us/ng-gui@1.4.0) (2019-06-06)
 
 

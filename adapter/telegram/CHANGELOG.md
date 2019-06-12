@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.4.0](https://github.com/ha4us/ha4us/compare/@ha4us/telegram.adapter@0.3.2...@ha4us/telegram.adapter@0.4.0) (2019-06-12)
+
+
+### Features
+
+* **telegram:** logo ([b3df861](https://github.com/ha4us/ha4us/commit/b3df861))
+
+
+
+
+
 ## [0.3.2](https://github.com/ha4us/ha4us/compare/@ha4us/telegram.adapter@0.3.1...@ha4us/telegram.adapter@0.3.2) (2019-06-06)
 
 **Note:** Version bump only for package @ha4us/telegram.adapter

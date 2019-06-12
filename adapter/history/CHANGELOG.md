@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0](https://github.com/ha4us/ha4us/compare/@ha4us/history.adapter@1.0.6...@ha4us/history.adapter@1.1.0) (2019-06-12)
+
+
+### Features
+
+* **history:** added logo ([fec4669](https://github.com/ha4us/ha4us/commit/fec4669))
+
+
+
+
+
 ## [1.0.6](https://github.com/ha4us/ha4us/compare/@ha4us/history.adapter@1.0.5...@ha4us/history.adapter@1.0.6) (2019-06-06)
 
 

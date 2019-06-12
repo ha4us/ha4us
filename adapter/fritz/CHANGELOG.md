@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.4.0](https://github.com/ha4us/ha4us/compare/@ha4us/fritz.adapter@0.3.1...@ha4us/fritz.adapter@0.4.0) (2019-06-12)
+
+
+### Features
+
+* **fritz:** changed way of creation of objects ([9854a81](https://github.com/ha4us/ha4us/commit/9854a81))
+* **fritz:** logo update ([c6cb949](https://github.com/ha4us/ha4us/commit/c6cb949))
+
+
+
+
+
 ## [0.3.1](https://github.com/ha4us/ha4us/compare/@ha4us/fritz.adapter@0.3.0...@ha4us/fritz.adapter@0.3.1) (2019-06-06)
 
 **Note:** Version bump only for package @ha4us/fritz.adapter

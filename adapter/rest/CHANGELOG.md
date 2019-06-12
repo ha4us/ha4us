@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/ha4us/ha4us/compare/@ha4us/rest.adapter@1.1.6...@ha4us/rest.adapter@1.2.0) (2019-06-12)
+
+
+### Features
+
+* **rest:** added logo and implemented new object creation method ([5c6af4d](https://github.com/ha4us/ha4us/commit/5c6af4d))
+
+
+
+
+
 ## [1.1.6](https://github.com/ha4us/ha4us/compare/@ha4us/rest.adapter@1.1.5...@ha4us/rest.adapter@1.1.6) (2019-06-06)
 
 **Note:** Version bump only for package @ha4us/rest.adapter

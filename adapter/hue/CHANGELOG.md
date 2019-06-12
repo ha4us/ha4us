@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.6.0](https://github.com/ha4us/ha4us/compare/@ha4us/hue.adapter@0.5.8...@ha4us/hue.adapter@0.6.0) (2019-06-12)
+
+
+### Features
+
+* **hue:** logo added ([cad5ddd](https://github.com/ha4us/ha4us/commit/cad5ddd))
+
+
+
+
+
 ## [0.5.8](https://github.com/ha4us/ha4us/compare/@ha4us/hue.adapter@0.5.7...@ha4us/hue.adapter@0.5.8) (2019-06-06)
 
 **Note:** Version bump only for package @ha4us/hue.adapter

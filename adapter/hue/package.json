@@ -1,6 +1,6 @@
 {
   "name": "@ha4us/hue.adapter",
-  "version": "0.5.8",
+  "version": "0.6.0",
   "description": "Adapter for the hue system to ha4us",
   "main": "dist/index.js",
   "scripts": {
@@ -20,7 +20,7 @@
   "author": "ulfalfa",
   "license": "MIT",
   "dependencies": {
-    "@ha4us/adapter": "^1.4.0",
+    "@ha4us/adapter": "^1.5.0",
     "@ha4us/core": "^1.1.0",
     "lodash.get": "^4.4.2",
     "node-hue-api": "^2.4.2",

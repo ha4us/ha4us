@@ -1,6 +1,6 @@
 {
   "name": "@ha4us/landroid.adapter",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Worx/Landroid S1500 Adapter for the ha4us",
   "main": "dist/index.js",
   "author": "ulfalfa",
@@ -21,7 +21,7 @@
     "rxjs": "6.x"
   },
   "dependencies": {
-    "@ha4us/adapter": "^1.4.0",
+    "@ha4us/adapter": "^1.5.0",
     "@ha4us/core": "^1.1.0",
     "axios": "^0.18.0"
   }

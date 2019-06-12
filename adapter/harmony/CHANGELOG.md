@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.5.0](https://github.com/ha4us/ha4us/compare/@ha4us/harmony.adapter@0.4.1...@ha4us/harmony.adapter@0.5.0) (2019-06-12)
+
+
+### Features
+
+* **harmony:** logo and object creation ([6259000](https://github.com/ha4us/ha4us/commit/6259000))
+
+
+
+
+
 ## [0.4.1](https://github.com/ha4us/ha4us/compare/@ha4us/harmony.adapter@0.4.0...@ha4us/harmony.adapter@0.4.1) (2019-06-06)
 
 **Note:** Version bump only for package @ha4us/harmony.adapter

@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.9.0](https://github.com/ha4us/ha4us/compare/@ha4us/script.adapter@0.8.3...@ha4us/script.adapter@0.9.0) (2019-06-12)
+
+
+### Features
+
+* **script:** added logo ([60a69e8](https://github.com/ha4us/ha4us/commit/60a69e8))
+* **suncalculation:** changed way of sun calculation ([47eb079](https://github.com/ha4us/ha4us/commit/47eb079))
+
+
+
+
+
 ## [0.8.3](https://github.com/ha4us/ha4us/compare/@ha4us/script.adapter@0.8.2...@ha4us/script.adapter@0.8.3) (2019-06-07)
 
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.2.0](https://github.com/ha4us/ha4us/compare/@ha4us/rfid.adapter@0.1.2...@ha4us/rfid.adapter@0.2.0) (2019-06-12)
+
+
+### Features
+
+* **rfid:** logo ([07a96cc](https://github.com/ha4us/ha4us/commit/07a96cc))
+
+
+
+
+
 ## [0.1.2](https://github.com/ha4us/ha4us/compare/@ha4us/rfid.adapter@0.1.1...@ha4us/rfid.adapter@0.1.2) (2019-06-06)
 
 **Note:** Version bump only for package @ha4us/rfid.adapter

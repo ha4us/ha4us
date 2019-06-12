@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.5.0](https://github.com/ha4us/ha4us/compare/@ha4us/sonos.adapter@0.4.5...@ha4us/sonos.adapter@0.5.0) (2019-06-12)
+
+
+### Features
+
+* **sonos:** logo and object creation ([b8eb496](https://github.com/ha4us/ha4us/commit/b8eb496))
+
+
+
+
+
 ## [0.4.5](https://github.com/ha4us/ha4us/compare/@ha4us/sonos.adapter@0.4.4...@ha4us/sonos.adapter@0.4.5) (2019-06-06)
 
 **Note:** Version bump only for package @ha4us/sonos.adapter
