@@ -1,14 +1,20 @@
 import { getHarmonyClient, HarmonyClient } from '@harmonyhub/client-ws'
 import { Explorer, HubData } from '@harmonyhub/discover'
 
-import { ObjectService, StateService, ha4us } from '@ha4us/adapter'
+import {
+  ObjectService,
+  StateService,
+  ha4us,
+  Ha4usObjectDictionary,
+} from '@ha4us/adapter'
 import { Ha4usError, Ha4usObjectType, MqttUtil } from '@ha4us/core'
 import { Subscription } from 'rxjs'
 const ADAPTER_OPTIONS = {
   name: 'harmony',
   path: __dirname + '/..',
   args: {},
-  imports: ['$log', '$args', '$states', '$objects'],
+  imports: ['$log', '$args', '$states', '$objects', '$media'],
+  logo: 'Harmony-App.png',
 }
 
 interface HarmonyHub {
@@ -69,39 +75,46 @@ function Adapter(
       $log.debug(`Registering hub ${data.friendlyName}`)
       const client = await getHarmonyClient(data.ip)
 
-      await $objects.install(data.friendlyName, {
-        type: Ha4usObjectType.Any,
-        role: 'Device/HarmonyHub',
-        can: { read: true, write: false, trigger: true },
-      })
+      await $objects
+        .create(
+          [
+            {
+              type: Ha4usObjectType.Any,
+              role: 'Device/HarmonyHub',
+            },
+            {
+              working: {
+                type: Ha4usObjectType.Boolean,
+                can: {
+                  trigger: true,
+                },
+                role: 'Indicator/System/Working',
+              },
+              reachable: {
+                type: Ha4usObjectType.Boolean,
+                can: {
+                  trigger: true,
+                },
+                role: 'Indicator/System/Reachable',
+              },
+              command: {
+                type: Ha4usObjectType.String,
+                can: {
+                  read: false,
+                  write: true,
+                  trigger: false,
+                },
+                role: 'Value/Harmony/Command',
+              },
+              activity: {},
+            },
+          ],
+          {
+            root: MqttUtil.join('$', data.friendlyName),
+          }
+        )
+        .toPromise()
 
-      await $objects.install(MqttUtil.join(data.friendlyName, 'working'), {
-        type: Ha4usObjectType.Boolean,
-        can: {
-          read: true,
-          write: false,
-          trigger: true,
-        },
-        role: 'Indicator/System/Working',
-      })
-      await $objects.install(MqttUtil.join(data.friendlyName, 'reachable'), {
-        type: Ha4usObjectType.Boolean,
-        can: {
-          read: true,
-          write: false,
-          trigger: true,
-        },
-        role: 'Indicator/System/Working',
-      })
-      await $objects.install(MqttUtil.join(data.friendlyName, 'remote'), {
-        type: Ha4usObjectType.String,
-        can: {
-          read: false,
-          write: true,
-          trigger: false,
-        },
-        role: 'Value/Harmony/Command',
-      })
       $states.status(
         MqttUtil.join('$' + data.friendlyName, 'reachable'),
         true,
@@ -113,28 +126,28 @@ function Adapter(
         true
       )
 
-      await $objects.install(MqttUtil.join(data.friendlyName, 'activity'), {
-        type: Ha4usObjectType.Boolean,
-        can: {
-          read: true,
-          write: true,
-          trigger: true,
-        },
-        role: 'Value/Media/Activity',
-      })
-
       const curActivity = await client.getCurrentActivity()
       const activities = await client.getActivities()
       const config = await client.getAvailableCommands()
       hubs.set(data.friendlyName, { data, client, activities, config })
-      activities.forEach(async activity => {
-        const topic = MqttUtil.join(data.friendlyName, ACTIVITY, activity.label)
-        await $objects.install(topic, {
+      const activityObjects: Ha4usObjectDictionary = {}
+
+      activities.forEach(activity => {
+        activityObjects[activity.label] = {
           type: Ha4usObjectType.Boolean,
           role: 'Toggle/Media/Activity',
-        })
+          can: {
+            write: true,
+            trigger: true,
+          },
+        }
+
         $log.debug(`Installed activity ${activity.id} with ${activity.label}`)
-        $states.status('$' + topic, curActivity === activity.id, true)
+        $states.status(
+          '$' + MqttUtil.join(data.friendlyName, ACTIVITY, activity.label),
+          curActivity === activity.id,
+          true
+        )
         if (curActivity === activity.id) {
           $states.status(
             MqttUtil.join('$' + data.friendlyName, 'activity'),
@@ -143,6 +156,24 @@ function Adapter(
           )
         }
       })
+
+      await $objects
+        .create(
+          [
+            {
+              type: Ha4usObjectType.Boolean,
+              can: {
+                read: true,
+                write: true,
+                trigger: true,
+              },
+              role: 'Value/Media/Activity',
+            },
+            activityObjects,
+          ],
+          { root: MqttUtil.join('$', data.friendlyName, ACTIVITY) }
+        )
+        .toPromise()
 
       client.on(HarmonyClient.Events.STATE_DIGEST, digest => {
         if (digest.runningActivityList === '') {
@@ -180,7 +211,10 @@ function Adapter(
             'Finished activity change = working:false, activate running'
           )
 
-          const activity = resolveActivity(data.friendlyName, digest.activityId)
+          const activity = resolveActivity(
+            data.friendlyName,
+            digest.activityId
+          )
           $states.status(
             MqttUtil.join('$' + data.friendlyName, 'activity', activity.label),
             true,
@@ -228,7 +262,7 @@ function Adapter(
     // observing activity changes
     harmonysub = $states.observe('/$set/+/activity/+').subscribe(msg => {
       // tslint:disable-next-line
-      let [hubName, activityLabel] = msg.match.params
+      let [hubName, activityLabel] = msg.match.params;
 
       if (msg.val === false && activityLabel === 'PowerOff') {
         $log.warn('Not able to switch off in power off state')
