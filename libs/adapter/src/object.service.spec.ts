@@ -227,7 +227,7 @@ test.skip('Builder', t => {
   )
 })
 
-test.only('Create objects with builder', async t => {
+test('Create objects with builder', async t => {
   let result = await t.context.os
     .create(
       [
@@ -270,8 +270,8 @@ test.only('Create objects with builder', async t => {
     )
     .toPromise()
 
-  t.is(result.inserted, 0)
-  t.is(result.objects.length, 0)
+  t.is(result.inserted, 3)
+  t.is(result.objects.length, 3)
   t.is(result.updated, 0)
 
   result = await t.context.os
