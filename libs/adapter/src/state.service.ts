@@ -24,6 +24,8 @@ import {
 
 const debug = require('debug')('ha4us:adapter:stateservice')
 
+export type AdapterStatus = 'stopped' | 'error' | 'running' | 'paused'
+
 export class StateService extends MqttService {
   public $log: Ha4usLogger
   protected mqtt: Mqtt.MqttClient
@@ -97,6 +99,20 @@ export class StateService extends MqttService {
    */
   set connected(value: number) {
     this.publish(this.domain + '/connected', value, { qos: 0, retain: true })
+  }
+
+  _state: AdapterStatus
+  set state(state: AdapterStatus) {
+    this.setState(state)
+  }
+  get state(): AdapterStatus {
+    return this._state
+  }
+
+  async setState(state: AdapterStatus) {
+    this._state = state
+    this.$log.debug('State changed', state)
+    return this.status('$state/state', state, true)
   }
 
   /**

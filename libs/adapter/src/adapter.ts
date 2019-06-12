@@ -6,18 +6,28 @@ import {
   destroyContainer,
 } from './lib/container.factory'
 
-import { Ha4usLogger, MqttUtil, union } from '@ha4us/core'
+import {
+  Ha4usLogger,
+  MqttUtil,
+  union,
+  Ha4usMedia,
+  Ha4usObjectType,
+  Ha4usObject,
+} from '@ha4us/core'
 
-import { of, empty, EMPTY } from 'rxjs'
-import { mergeMap, tap } from 'rxjs/operators'
+import { of, empty, EMPTY, Subscription, interval } from 'rxjs'
+import { mergeMap, tap, delay } from 'rxjs/operators'
 
 import * as readPkgUp from 'read-pkg-up'
+import { MediaService } from './media.service'
 
 export interface Ha4usOptions {
   name: string
   path: string
   args: object
+  logo?: string
   ha4usVersion?: string
+  package?: string
   version?: string
   imports?: string[]
 }
@@ -29,6 +39,7 @@ export interface Ha4usAdapter {
 export type AdapterFactory = (...args: any[]) => Ha4usAdapter
 
 export async function ha4us(options: Ha4usOptions, adapter: AdapterFactory) {
+  let sub: Subscription
   process.title = 'ha4us-' + options.name
 
   options.imports = options.imports || []
@@ -39,6 +50,7 @@ export async function ha4us(options: Ha4usOptions, adapter: AdapterFactory) {
   let pckInfo = await readPkgUp({ cwd: options.path })
 
   options.version = pckInfo.pkg.version
+  options.package = pckInfo.pkg.name
 
   $log.info(`Ha4us - Adapter ${options.name} v${options.version}...`)
 
@@ -52,19 +64,28 @@ export async function ha4us(options: Ha4usOptions, adapter: AdapterFactory) {
   try {
     $states = container.resolve('$states')
     await $states.connect()
-    await $states.status(
-      '$info',
-      {
-        adapter: options.name,
-        version: options.version,
-        ha4us: options.ha4usVersion,
-        status: 'started',
-      },
-      true
-    )
   } catch (e) {
     container.registerValue('$states', undefined)
     $log.warn('No connection to mqtt - please import the $state adapter')
+  }
+  sub = interval(5000).subscribe(() => {
+    const mem = process.memoryUsage()
+    const rss = Math.round((mem.heapTotal / 1024 / 1024) * 100) / 100
+    $states.status('$state/memoryUsage', rss, true)
+  })
+
+  let logo: Ha4usMedia
+  if (options.imports.indexOf('$media') > -1) {
+    const $media: MediaService = container.resolve('$media')
+    $log.info('MediaService available... connecting...')
+    await $media.connect()
+    const medias = await $media.import('assets/**/*', options.path)
+    $log.info('%s of %s medias imported', medias.imported.length, medias.count)
+
+    if (options.logo) {
+      logo = await $media.getByFilename('assets/' + options.logo)
+      $log.debug('Logo found', logo.filename)
+    }
   }
 
   if (options.imports.indexOf('$objects') > -1) {
@@ -76,24 +97,82 @@ export async function ha4us(options: Ha4usOptions, adapter: AdapterFactory) {
     $log.debug(`ObjectService connected`)
 
     const res = await $objects
-      .create([{ role: MqttUtil.join('Adapter', options.name) }, {}], {
-        mode: 'create',
-        root: '$',
-      })
+      .create(
+        [
+          {
+            role: MqttUtil.join('Adapter', options.name),
+            image: logo ? logo.urn : undefined,
+            native: {
+              adapter: options.name,
+
+              name: options.package,
+            },
+          },
+          {
+            state: [
+              { role: 'Device/AdapterStatus' },
+              {
+                state: {
+                  role: 'Value/Adapter/Status',
+                  can: { trigger: true },
+                  type: Ha4usObjectType.String,
+                },
+                lastError: {
+                  role: 'Value/Adapter/Errory',
+                  type: Ha4usObjectType.String,
+                  can: { trigger: true },
+                },
+                memUsage: {
+                  role: 'Value/Adapter/MemUsage',
+                  type: Ha4usObjectType.Number,
+                  can: { trigger: true },
+                },
+              },
+            ],
+          },
+        ],
+        {
+          mode: 'create',
+          root: '$',
+        }
+      )
+      .toPromise()
+    $log.info(`${res.inserted} adapter objects created`)
+
+    await $objects
+      .create(
+        [
+          {
+            native: {
+              version: options.version,
+            },
+          },
+          {},
+        ],
+        {
+          mode: 'update',
+          root: '$',
+        }
+      )
       .toPromise()
 
-    $objects.events$
-      .pipe(
-        mergeMap(ev => {
-          $log.silly('ObjectEvent', ev)
-          return $states.publish(MqttUtil.resolve(ev.object.topic, 'object'), {
-            action: ev.action,
-            sender: options.name,
-            object: ev.object,
+    sub.add(
+      $objects.events$
+        .pipe(
+          mergeMap(ev => {
+            $log.silly('ObjectEvent', ev)
+            return $states.publish(
+              MqttUtil.resolve(ev.object.topic, 'object'),
+              {
+                action: ev.action,
+                sender: options.name,
+                object: ev.object,
+              }
+            )
           })
-        })
-      )
-      .subscribe(() => {})
+        )
+        .subscribe(() => {})
+    )
   }
 
   const $adapter: Ha4usAdapter = container.resolve('$adapter')
@@ -104,25 +183,16 @@ export async function ha4us(options: Ha4usOptions, adapter: AdapterFactory) {
         tap(() => {
           $log.info(`Stopping ${options.name} adapter`)
         }),
-        mergeMap(() =>
-          $states
-            ? $states.status(
-                '$info',
-                {
-                  adapter: options.name,
-                  version: options.version,
-                  ha4us: options.ha4usVersion,
-                  status: 'stopped',
-                },
-                true
-              )
-            : EMPTY
-        ),
         mergeMap(() => {
           if ($adapter.$onDestroy) {
             return $adapter.$onDestroy()
+          } else {
+            return EMPTY
           }
         }),
+
+        mergeMap(() => $states && $states.setState('stopped')),
+        delay(500),
         mergeMap(() => ($states ? $states.disconnect() : null))
       )
       .toPromise()
@@ -132,13 +202,21 @@ export async function ha4us(options: Ha4usOptions, adapter: AdapterFactory) {
       })
   }
 
-  process.on('SIGINT', async () => {
-    await gracefulStop()
+  let sigIntReceived = false
+  process.on('SIGINT', () => {
+    if (sigIntReceived) {
+      return
+    }
+    sigIntReceived = true
+    $log.debug('Received SIGINT')
+    gracefulStop()
       .catch(e => {
         $log.error(`Emergency exit`, e)
+        $states.state = 'error'
         process.exit(1)
       })
       .then(() => {
+        $log.debug('Exit process')
         process.exit(0)
       })
   })
@@ -150,9 +228,11 @@ export async function ha4us(options: Ha4usOptions, adapter: AdapterFactory) {
       .$onInit()
       .then(result => {
         if (!result) {
+          $log.debug('Adapter closing without result')
           return gracefulStop()
         } else {
           $log.info(`Adapter ${options.name} started.`)
+          $states.state = 'running'
         }
       })
       .catch(e => {
