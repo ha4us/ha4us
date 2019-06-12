@@ -82,79 +82,79 @@ export interface LandroidData {
 
 export interface LandroidDebug {
   landroid: {
-    state: LandroidState
-    boardTemperature: number
-    distance: number
-    wheelLeftDistance: number
-    wheelRightDistance: number
-    angle: number
-    rainSensor: number
-    aree: { index: number; vet: number[] }
+    state: LandroidState;
+    boardTemperature: number;
+    distance: number;
+    wheelLeftDistance: number;
+    wheelRightDistance: number;
+    angle: number;
+    rainSensor: number;
+    aree: { index: number; vet: number[] };
     battery: {
-      percentage: number
-      voltage: number
-      temperature: number
-      ntcResistance: number
-    }
-    batteryCharger: { state: LandroidBatState; chargeCurrent: number }
-    accelerometer: { gravity: number[]; angle: number[] }
-    gyroscope: { angularSpeed: number[]; angle: number[] }
+      percentage: number;
+      voltage: number;
+      temperature: number;
+      ntcResistance: number;
+    };
+    batteryCharger: { state: LandroidBatState; chargeCurrent: number };
+    accelerometer: { gravity: number[]; angle: number[] };
+    gyroscope: { angularSpeed: number[]; angle: number[] };
     motor: [
       {
-        speed: number
-        maxSpeed: number
-        speedReduction: number
-        rpm: number
-        feedbackError: number
-        acceleration: number
-        deceleration: number
-        fault: boolean
+        speed: number;
+        maxSpeed: number;
+        speedReduction: number;
+        rpm: number;
+        feedbackError: number;
+        acceleration: number;
+        deceleration: number;
+        fault: boolean;
       },
       {
-        speed: number
-        maxSpeed: number
-        speedReduction: number
-        rpm: number
-        feedbackError: number
-        acceleration: number
-        deceleration: number
-        fault: boolean
+        speed: number;
+        maxSpeed: number;
+        speedReduction: number;
+        rpm: number;
+        feedbackError: number;
+        acceleration: number;
+        deceleration: number;
+        fault: boolean;
       },
       {
-        speed: number
-        maxSpeed: number
-        speedReduction: number
-        rpm: number
-        feedbackError: number
-        acceleration: number
-        deceleration: number
-        fault: boolean
+        speed: number;
+        maxSpeed: number;
+        speedReduction: number;
+        rpm: number;
+        feedbackError: number;
+        acceleration: number;
+        deceleration: number;
+        fault: boolean;
       }
-    ]
+    ];
     guide: {
-      straightSpeed: number
-      turningSpeed: number
-      measuredWheelDeltaDistance: number
-      requiredWheelDeltaDistance: number
-      deltaSpeedCorrection: number
-    }
+      straightSpeed: number;
+      turningSpeed: number;
+      measuredWheelDeltaDistance: number;
+      requiredWheelDeltaDistance: number;
+      deltaSpeedCorrection: number;
+    };
   }
   id: {
-    stop1: boolean
-    stop2: boolean
-    lift1: boolean
-    lift2: boolean
-    trappedLeft: boolean
-    trappedRight: boolean
-    door1: boolean
-    door2: boolean
+    stop1: boolean;
+    stop2: boolean;
+    lift1: boolean;
+    lift2: boolean;
+    trappedLeft: boolean;
+    trappedRight: boolean;
+    door1: boolean;
+    door2: boolean;
   }
 
   dipSw: { sw1: boolean; sw2: boolean; sw3: boolean; sw4: boolean }
   wireSensor: {
-    fwVer: number
-    left: 'inside' | 'outside'
-    right: 'outside' | 'inside'
+    fwVer: number;
+    left: 'inside' | 'outside';
+    right: 'outside' | 'inside';
   }
 }
 
@@ -162,11 +162,11 @@ export class Landroid {
   constructor(protected ip: string, protected pin: string) {}
 
   async readDebug(): Promise<LandroidDebug> {
-    return this.doGet('Debug')
+    return this.doGet<LandroidDebug>('Debug')
   }
 
   async readData(): Promise<LandroidData> {
-    return this.doGet('data')
+    return this.doGet<LandroidData>('data')
   }
 
   async doGet<T>(what: 'Debug' | 'data'): Promise<T> {

@@ -10,7 +10,7 @@
   },
   "watch": ["src"],
   "ext": "ts",
-
+  "signal": "SIGINT",
   "exec": "ts-node --project tsconfig.json src/index.ts",
   "env": {
     "NODE_ENV": "development",
