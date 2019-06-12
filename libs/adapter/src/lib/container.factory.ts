@@ -11,17 +11,16 @@ export async function createHa4usContainer(
     options.imports = [
       '$args',
       '$log',
-      // '$maps',
       '$media',
       '$yaml',
       '$states',
       '$objects',
       '$users',
       '$injector',
-      // '$config',
     ]
   }
   c.registerValue('$options', options)
+  c.registerService('$states', require('../state.service').StateService)
 
   await options.imports.forEach(async (dep: string) => {
     switch (dep) {
@@ -38,9 +37,7 @@ export async function createHa4usContainer(
       case '$yaml':
         c.registerService(dep, require('../yaml.service').YamlService)
         break
-      case '$states':
-        c.registerService(dep, require('../state.service').StateService)
-        break
+
       case '$objects':
         c.registerService(dep, require('../object.service').ObjectService)
         break
@@ -56,6 +53,7 @@ export async function createHa4usContainer(
       case '$users':
         c.registerService(dep, require('../user.service').UserService)
         break
+      case '$states':
       case '$options':
         // default - already added by default
         break
