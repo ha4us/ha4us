@@ -400,14 +400,13 @@ export class ObjectService extends Ha4usMongoAccess
             throw Ha4usError.wrapErr<Ha4usObjectEvent>(e)
           }
         })
-        .then(result => {
-          if (result) {
-            return {
+        .then(
+          () =>
+            ({
               action: 'insert',
               object: completedObject,
-            } as Ha4usObjectEvent
-          }
-        })
+            } as Ha4usObjectEvent)
+        )
     } else if (mode === 'update') {
       return this.getOne(object.topic)
         .then(loadedObject => {
