@@ -4,7 +4,7 @@ import {
   ObjectService,
   StateService,
 } from '@ha4us/adapter'
-import { Ha4usLogger, Ha4usObjectType } from '@ha4us/core'
+import { Ha4usLogger, Ha4usObjectType, MqttUtil } from '@ha4us/core'
 import { createRfid, RFIDReader } from '@ulfalfa/rfid'
 import { Subscription } from 'rxjs'
 
@@ -33,7 +33,8 @@ const ADAPTER_OPTIONS = {
       type: 'number',
     },
   },
-  imports: ['$log', '$args', '$states', '$objects'],
+  logo: 'rfid.png',
+  imports: ['$log', '$args', '$states', '$objects', '$media'],
 }
 
 function Adapter(
@@ -46,41 +47,30 @@ function Adapter(
   let reader: RFIDReader
   let sub: Subscription
   async function $onInit() {
-    await $objects.install(
-      null,
-      { role: 'adapter/rfid' },
-      CreateObjectMode.create
-    )
-
-    await $objects.install(
-      'reader',
-      {
-        role: 'device/rfidreader',
-        can: { read: false, write: false, trigger: false },
-        native: { reader: $args.rfidReader, port: $args.rfidPort },
-      },
-      CreateObjectMode.create
-    )
-
-    await $objects.install(
-      'reader/tag',
-      {
-        role: 'value/rfidtag',
-        type: Ha4usObjectType.String,
-        can: { read: false, write: false, trigger: true },
-      },
-      CreateObjectMode.create
-    )
-
-    await $objects.install(
-      'reader/info',
-      {
-        role: 'value/rfidreaderinfo',
-        type: Ha4usObjectType.String,
-        can: { read: false, write: false, trigger: true },
-      },
-      CreateObjectMode.create
-    )
+    await $objects
+      .create(
+        [
+          {
+            role: 'device/rfidreader',
+            can: { read: false, write: false, trigger: false },
+            native: { reader: $args.rfidReader, port: $args.rfidPort },
+          },
+          {
+            tag: {
+              role: 'value/rfidtag',
+              type: Ha4usObjectType.String,
+              can: { read: false, write: false, trigger: true },
+            },
+            info: {
+              role: 'value/rfidreaderinfo',
+              type: Ha4usObjectType.String,
+              can: { read: false, write: false, trigger: true },
+            },
+          },
+        ],
+        { root: MqttUtil.join('$', 'reader') }
+      )
+      .toPromise()
 
     $states.connected = 2
 
