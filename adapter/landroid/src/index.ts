@@ -33,7 +33,7 @@ import { Landroid } from './landroid'
 const ADAPTER_OPTIONS = {
   name: 'landroid',
   path: __dirname + '/..',
-  logo: 'assets/landroid-logo.png',
+  logo: 'landroid-logo.png',
   args: {
     ip: {
       demandOption: true,
@@ -54,7 +54,7 @@ const ADAPTER_OPTIONS = {
       type: 'number',
     },
   },
-  imports: ['$log', '$args', '$states', '$objects'],
+  imports: ['$log', '$args', '$states', '$objects', '$media'],
 }
 
 function Adapter(
