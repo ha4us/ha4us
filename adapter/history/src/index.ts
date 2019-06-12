@@ -30,8 +30,9 @@ const ADAPTER_OPTIONS = {
   // h,m,u,p,l,n
   name: 'history',
   path: __dirname + '/..',
+  logo: 'history-logo.png',
   args: {},
-  imports: ['$log', '$args', '$states', '$objects'],
+  imports: ['$log', '$args', '$states', '$objects', '$media'],
 }
 
 function Adapter($log, $args, $states: StateService, $objects: ObjectService) {
