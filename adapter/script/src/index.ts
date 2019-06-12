@@ -18,6 +18,8 @@ import {
   catchError,
   filter,
   onErrorResumeNext,
+  tap,
+  distinctUntilChanged,
 } from 'rxjs/operators'
 
 import {
@@ -211,9 +213,16 @@ function Adapter(
                 role: 'Device/Sun',
               },
               {
-                position: {
-                  role: 'Value/SunPosition',
-                  type: Ha4usObjectType.Object,
+                azimuth: {
+                  role: 'Value/SunAzimuth',
+                  type: Ha4usObjectType.Number,
+                  template: '${val}°',
+                  can: { trigger: true },
+                },
+                altitude: {
+                  role: 'Value/SunAltitude',
+                  template: '${val}°',
+                  type: Ha4usObjectType.Number,
                   can: { trigger: true },
                 },
                 time: {
@@ -396,31 +405,42 @@ function Adapter(
       longitude: $args.long,
     })
     sub.add(
-      timer(0, 300000)
-        .pipe(map(() => st.sun))
+      timer(0, 60000) // means all 5 minutes
+        .pipe(
+          map(() => st.sun),
+          map(position => {
+            $log.debug(
+              `Current sunposition ${position.altitude}° - ${position.azimuth}°`
+            )
+            $states.status('$sun/azimuth',  position.azimuth, true)
+            $states.status('$sun/altitude', position.altitude, true)
+            return position.altitude
+          }),
+          map(altitude => {
+            /*
+
+var times = SunCalc.times = [
+    [-0.833, 'sunrise',       'sunset'      ],
+    [  -0.3, 'sunriseEnd',    'sunsetStart' ],
+    [    -6, 'dawn',          'dusk'        ],
+    [   -12, 'nauticalDawn',  'nauticalDusk'],
+    [   -18, 'nightEnd',      'night'       ],
+    [     6, 'goldenHourEnd', 'goldenHour'  ]*/
+            if (altitude > -0.3) {
+              return 'day'
+            } else if (altitude > -6) {
+              return 'dawn'
+            } else {
+              return 'night'
+            }
+          }),
+          distinctUntilChanged()
+        )
         .subscribe(position => {
-          $log.debug(
-            `Sunposition calculated altitude ${position.altitude}°, azimuth: ${
-              position.azimuth
-            }° `
-          )
-          $states.status('$sun/position', position, true)
+          $log.debug('Current suntime', position)
+          $states.status('$sun/time', position, true)
         })
     )
-
-    const scheduler = new Scheduler({
-      latitude: $args.lat,
-      longitude: $args.long,
-      skipPast: false, // also emit the past event to get the most recent one
-    })
-    sub.add(
-      scheduler.schedule().subscribe(event => {
-        $log.debug('SunTime', event.label, event.target.toISO())
-        $states.status('$sun/time', event.label, true)
-      })
-    )
-
-    $states.status('$sun/all', st.sortedTimes, true)
 
     $states.connected = 2
 
