@@ -25,7 +25,7 @@ import { createHash } from 'crypto'
 const ADAPTER_OPTIONS = {
   name: 'rest',
   path: __dirname + '/..',
-  needsDb: true,
+  logo: 'logo/rest-logo.png',
   args: {
     port: {
       demandOption: false,
@@ -73,8 +73,9 @@ function Adapter(
   $objects: ObjectService,
   $media: MediaService
 ) {
+  let $web: WebService
   async function $onInit() {
-    const $web = new WebService($users, $log, $args)
+    $web = new WebService($users, $log, $args)
 
     const cradle = {
       $args,
@@ -88,7 +89,6 @@ function Adapter(
       $media,
     }
 
-    await $media.connect()
     await $users.connect()
 
     // create admin user if not existing or
@@ -122,13 +122,6 @@ function Adapter(
       $web.api.use('/' + routePath, route)
     })
 
-    const res = await $objects
-      .create([{ role: 'Adapter/Rest' }, {}], { mode: 'update', root: '$' })
-      .toPromise()
-
-    const medias = await $media.import('assets/**/*', ADAPTER_OPTIONS.path)
-    $log.info('%s of %s medias imported', medias.imported.length, medias.count)
-
     $log.info('Registering root url at %s', $args.restPublic)
     $web.app.use('/', express.static(path.resolve($args.restPublic)))
     $web.app.use((_, response) => {
@@ -136,14 +129,20 @@ function Adapter(
     })
 
     $log.debug('Start listening at port', $args.restPort)
-    $web.listen($args.restPort).subscribe($log.debug, $log.debug, $log.debug)
+    $web
+      .listen($args.restPort)
+      .subscribe(
+        data => $log.debug(`WebListener is ${data.event}`),
+        data => $log.debug('Weblistener Error', data),
+        () => $log.debug('complete')
+      )
     $states.connected = 2
 
     return true
   }
 
   async function $onDestroy() {
-    $log.info('Destroying GUI')
+    $log.info('Destroying REST')
   }
 
   return {
