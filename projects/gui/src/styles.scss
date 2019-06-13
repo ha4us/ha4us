@@ -70,6 +70,11 @@ router-outlet+* {
 
 }
 
+.max-height-dialog {
+  max-height: 95vh !important;
+  height: 95vh !important
+}
+
 //@import './app/ha4us-dark.theme.scss';
 //.ha4us-dark {
 //    @include angular-material-theme($ha4us-dark);
