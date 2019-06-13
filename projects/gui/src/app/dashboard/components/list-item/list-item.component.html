@@ -8,7 +8,7 @@
       </div>
       <span fxFlex></span>
 
-      <ha4us-widget [widget]="object.role" [props]="object | ha4usRole"></ha4us-widget>
+      <ha4us-widget library="basic" [widget]="object.role" [props]="object | ha4usRole"></ha4us-widget>
     </ng-container>
     <button mat-icon-button (click)="edit($event, object.topic)">
       <mat-icon>more_vert</mat-icon>

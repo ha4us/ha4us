@@ -1,6 +1,7 @@
 <ngx-charts-line-chart *ngIf="chartData$ |async as chartData; else loading" [results]="chartData" [gradient]="true"
   [xAxis]="true" [yAxis]="true" [legend]="false" [showXAxisLabel]="true" [showYAxisLabel]="true" xAxisLabel="Zeit"
-  yAxisLabel="Werte" [autoScale]="autoScale" [xAxisTickFormatting]="formatTime" [yAxisTickFormatting]="formatValue">
+  yAxisLabel="Werte" [autoScale]="true" [xAxisTickFormatting]="formatTime" [yAxisTickFormatting]="formatValue"
+  timeline="true">
 </ngx-charts-line-chart>
 <ng-template #loading>
   <div fxLayoutAlign="center center" fxFlex>

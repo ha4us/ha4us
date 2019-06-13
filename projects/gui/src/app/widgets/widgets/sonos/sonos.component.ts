@@ -14,7 +14,7 @@ import { Ha4usWidget } from '../../models'
 @Ha4usWidget({
   selector: 'Device/Sonos',
   label: 'Sonos Lautsprecher',
-  library: 'basic',
+  library: 'complex',
   props: [
     {
       id: 'topic',

@@ -15,6 +15,7 @@ import { Ha4usWidget } from '../models'
 })
 @Ha4usWidget({
   selector: 'Input/Color/Rgb',
+  library: 'basic',
   label: 'Farbe',
   preview: './switch.svg',
   props: [

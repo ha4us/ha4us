@@ -21,6 +21,7 @@ import { Ha4usWidget } from '../models'
 @Ha4usWidget({
   selector: 'value',
   label: 'Value',
+  library: 'basic',
 
   height: 100,
   width: 60,

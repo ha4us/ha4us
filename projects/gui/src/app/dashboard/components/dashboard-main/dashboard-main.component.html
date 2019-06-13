@@ -11,7 +11,7 @@
     <ng-template matTabContent>
       <us-card-grid [style.padding.px]="10">
         <us-card *ngFor="let object of (taggedObject.object$ | async)">
-          <ha4us-widget [widget]="object.role" [props]="object" library="dashboard"></ha4us-widget>
+          <ha4us-widget [widget]="object.role" [props]="object" library="dashboard" default="Value"></ha4us-widget>
         </us-card>
       </us-card-grid>
     </ng-template>

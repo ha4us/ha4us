@@ -13,9 +13,9 @@ import { Ha4usWidget } from '../../models'
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 @Ha4usWidget({
-  selector: 'Device/Hue*',
+  selector: 'Device/Hue',
+  library: 'complex',
   label: 'Hue Bedienung',
-  library: 'basic',
   props: [
     {
       id: 'topic',

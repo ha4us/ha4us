@@ -16,6 +16,7 @@ import { Ha4usWidget } from '../models'
 @Ha4usWidget({
   selector: 'Toggle',
   label: 'Switch',
+  library: 'basic',
 
   preview: './switch.svg',
   props: [

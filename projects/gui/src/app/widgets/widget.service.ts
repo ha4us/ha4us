@@ -32,10 +32,13 @@ export class WidgetService {
     this.widgets = this.widgets.sort(
       (infoa, infob) => infob.level - infoa.level
     )
-    debug('Installed', this.widgets.map(info => info.widget.name))
+    debug(
+      'Installed',
+      this.widgets.map(info => `${info.library}:${info.selector}`)
+    )
   }
 
-  registerWidget(widget: Type<any>, libraryName: string) {
+  registerWidget(widget: Type<any>, library: string) {
     const definition: Ha4usWidgetDefinition = Reflect.get(widget, METADATA_KEY)
     if (definition) {
       const info: WidgetLibEntry = {
@@ -46,10 +49,11 @@ export class WidgetService {
           ? new RegExp('^' + definition.selector + '.*', 'i')
           : undefined,
         level: definition.selector ? definition.selector.split('/').length : 0,
+        library: definition.library || library,
       }
       this.widgets.push(info)
       this.widgetDic.set(info.name, info)
-      debug(`Register widget ${info.name}`)
+      debug(`Register widget ${info.name} in library ${info.library}`)
     } else {
       throw new Error('No metadata for ' + widget.name)
     }
@@ -66,6 +70,7 @@ export class WidgetService {
   }
 
   findWidget(selector: string, library?: string): WidgetLibEntry {
+    debug(`Finding ${selector} in library ${library}`)
     const retVal = this.widgets
       .filter(
         info =>
@@ -80,11 +85,7 @@ export class WidgetService {
       }
       return retVal[0]
     } else {
-      const widget = this.getWidget('value')
-      if (!widget) {
-        throw new Error(`no widget '${selector}' installed`)
-      }
-      return widget
+      debug(`Widget ${selector} not found in library ${library}`)
     }
   }
 

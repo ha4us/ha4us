@@ -4,22 +4,23 @@ import { Ha4usWidget } from '../models'
 @Component({
   selector: 'ha4us-slider',
   template: `
-  <mat-slider *ha4us="let state of topic; ha4us as ha4us"
+    <mat-slider
+      *ha4us="let state of topic; ha4us as ha4us"
       [max]="max"
       [min]="min"
       [vertical]="vertical"
       thumbLabel
-        [value]="round(state?.val / factor)"
-        (change)="ha4us.set(precisionRound($event.value * factor,2)) ">
-  </mat-slider>
+      [value]="round(state?.val / factor)"
+      (change)="ha4us.set(precisionRound($event.value * factor, 2))"
+    >
+    </mat-slider>
   `,
-  styles: [
-    'mat-slider {width:100%}',
-  ],
+  styles: ['mat-slider {width:100%}'],
 })
 @Ha4usWidget({
   selector: 'Range',
   label: 'Slider',
+  library: 'basic',
   height: 148,
   width: 148,
   props: [

@@ -19,6 +19,7 @@ import { Ha4usWidget } from '../models'
 })
 @Ha4usWidget({
   selector: 'Indicator',
+  library: 'basic',
   label: 'Indikator',
   props: [
     {

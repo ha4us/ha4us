@@ -9,7 +9,7 @@ import { Ha4usWidget } from '@app/widgets'
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 @Ha4usWidget({
-  selector: 'Device/Hue*',
+  selector: 'Device/Hue',
   label: 'HueDashboard',
   library: 'dashboard',
   props: [
