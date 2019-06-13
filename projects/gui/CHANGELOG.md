@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.7.0](https://github.com/ha4us/ha4us/compare/@ha4us/ng-gui@1.6.0...@ha4us/ng-gui@1.7.0) (2019-06-13)
+
+
+### Bug Fixes
+
+* **objectedit:** changed dialog to scroll (before the save button was not visible and not reachable) ([2fcfcc0](https://github.com/ha4us/ha4us/commit/2fcfcc0))
+
+
+### Features
+
+* **widgets:** finished library selection of widgets ([f67a857](https://github.com/ha4us/ha4us/commit/f67a857))
+
+
+
+
+
 # [1.6.0](https://github.com/ha4us/ha4us/compare/@ha4us/ng-gui@1.5.0...@ha4us/ng-gui@1.6.0) (2019-06-13)
 
 
