@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://github.com/ha4us/ha4us/compare/@ha4us/rest.adapter@1.2.1...@ha4us/rest.adapter@1.3.0) (2019-06-13)
+
+
+### Features
+
+* **rest:** add compression ([334a6aa](https://github.com/ha4us/ha4us/commit/334a6aa))
+
+
+
+
+
 ## [1.2.1](https://github.com/ha4us/ha4us/compare/@ha4us/rest.adapter@1.2.0...@ha4us/rest.adapter@1.2.1) (2019-06-12)
 
 

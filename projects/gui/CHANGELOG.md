@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.6.0](https://github.com/ha4us/ha4us/compare/@ha4us/ng-gui@1.5.0...@ha4us/ng-gui@1.6.0) (2019-06-13)
+
+
+### Bug Fixes
+
+* **ngrx:** disable ngrx store inspector in prod build ([c764e28](https://github.com/ha4us/ha4us/commit/c764e28))
+
+
+### Features
+
+* **statistic:** published first working version of history charts (only number data in a line chart ([4d6a995](https://github.com/ha4us/ha4us/commit/4d6a995))
+
+
+
+
+
 # [1.5.0](https://github.com/ha4us/ha4us/compare/@ha4us/ng-gui@1.4.0...@ha4us/ng-gui@1.5.0) (2019-06-12)
 
 
