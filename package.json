@@ -4,6 +4,7 @@
   "scripts": {
     "start": "lerna run watch  --parallel ",
     "build": "lerna run build",
+    "version": "lerna run build --since",
     "lint": "lerna run lint --parallel",
     "e2e": "ng e2e",
     "analyze": "webpack-bundle-analyzer projects/gui/dist/stats.json",
