@@ -8,7 +8,7 @@ import { StatisticQuery, AggUnit } from '@app/statistic/statistic.service'
 })
 export class MainComponent implements OnInit {
   query: StatisticQuery = {
-    topic: 'harmony/Wohnzimmer/activity/AppleTV',
+    topic: 'hm/Aussenklima/TEMPERATURE',
     to: undefined,
     duration: 'P3M',
     aggregateBy: AggUnit.None,

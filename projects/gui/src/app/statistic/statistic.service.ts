@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 
-import { StatesService } from '@ha4us/ng'
+import { StatesService, AdapterService } from '@ha4us/ng'
 import moment from 'moment'
 import { DateTime } from 'luxon'
 const debug = require('debug')('ha4us:gui:statistic')
@@ -23,11 +23,16 @@ export interface StatisticQuery {
   providedIn: 'root',
 })
 export class StatisticService {
-  constructor(protected states: StatesService) {}
+  instanceTopic = 'history'
+  constructor(protected states: StatesService, protected as: AdapterService) {
+    as.getInstances('history').subscribe(obj => {
+      this.instanceTopic = obj[0].topic
+    })
+  }
 
   inventory(topic?: string) {
     return this.states
-      .request('historydev/query', { topic })
+      .request(this.instanceTopic + '/query', { topic })
       .then(data => data.val)
   }
 
@@ -39,7 +44,7 @@ export class StatisticService {
   ) {
     debug('Calling aggregate', topic, aggregateBy, from, to)
     return this.states
-      .request('historydev/aggregate', {
+      .request(this.instanceTopic + '/aggregate', {
         topic,
         aggregateBy,
         from,
@@ -62,7 +67,7 @@ export class StatisticService {
   }
   aggregateBar(topic: string, aggregateBy: string = 'none') {
     return this.states
-      .request('historydev/aggregate', { topic, aggregateBy })
+      .request(this.instanceTopic + '/aggregate', { topic, aggregateBy })
       .then(data => {
         return {
           name: topic,

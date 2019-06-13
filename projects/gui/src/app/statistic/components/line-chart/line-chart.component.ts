@@ -6,13 +6,13 @@ import {
   SimpleChanges,
   OnChanges,
 } from '@angular/core'
-import { Observable, from } from 'rxjs'
+import { Observable, from, NEVER, of } from 'rxjs'
 import {
   StatisticService,
   AggUnit,
   StatisticQuery,
 } from '@app/statistic/statistic.service'
-import { map } from 'rxjs/operators'
+import { map, catchError, retryWhen, tap, switchMap } from 'rxjs/operators'
 import * as moment from 'moment'
 @Component({
   selector: 'ha4us-line-chart',
@@ -21,6 +21,7 @@ import * as moment from 'moment'
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LineChartComponent implements OnInit {
+  @Input() autoScale = false
   @Input() set chart(chart: StatisticQuery) {
     this.renderChart(chart)
   }
@@ -35,14 +36,26 @@ export class LineChartComponent implements OnInit {
   renderChart(chart: StatisticQuery) {
     if (chart && chart.topic) {
       const range = this.stats.createDateRange(chart.duration, chart.to)
-      this.chartData$ = from(
-        this.stats.aggregate(
-          chart.topic,
-          chart.aggregateBy,
-          range.from,
-          range.to
-        )
-      ).pipe(map(series => [{ name: 'Test', series }]))
+      this.chartData$ = of({
+        topic: chart.topic,
+        aggregateBy: chart.aggregateBy,
+        from: range.from,
+        to: range.to,
+      }).pipe(
+        switchMap(query =>
+          this.stats.aggregate(
+            query.topic,
+            query.aggregateBy,
+            query.from,
+            query.to
+          )
+        ),
+        map(series => [{ name: chart.topic, series }]),
+        retryWhen(errors => {
+          return errors.pipe(tap(() => console.log('retrying...')))
+        })
+      )
+
       this.formatTime = this.stats.getFormatFunction(chart.aggregateBy)
     }
   }

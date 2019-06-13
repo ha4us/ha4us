@@ -13,6 +13,7 @@ import {
 } from '@app/statistic/statistic.service'
 import { FormBuilder, FormGroup, Validator, Validators } from '@angular/forms'
 import { Subscription } from 'rxjs'
+import { debounceTime } from 'rxjs/operators'
 
 @Component({
   selector: 'ha4us-query-statistic',
@@ -24,6 +25,8 @@ export class QueryStatisticComponent implements OnInit, OnDestroy {
   inventory = this.stats.inventory()
 
   queryForm: FormGroup
+
+  @Input() debounce = 1
 
   @Input() query: StatisticQuery
   @Output() queryChange: EventEmitter<StatisticQuery> = new EventEmitter()
@@ -43,9 +46,12 @@ export class QueryStatisticComponent implements OnInit, OnDestroy {
     if (this.query) {
       this.queryForm.patchValue(this.query)
     }
-    this.sub = this.queryForm.valueChanges.subscribe(val => {
-      this.queryChange.emit(val)
-    })
+    this.sub = this.queryForm.valueChanges
+      .pipe(debounceTime(this.debounce * 1000))
+      .subscribe(val => {
+        const range = this.stats.createDateRange(val.duration, val.to)
+        this.queryChange.emit(val)
+      })
   }
 
   ngOnDestroy(): void {

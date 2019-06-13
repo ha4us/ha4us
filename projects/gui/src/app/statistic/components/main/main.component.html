@@ -1,3 +1,9 @@
-<ha4us-query-statistic [(query)]="query"></ha4us-query-statistic>
-<!--ha4us-line-chart [style.border]="'1px red dashed'" fxFlex [chart]="query"></ha4us-line-chart>-->
-<ha4us-history-list [query]="query"></ha4us-history-list>
+<ha4us-toolbar shadow="true">
+  <span title>Historie</span>
+</ha4us-toolbar>
+<ha4us-query-statistic class="spacing mat-elevation-z2" [(query)]="query"></ha4us-query-statistic>
+<div fxFlex fxLayoutAlign="center center" class="spacing mat-elevation-z2">
+  <ha4us-line-chart fxFlex class="content" [chart]="query"></ha4us-line-chart>
+</div>
+<!--<ha4us-bar-chart [style.border]="'1px red dashed'" fxFlex [chart]="query"></ha4us-bar-chart>-->
+<!--<ha4us-history-list [query]="query"></ha4us-history-list>-->

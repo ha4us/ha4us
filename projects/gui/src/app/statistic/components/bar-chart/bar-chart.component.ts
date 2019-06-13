@@ -6,7 +6,7 @@ import {
 } from '@angular/core'
 import { Observable, from } from 'rxjs'
 
-import { StatisticService } from '../../statistic.service'
+import { StatisticService, StatisticQuery } from '../../statistic.service'
 import { map } from 'rxjs/operators'
 
 @Component({
@@ -16,13 +16,33 @@ import { map } from 'rxjs/operators'
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BarChartComponent implements OnInit {
-  @Input() topic: string
+  @Input() set chart(chart: StatisticQuery) {
+    this.renderChart(chart)
+  }
+
   chartData$: Observable<any[]>
+
+  formatTime: (data: Date) => string
   constructor(protected stats: StatisticService) {}
 
-  ngOnInit() {
-    this.chartData$ = from(this.stats.aggregateBar(this.topic, 'week')).pipe(
-      map(data => [data])
-    )
+  ngOnInit() {}
+
+  renderChart(chart: StatisticQuery) {
+    if (chart && chart.topic) {
+      const range = this.stats.createDateRange(chart.duration, chart.to)
+      this.chartData$ = from(
+        this.stats.aggregate(
+          chart.topic,
+          chart.aggregateBy,
+          range.from,
+          range.to
+        )
+      ).pipe(map(series => [{ name: chart.topic, series }]))
+      this.formatTime = this.stats.getFormatFunction(chart.aggregateBy)
+    }
+  }
+
+  formatValue(data: number) {
+    return data
   }
 }

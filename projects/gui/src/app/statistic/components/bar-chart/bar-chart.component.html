@@ -1,5 +1,4 @@
-<div *ngIf="chartData$ | async as chartData">
-  <ha4us-bar-vertical-time [results]="chartData" [gradient]="false" [xAxis]="true" [yAxis]="true" [legend]="false"
-    [schemeType]="'linear'" [showXAxisLabel]="true" [showYAxisLabel]="true" [xAxisLabel]="'XLABEL'" [yAxisLabel]="'yAxisLabel'">
-  </ha4us-bar-vertical-time>
-</div>
+<ha4us-bar-vertical-time *ngIf="chartData$ | async as chartData" [results]="chartData" [gradient]="true" [xAxis]="true"
+  [yAxis]="true" [legend]="false" [schemeType]="'linear'" [showXAxisLabel]="true" [showYAxisLabel]="true"
+  [xAxisLabel]="'XLABEL'" [yAxisLabel]="'yAxisLabel'">
+</ha4us-bar-vertical-time>

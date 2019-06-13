@@ -3,7 +3,7 @@ import {
   StatisticQuery,
   StatisticService,
 } from '@app/statistic/statistic.service'
-import { from } from 'rxjs'
+import { from, Observable } from 'rxjs'
 import { mergeMap } from 'rxjs/operators'
 
 @Component({
@@ -12,6 +12,7 @@ import { mergeMap } from 'rxjs/operators'
   styleUrls: ['./history-list.component.scss'],
 })
 export class HistoryListComponent implements OnInit {
+  data: Observable<any>
   @Input() set query(query: StatisticQuery) {
     this.renderChart(query)
   }
@@ -30,7 +31,7 @@ export class HistoryListComponent implements OnInit {
           range.from,
           range.to
         )
-      ).subscribe(data => console.log(data))
+      ).subscribe(data => (this.data = data))
 
       // this.stats.inventory().then(data => console.log ('Inv', data))
 

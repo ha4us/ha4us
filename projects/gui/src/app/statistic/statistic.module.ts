@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { MatDatepickerModule, MatSelectModule } from '@angular/material'
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { MatMomentDateModule } from '@angular/material-moment-adapter'
 import { MainModule } from '@app/main'
 
@@ -31,6 +32,7 @@ import { HistoryInventoryComponent } from './components/history-inventory/histor
     CommonModule,
     MainModule,
     MatMomentDateModule,
+    MatProgressSpinnerModule,
     MatDatepickerModule,
     MatSelectModule,
     NgxChartsModule,
