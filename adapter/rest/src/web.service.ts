@@ -13,6 +13,8 @@ import * as http from 'http'
 import * as bodyParser from 'body-parser'
 import * as cookieParser from 'cookie-parser'
 
+import * as compression from 'compression'
+
 export interface Request extends Express.Request {
   token: string
   user: Ha4usUser
@@ -92,6 +94,7 @@ export class WebService {
     protected $args: { name: string; mqttUrl: string }
   ) {
     this.app = Express()
+    this.app.use(compression({ threshold: 0 }))
     this.http = http.createServer(this.app)
 
     this.api = Express.Router()
