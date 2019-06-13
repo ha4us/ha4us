@@ -21,6 +21,8 @@ import { StoreRouterConnectingModule, routerReducer } from '@ngrx/router-store'
 import 'moment/locale/de'
 import { WidgetsModule } from './widgets'
 
+import { environment } from '../environments/environment' // Angular CLI environemnt
+
 registerLocaleData(localeDede, localeDedeExtra)
 @NgModule({
   declarations: [AppComponent],
@@ -32,6 +34,8 @@ registerLocaleData(localeDede, localeDedeExtra)
     EffectsModule.forRoot([]),
     StoreDevtoolsModule.instrument({
       name: 'Ha4us Store DevTools',
+      logOnly: environment.production,
+      maxAge: 5,
     }),
     WidgetsModule,
     MainModule,
