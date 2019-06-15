@@ -3,7 +3,14 @@ import anyTest, { TestInterface, ExecutionContext } from 'ava'
 import { MongoClient, Db, Server } from 'mongodb'
 
 import { from } from 'rxjs'
-import { take, mergeMap, tap, map, toArray, debounceTime } from 'rxjs/operators'
+import {
+  take,
+  mergeMap,
+  tap,
+  map,
+  toArray,
+  debounceTime,
+} from 'rxjs/operators'
 
 import { HistoryDb, reduceResult, Unit, AggUnit } from './history-db.service'
 
@@ -60,7 +67,7 @@ test.afterEach.always(async t => {
   )
 })
 
-test.only('processing Messages', t => {
+test('processing Messages', t => {
   return from(loadMessages('one/two/three', 'testdata1.yml')).pipe(
     tap(msgs => t.log(msgs)),
     map(msgs => from(msgs)),
@@ -82,19 +89,19 @@ test('getting message', async t => {
         t.log('Result', res)
         t.deepEqual(res, [
           {
-            name: '2018-10-04T18:01:31.000+02:00',
+            name: DateTime.fromISO('2018-10-04T18:01:31.000+02:00'),
             value: 1,
           },
           {
-            name: '2018-10-04T18:30:02.000+02:00',
+            name: DateTime.fromISO('2018-10-04T18:30:02.000+02:00'),
             value: 3,
           },
           {
-            name: '2018-10-04T18:30:32.000+02:00',
+            name: DateTime.fromISO('2018-10-04T18:30:32.000+02:00'),
             value: 2,
           },
           {
-            name: '2018-10-04T19:30:32.000+02:00',
+            name: DateTime.fromISO('2018-10-04T19:30:32.000+02:00'),
             value: 4,
           },
         ])
