@@ -40,7 +40,7 @@ import {
   MapEditorResponse,
 } from '../map-editor/map-editor.component'
 
-import { Ha4usFormControl } from '@ulfalfa/ng-util'
+import { UsFormControl } from '@ulfalfa/ng-util'
 
 @Component({
   selector: 'ha4us-map',
@@ -59,7 +59,7 @@ import { Ha4usFormControl } from '@ulfalfa/ng-util'
     },
   ],
 })
-@Ha4usFormControl('map[type]')
+@UsFormControl('map[type]')
 export class MapComponent
   implements OnInit, AfterViewInit, ControlValueAccessor, Validator {
   @ViewChild(MatSelect) private valueAccessor: ControlValueAccessor
@@ -89,7 +89,6 @@ export class MapComponent
 
   ngOnInit() {
     this.maps = this.ms.getAll()
-    console.log('Maps loaded', this.maps)
 
     this.fc = this.controlContainer.control.get(this.formControlName)
     if (this.maps.length === 0) {
@@ -100,10 +99,8 @@ export class MapComponent
   ngAfterViewInit() {}
 
   public editDialog(mapName?: string): Observable<IValueMap<any, any>> {
-    console.log('Start Editing', mapName)
     return of(this.ms.get(mapName)).pipe(
       catchError(e => {
-        console.log('Get none,', e)
         return of(
           ValueMap.from({
             name: mapName,
@@ -113,7 +110,6 @@ export class MapComponent
         )
       }),
       mergeMap((aMap: ValueMap<any, any>) => {
-        console.log('Map to edit', aMap)
         const myRef = this.matDialog.open<
           MapEditorComponent,
           any,
@@ -128,7 +124,6 @@ export class MapComponent
           case 'delete':
             return this.ms.delete(answer.map.name)
           case 'save':
-            console.log(answer.map)
             return this.ms.put(answer.map)
 
           default:

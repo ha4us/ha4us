@@ -19,9 +19,7 @@ export class UserListEditComponent implements OnInit {
   constructor(protected us: UserService, protected ms: MessageService) {}
 
   ngOnInit() {
-    this.us
-      .get()
-      .subscribe(data => (this.users = data), e => console.log('Error'))
+    this.us.get().subscribe(data => (this.users = data))
   }
 
   addUser($event: MouseEvent) {
@@ -30,7 +28,6 @@ export class UserListEditComponent implements OnInit {
   }
 
   editUser(user: Ha4usUser) {
-    console.log('Edit', user)
     this.currentUser = user
     this.showPanel = true
   }

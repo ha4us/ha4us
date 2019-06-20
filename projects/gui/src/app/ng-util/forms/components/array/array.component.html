@@ -1,0 +1,24 @@
+<div class="mat-elevation-z2 groupcontent" [formGroup]="parentGroup">
+  <p *ngIf="control.placeholder" class="mat-body-2">{{control.placeholder}}</p>
+  <ng-container [formArrayName]="control.id">
+    <div class="arrayelement" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px"
+      *ngFor="let group of formArray.controls; let i=index">
+      <!-- The repeated alias template -->
+      <!--  <span class="counter">{{i + 1}}</span>-->
+      <div [formGroup]="group" fxFlex fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="10px">
+        <us-form-control [fxFlex]="controlDef.flex" *ngFor="let controlDef of control.controls; let idx=index"
+          [control]="controlDef">
+        </us-form-control>
+      </div>
+      <div fxLayout="column">
+        <button mat-icon-button [disabled]="!control.max || (formArray.length >= control.max)" (click)=add(i)>
+          <mat-icon>add</mat-icon>
+        </button>
+        <button mat-icon-button [disabled]="formArray.length <= (control.min || 1)" (click)=delete(i)>
+          <mat-icon>remove</mat-icon>
+        </button>
+      </div>
+
+    </div>
+  </ng-container>
+</div>

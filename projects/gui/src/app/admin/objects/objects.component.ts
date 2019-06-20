@@ -1,20 +1,10 @@
 import { Component, OnInit } from '@angular/core'
-import { Ha4usObject, MqttUtil } from '@ha4us/core'
-
-import { Observable, combineLatest } from 'rxjs'
-import {
-  withLatestFrom,
-  map,
-  publishReplay,
-  refCount,
-  take,
-  mergeMap,
-} from 'rxjs/operators'
-import { ObjectService, StatesService } from '@ha4us/ng'
-
 import { MessageService, Msg } from '@app/main'
-import { TreeNodeEvent } from '@ha4us/ng/components/object-tree/object-tree.component'
+import { Ha4usObject, MqttUtil } from '@ha4us/core'
+import { ObjectService, StatesService } from '@ha4us/ng'
 import { Ha4usObjectCollectionEvent } from '@ha4us/ng/components/object-list/object-list.component'
+import { combineLatest, Observable } from 'rxjs'
+import { map, publishReplay, refCount, take } from 'rxjs/operators'
 
 const debug = require('debug')('ha4us:gui:admin')
 @Component({

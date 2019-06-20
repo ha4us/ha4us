@@ -1,4 +1,4 @@
-<mat-card>
+<mat-card *ngIf="object">
 
   <mat-card-header *ngIf="object | ha4usRole as display">
     <ha4us-media [color]="display.color" [backgroundColor]="display.backgroundColor" mat-card-avatar avatar size="48"

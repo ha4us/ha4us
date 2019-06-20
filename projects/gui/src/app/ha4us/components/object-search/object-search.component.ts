@@ -29,7 +29,7 @@ export class ObjectSearchComponent implements OnInit, OnDestroy {
     this.sub = this.searchForm.valueChanges
       .pipe(debounceTime(1000))
       .subscribe(value => {
-        this.os.search(value)
+        this.os.search({ ...value })
       })
   }
 

@@ -1,26 +1,14 @@
 import { Injectable } from '@angular/core'
 
 import { Router, ActivatedRoute } from '@angular/router'
-import { Subscription, Observable, of, from } from 'rxjs'
+import { Subscription, Observable, of, from, combineLatest } from 'rxjs'
 import { map, take, mergeMap, tap } from 'rxjs/operators'
-import { Store, select } from '@ngrx/store'
-import { Update } from '@ngrx/entity'
 
 import { ObjectService } from '@ha4us/ng'
 import cloneDeep from 'lodash/cloneDeep'
 
-import {
-  getEntities,
-  getSelected,
-  getSelectedEntity,
-  getEditMode,
-  selectById,
-  getMainContainer,
-  getVisors,
-  visorConfiguration,
-  State,
-  Actions,
-} from '../store/'
+import { VisorQuery } from '../state/visor.query'
+import { VisorStore } from '../state/visor.store'
 
 import {
   Visor,
@@ -34,67 +22,80 @@ import {
   VisorWidget,
 } from '../models'
 import { WidgetLibEntry } from '@app/widgets'
+import { arrayAdd, arrayRemove } from '@datorama/akita'
+import { Update } from '@ngrx/entity'
 const debug = require('debug')('ha4us:gui:visor:service')
 
 @Injectable({
   providedIn: 'root',
 })
 export class VisorService {
-  editMode$ = this.store.pipe(select(getEditMode))
-  selected$ = this.store.pipe(select(getSelected))
-  mainContainer$ = this.store.pipe(select(getMainContainer))
-  visors$ = this.store.pipe(select(getVisors))
-  visorConfig$ = this.store.pipe(select(visorConfiguration))
-  entities$ = this.store.pipe(select(getEntities))
+  editMode$ = this.query.select(state => state.editMode)
+  selected$ = this.query.selectActiveId()
+  mainContainer$ = this.query.select(state => state.current)
+  visors$ = this.query.selectAll({
+    filterBy: visor => visor.type === VisorEntityType.Visor,
+  })
+
+  visorConfig$ = combineLatest(
+    this.mainContainer$,
+    this.query.selectAll()
+  ).pipe(map(([main, entities]) => ({ main, entities })))
+
+  entities$ = this.query.selectAll()
 
   get selectedEntity(): Observable<VisorEntity> {
-    return this.store.pipe(select(getSelectedEntity))
+    return this.query.selectActive()
   }
 
   constructor(
-    protected store: Store<State>,
+    protected store: VisorStore,
+    protected query: VisorQuery,
     protected router: Router,
     protected os: ObjectService
   ) {}
 
   setEditMode(editMode: boolean) {
-    this.store.dispatch(new Actions.SetEditMode(editMode))
+    this.store.setEditMode(editMode)
   }
   setSelected(id?: VisorId) {
-    this.store.dispatch(new Actions.SetSelected(id))
+    this.store.setActive(id)
   }
 
   getEntity(id: VisorId): Observable<VisorEntity> {
-    return this.store.pipe(select(selectById(id)))
+    return this.query.selectEntity(id)
   }
 
   addComponent(entity: VisorEntity, parent?: VisorId) {
-    this.store.dispatch(new Actions.AddComponent(entity))
+    this.store.add(entity as Visor)
     if (parent) {
-      this.store.dispatch(new Actions.AddChild(parent, entity.id))
+      this.store.update(parent, visor => ({
+        children: arrayAdd(visor.children, entity.id),
+      }))
     }
   }
 
   update(id: VisorId, changes: Partial<VisorEntity>) {
-    this.store.dispatch(new Actions.UpdateComponent(id, changes))
+    this.store.update(id, changes)
   }
 
-  updateComponent(data: Update<VisorEntity>) {
-    this.store.dispatch(
-      new Actions.UpdateComponent(data.id as string, data.changes)
-    )
+  updateComponent(data: Partial<VisorEntity>) {
+    this.store.update(data.id, data)
   }
 
   removeChild(child: VisorId, parent: VisorId) {
-    this.store.dispatch(new Actions.RemoveChild(parent, child))
+    this.store.remove(child)
+    this.store.update(parent, visor => ({
+      children: arrayRemove(visor.children, child),
+    }))
   }
 
   remove(id: VisorId) {
-    this.store.dispatch(new Actions.RemoveComponent(id))
+    this.store.remove(id)
   }
 
   sync(entities: VisorEntity[]) {
-    this.store.dispatch(new Actions.Loaded(entities))
+    this.store.set(entities as Visor[])
   }
 
   goto(id: VisorId, edit = false) {
@@ -109,7 +110,7 @@ export class VisorService {
   }
 
   setMain(id: VisorId) {
-    this.store.dispatch(new Actions.SetMain(id))
+    this.store.setCurrent(id)
   }
 
   put(entityId: VisorId): Observable<any> {

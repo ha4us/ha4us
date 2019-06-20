@@ -5,6 +5,7 @@ import {
   Injector,
   Optional,
   SkipSelf,
+  Self,
 } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
@@ -33,7 +34,7 @@ import { UsLayoutModule } from '@ulfalfa/ng-util'
 import { Ha4usMapModule } from '@app/map'
 
 import { Ha4usModule } from '@ha4us/ng'
-import { UsCommonModule } from '@ulfalfa/ng-util'
+import { UsCommonModule, UsFormsModule } from '@ulfalfa/ng-util'
 import { ColorHueModule } from 'ngx-color/hue'
 import { HA4US_WIDGETS, Ha4usWidgetLib } from './models'
 
@@ -53,7 +54,7 @@ import { WidgetComponent } from './components/widget/widget.component'
 import { SonosComponent } from './widgets/sonos/sonos.component'
 import { ProgressComponent } from './widgets/sonos/progress.component'
 import { HueComponent } from './widgets/hue/hue.component'
-
+import { CssDirective } from './css.directive'
 const basewidgets = [
   ButtonComponent,
   IndicatorComponent,
@@ -67,8 +68,8 @@ const basewidgets = [
   SonosComponent,
   HueComponent,
 ]
-export function wsFactory(widgets: Ha4usWidgetLib, ws: WidgetService) {
-  ws.registerLibrary(widgets)
+export function wsFactory(widgets: Ha4usWidgetLib[], ws: WidgetService) {
+  widgets.forEach(widgetSet => ws.registerLibrary(widgetSet))
   return ws
 }
 
@@ -100,6 +101,7 @@ export function wsFactory(widgets: Ha4usWidgetLib, ws: WidgetService) {
     MatTabsModule,
     MatToolbarModule,
     MatTooltipModule,
+    UsFormsModule.forFeature(),
   ],
   declarations: [
     ...basewidgets,
@@ -108,6 +110,7 @@ export function wsFactory(widgets: Ha4usWidgetLib, ws: WidgetService) {
     SonosComponent,
     ProgressComponent,
     HueComponent,
+    CssDirective,
   ],
   entryComponents: [...basewidgets],
   exports: [WidgetComponent, ...basewidgets],
@@ -115,11 +118,10 @@ export function wsFactory(widgets: Ha4usWidgetLib, ws: WidgetService) {
     {
       provide: HA4US_WIDGETS,
       useValue: { widgets: basewidgets },
-      multi: false,
+      multi: true,
     },
   ],
 })
-// tslint:disable-next-line:no-trailing-whitespace
 export class WidgetsModule {
   static forFeature(
     widgets: Type<any>[] = [],
@@ -129,18 +131,14 @@ export class WidgetsModule {
       ngModule: WidgetsModule,
       providers: [
         {
-          provide: WidgetService,
-          useFactory: wsFactory,
-          deps: [
-            HA4US_WIDGETS,
-            [WidgetService, new Optional(), new SkipSelf()],
-          ],
-        },
-
-        {
           provide: HA4US_WIDGETS,
           useValue: { widgets, name: library },
-          multi: false,
+          multi: true,
+        },
+        {
+          provide: WidgetService,
+          useClass: WidgetService,
+          deps: [HA4US_WIDGETS],
         },
       ],
     }

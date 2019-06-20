@@ -75,6 +75,14 @@ router-outlet+* {
   height: 95vh !important
 }
 
+.standard-margin {
+  margin: 15px;
+}
+
+.standard-padding {
+  padding: 15px;
+}
+
 //@import './app/ha4us-dark.theme.scss';
 //.ha4us-dark {
 //    @include angular-material-theme($ha4us-dark);

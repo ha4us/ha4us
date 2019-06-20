@@ -1,0 +1,17 @@
+<h2 mat-dialog-title>Delete all</h2>
+<mat-dialog-content>
+
+  <div [formGroup]="form">
+    <mat-form-field>
+      <input matInput formControlName="label" placeholder="Input">
+    </mat-form-field>
+
+    <ha4us-media altImg="/assets/images/Sonos_Default_AlbumArt.png" alt="Wähle ein Bild" ha4usPick="image"
+      formControlName="media" size="128" avatar backgroundColor="blue" color="white"></ha4us-media>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>No</button>
+  <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
+  <button mat-button (click)="save($event)">Speichern</button>
+</mat-dialog-actions>

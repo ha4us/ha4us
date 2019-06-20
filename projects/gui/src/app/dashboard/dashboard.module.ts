@@ -16,7 +16,7 @@ import { MomentModule } from 'ngx-moment'
 import { StoreModule } from '@ngrx/store'
 
 import { UsLayoutModule } from '@ulfalfa/ng-util'
-import { WidgetsModule } from '@app/widgets'
+import { WidgetsModule, WidgetService } from '@app/widgets'
 import { MainModule } from '@app/main'
 import { DashboardRoutingModule } from './dashboard-routing.module'
 import { DashboardMainComponent } from './components/dashboard-main/dashboard-main.component'
@@ -47,6 +47,7 @@ const widgets = [
     CommonModule,
     FormsModule,
     DashboardRoutingModule,
+    WidgetsModule.forFeature(widgets, 'dashboard'),
     Ha4usModule,
     MomentModule,
     MatCardModule,
@@ -62,7 +63,6 @@ const widgets = [
     UsLayoutModule,
 
     MainModule,
-    WidgetsModule.forFeature(widgets, 'dashboard'),
   ],
   declarations: [
     DashboardMainComponent,

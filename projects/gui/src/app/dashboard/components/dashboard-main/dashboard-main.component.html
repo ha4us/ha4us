@@ -8,12 +8,24 @@
 <mat-tab-group fxFlex backgroundColor="primary" color="accent" class="content widget-list"
   (selectedTabChange)="tabchanged($event)" [selectedIndex]="activeTag">
   <mat-tab *ngFor="let taggedObject of (taggedObjects$ | async)" [label]="taggedObject.tag">
+
     <ng-template matTabContent>
       <us-card-grid [style.padding.px]="10">
         <us-card *ngFor="let object of (taggedObject.object$ | async)">
           <ha4us-widget [widget]="object.role" [props]="object" library="dashboard" default="Value"></ha4us-widget>
         </us-card>
       </us-card-grid>
+    </ng-template>
+  </mat-tab>
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <button mat-icon-button (click)="$event.stopPropagation()">
+        <mat-icon>add</mat-icon>
+      </button>
+      Hinzufügen
+      <button mat-icon-button>
+        <mat-icon>keyboard_arrow_left</mat-icon>
+      </button>
     </ng-template>
   </mat-tab>
 </mat-tab-group>

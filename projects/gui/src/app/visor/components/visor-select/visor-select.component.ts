@@ -31,7 +31,7 @@ import { Observable, Subject } from 'rxjs'
 
 import { VisorId, Visor } from '../../models'
 
-import { Ha4usFormControl } from '@ulfalfa/ng-util'
+import { UsFormControl } from '@ulfalfa/ng-util'
 
 import { VisorService } from '../../services/visor.service'
 
@@ -40,7 +40,7 @@ import { VisorService } from '../../services/visor.service'
   templateUrl: './visor-select.component.html',
   styleUrls: ['./visor-select.component.scss'],
 })
-@Ha4usFormControl('visor')
+@UsFormControl('visor')
 export class VisorSelectComponent implements OnInit {
   visors: Observable<Visor[]>
   public value: string

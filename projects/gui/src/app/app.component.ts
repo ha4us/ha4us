@@ -1,5 +1,4 @@
 import { Component } from '@angular/core'
-import { WidgetService } from './widgets'
 
 @Component({
   selector: 'ha4us-root',

@@ -26,6 +26,7 @@ import { MonacoEditorModule } from 'ngx-monaco-editor'
     CommonModule,
     FormsModule,
     FlexLayoutModule,
+    MatFormFieldModule,
     MatSliderModule,
     ReactiveFormsModule,
     TestRoutingModule,

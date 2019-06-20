@@ -1,0 +1,25 @@
+<ha4us-toolbar>
+  <span title>Sandkiste</span>
+</ha4us-toolbar>
+
+<mat-form-field class="standard-margin">
+  <mat-label>Widget</mat-label>
+  <mat-select [(ngModel)]="data">
+    <mat-option>-- None --</mat-option>
+    <mat-optgroup *ngFor="let library of widgets|async | keyvalue" [label]="library.key">
+      <mat-option *ngFor="let widget of library.value" [value]="widget">
+        {{widget.name}}
+      </mat-option>
+    </mat-optgroup>
+  </mat-select>
+</mat-form-field>
+
+
+<div fxFlex fxLayout="row" *ngIf="data">
+  <us-material-form class="standard-margin" fxFlex="40" [controls]="data.props" [(value)]="formData"></us-material-form>
+  <div class="canvas" fxFlex="60" fxLayout="row" fxLayoutAlign="center center">
+    <ha4us-widget [widget]="data.name" [props]="formData" [library]="data.library" default="Value">
+    </ha4us-widget>
+  </div>
+</div>
+{{formData | json}}

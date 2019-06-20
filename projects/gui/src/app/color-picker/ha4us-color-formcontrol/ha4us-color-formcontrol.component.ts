@@ -9,14 +9,14 @@ import {
   NgControl,
 } from '@angular/forms'
 
-import { Ha4usFormControl } from '@ulfalfa/ng-util'
+import { UsFormControl } from '@ulfalfa/ng-util'
 
 @Component({
   selector: 'ha4us-ha4us-color-formcontrol',
   templateUrl: './ha4us-color-formcontrol.component.html',
   styleUrls: ['./ha4us-color-formcontrol.component.scss'],
 })
-@Ha4usFormControl('color')
+@UsFormControl('color')
 export class Ha4usColorFormcontrolComponent implements OnInit {
   public _color: string
 

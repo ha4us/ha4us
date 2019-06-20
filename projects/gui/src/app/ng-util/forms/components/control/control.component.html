@@ -1,0 +1,44 @@
+<ng-container [ngSwitch]="control.type">
+  <mat-form-field class="flexwidth" *ngSwitchCase="'string'">
+    <input matInput [placeholder]="control.label" [formControl]="formControl" [required]="control.required">
+    <button *ngIf="formControl.value" mat-icon-button matSuffix (click)="formControl.setValue(control.default)">
+      <mat-icon>close</mat-icon>
+    </button>
+    <mat-error *ngIf="formControl.hasError('required')">Erforderlich</mat-error>
+    <mat-error *ngIf="formControl.hasError('pattern')">Falsches Format</mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="flexwidth" *ngSwitchCase="'text'">
+    <textarea matInput mat-autosize [placeholder]="control.placeholder" [formControl]="formControl"
+      [required]="control.required"></textarea>
+    <button *ngIf="formControl.value" mat-icon-button matSuffix (click)="formControl.setValue(control.default)">
+      <mat-icon>close</mat-icon>
+    </button>
+    <mat-error *ngIf="formControl.hasError('required')">Erforderlich</mat-error>
+    <mat-error *ngIf="formControl.hasError('pattern')">Falsches Format</mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="flexwidth" *ngSwitchCase="'number'">
+    <input matInput [placeholder]="control.placeholder" type="number" [formControl]="formControl"
+      [required]="control.required" [min]="control.min" [max]="control.max">
+    <mat-error *ngIf="formControl.hasError('required')">Erforderlich</mat-error>
+
+    <mat-error *ngIf="formControl.hasError('min')">Minimaler Wert {{formControl.getError('min').min}}</mat-error>
+    <mat-error *ngIf="formControl.hasError('max')">Maximaler Wert {{formControl.getError('max').max}}</mat-error>
+  </mat-form-field>
+
+
+  <mat-form-field class="flexwidth" *ngSwitchCase="'select'">
+    <mat-select [placeholder]="control.placeholder" [formControl]="formControl">
+      <mat-option *ngIf="!control.required" [value]="control.default"><i>Nichts ausgewählt</i></mat-option>
+      <mat-option *ngFor="let val of control.values" [value]="val">{{ val }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-checkbox class="flexwidth" *ngSwitchCase="'boolean'" [formControl]="formControl">{{control.placeholder}}
+  </mat-checkbox>
+
+  <us-dynamic-control [controlDefinition]="control" *ngSwitchDefault>
+  </us-dynamic-control>
+
+</ng-container>

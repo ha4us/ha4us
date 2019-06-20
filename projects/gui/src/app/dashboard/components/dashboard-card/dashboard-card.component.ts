@@ -24,7 +24,6 @@ export class DashboardCardComponent implements OnInit {
   ngOnInit() {}
 
   edit(event: MouseEvent, topic: string) {
-    console.log('Editing', topic)
     this.os.edit(topic)
   }
 }

@@ -26,7 +26,7 @@ export class SettingsComponent implements OnInit {
   selectedTab = this.route.paramMap.pipe(
     map(params => params.get('setting')),
     filter(setting => !!setting),
-    //  tap(setting=>console.log ('Swit'))
+    //  tap(setting=>
     map(setting => this.tabs.findIndex(tab => setting.toLowerCase() === tab)),
     tap(idx => (this.back = idx > -1))
   )

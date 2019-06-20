@@ -1,0 +1,13 @@
+<mat-accordion *ngIf="_form" fxLayout="column" class="max-width" displayMode="flat" multi [formGroup]='_form'>
+
+  <ng-container *ngFor="let controlDef of _controls">
+    <ng-container [ngSwitch]="controlDef.type">
+      <us-form-group *ngSwitchCase="'group'" [style.width.%]="100" [control]="controlDef"></us-form-group>
+      <us-form-array *ngSwitchCase="'array'" [style.width.%]="100" [control]="controlDef"></us-form-array>
+      <us-form-control *ngSwitchDefault fxFlex [control]="controlDef">
+      </us-form-control>
+    </ng-container>
+  </ng-container>
+
+
+</mat-accordion>

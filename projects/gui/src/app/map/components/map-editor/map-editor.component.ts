@@ -67,8 +67,6 @@ export class MapEditorComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data,
     protected fb: FormBuilder
   ) {
-    console.log('Diag Called', data)
-
     this.mapForm = this.fb.group(
       {
         name: [data.map.name, Validators.required],
@@ -132,9 +130,9 @@ export class MapEditorComponent implements OnInit {
     const op: TValueOperator = ev.value
     const parCount = ValueCondition.getParamCount(op)
 
-    const values: FormArray = (this.mapForm.get('ifthens') as FormArray).controls[
-      condIdx
-    ].get('if.value') as FormArray
+    const values: FormArray = (this.mapForm.get(
+      'ifthens'
+    ) as FormArray).controls[condIdx].get('if.value') as FormArray
 
     if (values.controls.length > parCount) {
       while (values.controls.length > parCount) {
@@ -163,11 +161,10 @@ export class MapEditorComponent implements OnInit {
   }
 
   enter(drag?: CdkDrag, drop?: CdkDropList) {
-    // console.log('Enter', drag, drop)
+    //
   }
 
   drop(event: CdkDragDrop<string[]>) {
-    console.log('Dropped', event)
     transferArrayItem(
       event.previousContainer.data,
       event.container.data,

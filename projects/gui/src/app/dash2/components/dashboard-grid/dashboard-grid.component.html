@@ -1,0 +1,21 @@
+<gridster *usLet="activeCard$|async  as cards" [ngClass]="{ grid: editMode} " [options]="options">
+  <gridster-item [item]="item" *ngFor="let item of cards;  let idx = index">
+    <!-- your content here -->
+    <ha4us-dashboard-card [card]="item.card" (heightChange)="changeHeight($event, item)">
+    </ha4us-dashboard-card>
+
+    <div *ngIf="editMode" fxLayout="row" class="actions">
+      <span fxFlex></span>
+      <button mat-icon-button (click)="editCard(item.card.id)">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-icon-button (click)="deleteCard(item.card.id)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+  </gridster-item>
+
+</gridster>
+<button *ngIf="editMode" mat-fab (click)="addCard()">
+  <mat-icon>add</mat-icon>
+</button>

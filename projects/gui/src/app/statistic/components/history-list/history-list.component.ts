@@ -33,7 +33,7 @@ export class HistoryListComponent implements OnInit {
         )
       ).subscribe(data => (this.data = data))
 
-      // this.stats.inventory().then(data => console.log ('Inv', data))
+      // this.stats.inventory().then(data =>
 
       // this.formatTime = this.stats.getFormatFunction(chart.aggregateBy)
     }

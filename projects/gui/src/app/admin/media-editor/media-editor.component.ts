@@ -23,10 +23,7 @@ export class MediaEditorComponent implements OnInit, OnDestroy {
     this.ms.upsertOne(media)
   }
 
-  onUpload(event) {
-    // console.log('Finish with event')
-    // console.log(event)
-  }
+  onUpload(event) {}
 
   deleteSelected() {
     this.selectedMedia

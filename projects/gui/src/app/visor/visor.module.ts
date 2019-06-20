@@ -28,17 +28,10 @@ import { Ha4usColorPickerModule } from '@app/color-picker'
 
 import { UsFormsModule } from '@ulfalfa/ng-util'
 
-import { EffectsModule } from '@ngrx/effects'
-
-import { StoreModule, Store } from '@ngrx/store'
-import { State } from './store'
-
 import { DragAndDropModule } from '@ulfalfa/angular-draggable-droppable'
 import { ResizableModule } from 'angular-resizable-element'
 
 import { WidgetsModule } from '@app/widgets'
-import { VisorEffects } from './store/visor.effects'
-import { reducer } from './store/visor.reducer'
 
 import { VisorRoutingModule } from './visor-routing.module'
 import { VisorMainComponent } from './components/visor-main/visor-main.component'
@@ -62,16 +55,14 @@ import { VisorButtonsComponent } from './components/visor-buttons/visor-buttons.
   imports: [
     VisorRoutingModule,
     Ha4usModule,
-    UsFormsModule.forProvider([VisorSelectComponent]),
-    UsFormsModule,
+    UsFormsModule.forFeature([VisorSelectComponent]),
     CommonModule,
     DragAndDropModule,
     FlexLayoutModule,
     MainModule,
     WidgetsModule.forFeature([VisorButtonsComponent], 'visor'),
-    StoreModule.forFeature('visor', reducer),
+
     FormsModule,
-    EffectsModule.forFeature([VisorEffects]),
 
     Ha4usColorPickerModule,
 

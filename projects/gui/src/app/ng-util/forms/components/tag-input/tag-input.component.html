@@ -1,0 +1,18 @@
+<mat-form-field class="width-100">
+  <mat-chip-list #chips>
+    <mat-chip (removed)="removeTag(index)" [disabled]="disabled" [removable]="!disabled" [color]="'warn'"
+      *ngFor="let tag of currentTags; index as index">
+      {{tag}}
+      <mat-icon matChipRemove *ngIf="!disabled">cancel</mat-icon>
+    </mat-chip>
+    <input #tagInput [formControl]="tagInputCtrl" [matChipInputFor]="chips" (matChipInputTokenEnd)="addTag($event)"
+      [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matAutocompleteDisabled]="!availableTags || disabled"
+      [placeholder]="placeholder" [matAutocomplete]="autoTag">
+  </mat-chip-list>
+  <mat-autocomplete #autoTag (optionSelected)="addTagFromAutocomplete($event)" autoActiveFirstOption>
+    <mat-option *ngFor="let acTag of filteredTags|async" [value]="acTag">
+      {{acTag}}
+    </mat-option>
+  </mat-autocomplete>
+
+</mat-form-field>

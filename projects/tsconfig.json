@@ -28,6 +28,12 @@
       "@ha4us/ng/*": [
         "gui/src/app/ha4us/*"
       ],
+      "@ulfalfa/ng-util": [
+        "gui/src/app/ng-util"
+      ],
+      "@ulfalfa/ng-util/*": [
+        "gui/src/app/ng-util/*"
+      ],
       "@app/*": [
         "gui/src/app/*"
       ]

@@ -57,7 +57,7 @@ export class MonacoConfig implements NgxMonacoEditorConfig {
         token
       ): monaco.languages.ProviderResult<monaco.languages.CompletionList> => {
         const lastChar = model.getWordAtPosition(position)
-        console.log(lastChar)
+
         //  if (context.triggerCharacter === '$') {
         return this.scripts.topics$
           .pipe(

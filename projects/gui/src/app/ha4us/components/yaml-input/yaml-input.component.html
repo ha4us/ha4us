@@ -1,0 +1,6 @@
+<mat-form-field *ngIf="formControl">
+  <textarea [formControl]="formControl" matInput usYaml [placeholder]="placeholder" [required]="required"
+    cdkTextareaAutosize cdkAutosizeMinRows="3" cdkAutosizeMaxRows="8" [required]="required"></textarea>
+  <mat-error *ngIf="formControl.hasError('yaml')">Yaml Error</mat-error>
+  <mat-error *ngIf="formControl.hasError('required')">Erforderlich</mat-error>
+</mat-form-field>

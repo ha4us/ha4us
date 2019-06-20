@@ -9,14 +9,14 @@ import {
   NgControl,
 } from '@angular/forms'
 
-import { Ha4usFormControl } from '@ulfalfa/ng-util'
+import { UsFormControl } from '@ulfalfa/ng-util'
 
 @Component({
   selector: 'ha4us-ha4us-media-formcontrol',
   templateUrl: './ha4us-media-formcontrol.component.html',
   styleUrls: ['./ha4us-media-formcontrol.component.scss'],
 })
-@Ha4usFormControl('media[mimeType]')
+@UsFormControl('media[mimeType]')
 export class Ha4usMediaFormcontrolComponent implements OnInit {
   public _media: string
 

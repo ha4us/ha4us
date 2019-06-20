@@ -15,7 +15,6 @@ export class ListItemComponent implements OnInit {
   ngOnInit() {}
 
   edit(event: MouseEvent, topic: string) {
-    console.log('Editing', topic)
     this.os.edit(topic)
   }
 }

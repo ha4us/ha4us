@@ -129,7 +129,7 @@ export class ScriptEditorComponent
   }
 
   canDeactivate(): boolean | Observable<boolean> | Promise<boolean> {
-    console.log('canDeactivate has fired in the component!', this.form.dirty)
+
     if (this.form.dirty) {
       return this.ms.confirm(Msg.CancelEdit)
     } else {

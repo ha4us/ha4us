@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core'
 
-import { Observable } from 'rxjs'
-import { take, map } from 'rxjs/operators'
+import { Observable, Subject } from 'rxjs'
+import { take, map, switchMap } from 'rxjs/operators'
 import { Ha4usObject } from '@ha4us/core'
 
 import { Ha4usWidget } from '@app/widgets'
@@ -27,14 +27,16 @@ const NO_SYSTEM_ROLES = /^(Device|.*\/System\/)/i
   ],
 })
 export class DeviceWidgetComponent implements OnInit {
-  @Input() topic: string
+  topic$: Subject<string> = new Subject()
+  @Input() set topic(topic: string) {
+    this.topic$.next(topic)
+  }
 
-  children: Observable<Ha4usObject[]>
-  object: Ha4usObject
+  children = this.topic$.pipe(
+    switchMap(topic => this.os.observe(topic + '/+'))
+  )
 
   constructor(protected os: ObjectService) {}
 
-  ngOnInit() {
-    this.children = this.os.observe(this.topic + '/+')
-  }
+  ngOnInit() {}
 }

@@ -3,7 +3,7 @@ import { MqttUtil } from '@ha4us/core'
 
 import { Observable, Subscription, Subject } from 'rxjs'
 
-import { scan } from 'rxjs/operators'
+import { scan, filter } from 'rxjs/operators'
 import { Ha4usObject } from '@ha4us/core'
 import { ObjectService } from '../services/object.service'
 
@@ -28,14 +28,17 @@ export class Ha4usObjectPipe implements PipeTransform, OnDestroy {
       this.curTopic = topic
       this.isPattern = MqttUtil.isPattern(topic)
       this.ngOnDestroy()
-      this.sub = this.os.observe(this.curTopic).subscribe(objArray => {
-        debug('object changed', objArray)
-        if (this.isPattern) {
-          this.curResult = objArray
-        } else {
-          this.curResult = objArray[0]
-        }
-      })
+      this.sub = this.os
+        .observe(this.curTopic)
+        .pipe(filter(topics => topics.length > 0))
+        .subscribe(objArray => {
+          debug('object changed', objArray)
+          if (this.isPattern) {
+            this.curResult = objArray
+          } else {
+            this.curResult = objArray[0]
+          }
+        })
     }
     return this.curResult
   }

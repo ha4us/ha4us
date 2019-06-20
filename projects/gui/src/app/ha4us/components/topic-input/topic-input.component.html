@@ -1,11 +1,11 @@
 <mat-form-field>
-  <input  [(ngModel)]="topic" [required]="required"
-           matInput [placeholder]="placeholder || 'Ha4us Topic '" [matAutocomplete]="autoTopic" #inputComponent/>
-  <mat-autocomplete #autoTopic="matAutocomplete" (optionSelected)="selected($event,inputComponent)">
+  <input [formControl]="ngControl.control" [required]="required" matInput [placeholder]="placeholder || 'Ha4us Topic '"
+    [matAutocomplete]="autoTopic" #inputComponent />
+  <mat-autocomplete #autoTopic="matAutocomplete">
     <mat-option *ngFor="let topic of autoCompleteTopics | async" [value]="topic">
       {{topic}}
     </mat-option>
   </mat-autocomplete>
-  <mat-error *ngIf="formControl.hasError('required')">Erforderlich</mat-error>
-  <mat-error *ngIf="formControl.hasError('pattern')">falsches Format</mat-error>
+  <mat-error *ngIf="ngControl.control.hasError('required')">Erforderlich</mat-error>
+  <mat-error *ngIf="ngControl.control.hasError('pattern')">falsches Format</mat-error>
 </mat-form-field>

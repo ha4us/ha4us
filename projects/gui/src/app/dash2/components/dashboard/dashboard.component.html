@@ -1,0 +1,11 @@
+<ng-container *ngIf="ui$ | async as ui">
+  <ha4us-toolbar noShadow> <span title>Dashboard</span>
+    <button mat-icon-button (click)="toggleEditMode()">
+      <mat-icon>{{ui.editMode?'close':'edit'}}</mat-icon>
+    </button>
+  </ha4us-toolbar>
+  <ha4us-dashboard-tabs (add)="addDashboard('Unbenannt')" (move)="moveDashboard($event)" (edit)="editDashboard($event)">
+  </ha4us-dashboard-tabs>
+  <ha4us-dashboard-grid [dashboard]="activeDashboard$ | async" fxFlex>
+  </ha4us-dashboard-grid>
+</ng-container>

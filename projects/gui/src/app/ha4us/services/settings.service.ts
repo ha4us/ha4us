@@ -26,26 +26,23 @@ import {
   providedIn: 'root',
 })
 export class SettingsService {
-  setting$: Observable<Ha4usGuiSettings>
+  setting$: Observable<Ha4usGuiSettings> = combineLatest(
+    this.getUserSettings(),
+    this.getBrowserSettings()
+  ).pipe(
+    map(settings => ({
+      user: settings[0],
+      browser: settings[1],
+    })),
+
+    shareReplay({ refCount: true, bufferSize: 1 })
+  )
 
   test$: Observable<Ha4usGuiSettings>
 
-  constructor(protected os: ObjectService, protected as: AuthService) {
-    this.setting$ = combineLatest(
-      this.getUserSettings(),
-      this.getBrowserSettings()
-    ).pipe(
-      map(settings => ({
-        user: settings[0],
-        browser: settings[1],
-      })),
-
-      shareReplay({ refCount: true, bufferSize: 1 })
-    )
-  }
+  constructor(protected os: ObjectService, protected as: AuthService) {}
 
   observe<T>(path: string): Observable<T> {
-    this.os.observeOne('ha4us/gui/config')
     return this.setting$.pipe(pluck(...path.split('.'))) as Observable<T>
   }
 

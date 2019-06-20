@@ -38,7 +38,6 @@ export class ObjectComponent {
   }
 
   add($event) {
-    console.log('Adding Topic', $event)
     this.action.emit({
       type: 'add_child',
       source: this,

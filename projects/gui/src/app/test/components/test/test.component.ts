@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-import { FormGroup, FormControl } from '@angular/forms'
+import { FormGroup, FormControl, Validators } from '@angular/forms'
 import { StatesService } from '@ha4us/ng'
 import { take } from 'rxjs/operators'
 
@@ -19,29 +19,21 @@ export class TestComponent implements OnInit {
 
   test: any
 
+  required = true
+
   user = this.us.getOne('admin')
 
   value = 1
   myForm = new FormGroup({})
+  fc = new FormControl(undefined, [Validators.required])
   constructor(state: StatesService, protected us: UserService) {
     // this.myForm = this.fbs.form(this.controls)
-    this.myForm = new FormGroup({ tags: new FormControl(['test']) })
-
-    state
-      .observe('hm/#')
-      .pipe(take(1))
-      .subscribe(
-        val => console.log(val),
-        e => console.error(e),
-        () => console.log('Finished')
-      )
-  }
-
-  ngOnInit() {
-    this.myForm.valueChanges.subscribe(changes => {
-      console.log('Changes', changes)
+    this.myForm = new FormGroup({
+      yaml: new FormControl(),
     })
   }
+
+  ngOnInit() {}
 
   changed($event) {
     console.log($event)

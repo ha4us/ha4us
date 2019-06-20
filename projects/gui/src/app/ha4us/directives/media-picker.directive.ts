@@ -42,7 +42,6 @@ export class MediaPickerDirective implements ControlValueAccessor {
       .pipe(
         take(1),
         mergeMap(media => {
-          console.log('Media', media)
           const dialogRef: MatDialogRef<
             MediaDialogComponent,
             Ha4usMediaDialogData

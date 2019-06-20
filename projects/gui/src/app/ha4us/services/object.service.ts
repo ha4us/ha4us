@@ -1,87 +1,79 @@
 import { Injectable } from '@angular/core'
-
-import { Observable } from 'rxjs'
-import { Store, select } from '@ngrx/store'
+import { MatDialog } from '@angular/material'
 import {
-  selectSearched,
-  getTopics,
-  getSearch,
-  getTopicHierarchie,
-  getAllTags,
-  getAllObjects,
-  selectOne,
-  matchByPattern,
-  selectRoles,
-  selectByRole,
-  matchRole,
-  getObjectEntities,
-} from '../store/object/selector'
-
-import { State } from '../store/object/state'
-import * as Actions from '../store/object/actions'
+  Ha4usObject,
+  Ha4usObjectQuery,
+  Ha4usRole,
+  HA4US_OBJECT,
+} from '@ha4us/core'
+import { Observable } from 'rxjs'
+import { catchError, switchMap, take, tap } from 'rxjs/operators'
+import { ObjectEditDialogComponent } from '../components/object-edit-dialog/object-edit-dialog.component'
+import { ObjectsQuery } from '../state/objects.query'
+import { ObjectsStore } from '../state/objects.store'
+import { Ha4usApiService } from './ha4us-api.service'
 
 const defaultsDeep = require('lodash/defaultsDeep')
 
-import {
-  Ha4usObject,
-  IPager,
-  HA4US_OBJECT,
-  Ha4usObjectQuery,
-  Ha4usError,
-  Ha4usRole,
-} from '@ha4us/core'
-import { Ha4usApiService } from './ha4us-api.service'
-import { MatDialog } from '@angular/material'
-import { ObjectEditDialogComponent } from '../components/object-edit-dialog/object-edit-dialog.component'
 const debug = require('debug')('ha4us:gui:object:service')
 
 @Injectable({
   providedIn: 'root',
 })
 export class ObjectService {
-  readonly searchResult$ = this.store.pipe(select(selectSearched))
-  readonly topics$ = this.store.pipe(select(getTopics))
-  readonly search$ = this.store.pipe(select(getSearch))
-  readonly topicTree$ = this.store.pipe(select(getTopicHierarchie))
-  readonly allTags$ = this.store.pipe(select(getAllTags))
-  readonly roles$ = this.store.pipe(select(selectRoles))
-  readonly all$ = this.store.pipe(select(getAllObjects))
-  readonly objects$ = this.store.pipe(select(getObjectEntities))
+  readonly searchResult$ = this.query.searchResult$
+  readonly topics$ = this.query.topics$
+  readonly search$ = this.query.search$
+  readonly topicTree$ = this.query.topicTree$
+  readonly allTags$ = this.query.allTags$
+  readonly roles$ = this.query.roles$
+
+  readonly all$ = this.query.all$
+  readonly objects$ = this.query.objects$
 
   constructor(
     protected api: Ha4usApiService,
-    protected store: Store<State>,
+    protected store: ObjectsStore,
+    protected query: ObjectsQuery,
     protected dialog: MatDialog
   ) {}
 
   public observeOne(topic: string): Observable<Ha4usObject> {
-    return this.store.pipe(select(selectOne(topic)))
+    return this.query.selectEntity(topic)
   }
   public observe(pattern: string): Observable<Ha4usObject[]> {
-    return this.store.pipe(select(matchByPattern(pattern)))
+    return this.query.selectByPattern(pattern)
   }
-  public observeRole(role: Ha4usRole | string | RegExp) {
-    if (typeof role === 'string') {
-      return this.store.pipe(select(selectByRole(role)))
-    } else {
-      return this.store.pipe(select(matchRole(role)))
-    }
+  public observeRole(
+    role: Ha4usRole | string | RegExp
+  ): Observable<Ha4usObject[]> {
+    return this.query.selectByRole(role)
   }
 
   public updateOne(topic: string, changes: Partial<Ha4usObject>): void {
-    this.store.dispatch(new Actions.UpdateOne({ id: topic, changes }))
+    const update$ = this.query.select(topic).pipe(
+      take(1),
+      switchMap(obj => this.api.objectPut(obj))
+    )
+    this.store.update(topic, changes)
+    update$.subscribe()
   }
 
   public upsert(obj: Ha4usObject) {
-    this.store.dispatch(new Actions.UpsertOne(obj))
-  }
-
-  addMany(obj: Ha4usObject[]) {
-    this.store.dispatch(new Actions.SyncAddMany(obj))
+    this.api
+      .objectPut(obj)
+      .pipe(
+        catchError(err => this.api.objectPost(obj)),
+        tap(puttedObj => this.store.upsert(obj.topic, obj))
+      )
+      .subscribe()
   }
 
   public remove(topic: string) {
-    this.store.dispatch(new Actions.RemoveOne(topic))
+    this.api
+      .objectDelete(topic)
+      .pipe(tap(obj => this.store.remove(obj.topic)))
+      .subscribe()
   }
 
   public new<T extends Ha4usObject>(
@@ -93,8 +85,12 @@ export class ObjectService {
     return newObject as T
   }
 
-  search(value: Ha4usObjectQuery) {
-    this.store.dispatch(new Actions.Search(value))
+  search(search: Ha4usObjectQuery) {
+    if (typeof search === 'string') {
+      this.store.update({ search: { pattern: search } })
+    } else {
+      this.store.update({ search })
+    }
   }
 
   create(topic: string, partial: Partial<Ha4usObject> = {}): Ha4usObject {
@@ -116,5 +112,13 @@ export class ObjectService {
         this.upsert(result)
       }
     })
+  }
+
+  getObjects(): Observable<Ha4usObject[]> {
+    const request$ = this.api
+      .objectGet('#')
+      .pipe(tap(objects => this.store.set(objects)))
+
+    return this.query.getHasCache() ? this.query.all$ : request$
   }
 }

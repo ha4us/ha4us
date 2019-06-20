@@ -16,4 +16,12 @@
 <ha4us-object [object]="'notexisting' | ha4usObject "></ha4us-object>
 -->
 
-NO TEST
+<mat-form-field>
+  <textarea [formControl]="fc" matInput [ha4usTemplate]="{val:'test'}" [placeholder]="'Placeholder'"
+    [required]="required" cdkTextareaAutosize cdkAutosizeMinRows="3" cdkAutosizeMaxRows="8"></textarea>
+  <mat-error *ngIf="fc.hasError('template')">Template Error: {{fc.getError('template')}}</mat-error>
+  <mat-error *ngIf="fc.hasError('required')">Erforderlich</mat-error>
+</mat-form-field>
+
+{{fc.value | json}}
+{{fc.errors | json}}

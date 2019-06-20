@@ -1,4 +1,5 @@
- <form fxFlex [formGroup]="searchForm" fxLayout="column" fxLayoutAlign="start stretch" >
-    <ha4us-topic-input formControlName="pattern" [topic]="selectedTopic"></ha4us-topic-input>
-    <us-tag-input formControlName="tags" [availableTags]="os.allTags$|async" placeholder="Suche nach Tags..."></us-tag-input>
-</form>
+ <form fxFlex [formGroup]="searchForm" fxLayout="column" fxLayoutAlign="start stretch">
+   <ha4us-topic-input formControlName="pattern"></ha4us-topic-input>
+   <us-tag-input formControlName="tags" [availableTags]="os.allTags$|async" placeholder="Suche nach Tags...">
+   </us-tag-input>
+ </form>

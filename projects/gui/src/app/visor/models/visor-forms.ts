@@ -13,39 +13,39 @@ export interface LabeledDynamicFormControl {
 export type WidgetFormDefinition = DynamicFormGroup[]
 
 export const COMMON_BACKGROUND: DynamicFormGroup = {
-  label: 'CSS Hintergrund',
+  placeholder: 'CSS Hintergrund',
   type: 'group',
   expandable: false,
   controls: [
     {
       id: 'backgroundColor',
-      label: 'Hintergrund',
+      placeholder: 'Hintergrund',
       type: 'color',
       required: false,
     },
     {
       id: 'backgroundMedia',
-      label: 'Hintergrundbild',
+      placeholder: 'Hintergrundbild',
       type: 'media[image/(jpeg|png)]',
       required: false,
     },
     {
       id: 'backgroundSize',
-      label: 'Größe',
+      placeholder: 'Größe',
       type: 'select',
       values: 'auto|length|cover|contain|initial|inherit'.split('|'),
       required: false,
     },
     {
       id: 'backgroundRepeat',
-      label: 'Wiederholen',
+      placeholder: 'Wiederholen',
       type: 'select',
       values: 'repeat|repeat-x|repeat-y|no-repeat|initial|inherit'.split('|'),
       required: false,
     },
     {
       id: 'backgroundPosition',
-      label: 'Position',
+      placeholder: 'Position',
       type: 'string',
       required: false,
     },
@@ -53,26 +53,26 @@ export const COMMON_BACKGROUND: DynamicFormGroup = {
 }
 
 export const COMMON_CSS_TEXT: DynamicFormGroup = {
-  label: 'CSS Text',
+  placeholder: 'CSS Text',
   type: 'group',
 
   expandable: true,
   controls: [
     {
       id: 'color',
-      label: 'Farbe',
+      placeholder: 'Farbe',
       type: 'color',
       required: false,
     },
     {
       id: 'lineHeight',
-      label: 'Zeilenhöhe',
+      placeholder: 'Zeilenhöhe',
       type: 'string',
       required: false,
     },
     {
       id: 'fontFamily',
-      label: 'Zeichensatz',
+      placeholder: 'Zeichensatz',
       type: 'string',
       /*values: 'repeat|repeat-x|repeat-y|no-repeat|initial|inherit'.split(
                 '|'
@@ -81,7 +81,7 @@ export const COMMON_CSS_TEXT: DynamicFormGroup = {
     },
     {
       id: 'fontSize',
-      label: 'Größe',
+      placeholder: 'Größe',
       type: 'string',
       /*values: 'repeat|repeat-x|repeat-y|no-repeat|initial|inherit'.split(
                 '|'
@@ -90,14 +90,14 @@ export const COMMON_CSS_TEXT: DynamicFormGroup = {
     },
     {
       id: 'fontStyle',
-      label: 'Stil',
+      placeholder: 'Stil',
       type: 'select',
       values: 'normal|italic'.split('|'),
       required: false,
     },
     {
       id: 'fontWeight',
-      label: 'Gewicht',
+      placeholder: 'Gewicht',
       type: 'select',
       values: 'normal|bold'.split('|'),
       required: false,
@@ -107,38 +107,38 @@ export const COMMON_CSS_TEXT: DynamicFormGroup = {
 
 export const COMMON_CONTROLS: WidgetFormDefinition = [
   {
-    label: 'Allgemein',
+    placeholder: 'Allgemein',
     type: 'group',
     expandable: true,
     controls: [
       {
         id: 'label',
-        label: 'Bezeichnung',
+        placeholder: 'Bezeichnung',
         type: 'string',
         required: false,
       },
       {
         id: 'height',
-        label: 'Höhe',
+        placeholder: 'Höhe',
         type: 'number',
         required: false,
       },
       {
         id: 'width',
-        label: 'Breite',
+        placeholder: 'Breite',
         type: 'number',
         required: false,
       },
       {
         id: 'visor',
-        label: 'Visor',
+        placeholder: 'Visor',
         type: 'visor',
         required: false,
       },
     ],
   },
   {
-    label: 'CSS',
+    placeholder: 'CSS',
     type: 'group',
     id: 'styles',
     expandable: true,

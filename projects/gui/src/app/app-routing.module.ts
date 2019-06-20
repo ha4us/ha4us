@@ -1,5 +1,10 @@
 import { NgModule } from '@angular/core'
-import { Routes, RouterModule } from '@angular/router'
+import {
+  Routes,
+  RouterModule,
+  PreloadAllModules,
+  NoPreloading,
+} from '@angular/router'
 
 import { MainComponent } from '@app/main/components/main/main.component'
 import { WelcomeComponent } from '@app/main/components/welcome/welcome.component'
@@ -65,6 +70,18 @@ const routes: Routes = [
         canActivateChild: [Ha4usGuard],
         loadChildren: './visor/visor.module#VisorModule',
       },
+      {
+        path: 'widgets',
+        canActivate: [Ha4usGuard],
+        canActivateChild: [Ha4usGuard],
+        loadChildren: './sandbox/sandbox.module#SandboxModule',
+      },
+      {
+        path: 'dash2',
+        canActivate: [Ha4usGuard],
+        canActivateChild: [Ha4usGuard],
+        loadChildren: './dash2/dash2.module#Dash2Module',
+      },
     ],
   },
 
@@ -75,7 +92,9 @@ const routes: Routes = [
 ]
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [
+    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules }),
+  ],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

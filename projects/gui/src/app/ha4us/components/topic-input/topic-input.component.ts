@@ -36,7 +36,7 @@ import { SPACE } from '@angular/cdk/keycodes'
 
 import { MqttUtil } from '@ha4us/core'
 
-import { Ha4usFormControl } from '@ulfalfa/ng-util'
+import { UsFormControl } from '@ulfalfa/ng-util'
 
 import { ObjectService } from '../../services/object.service'
 
@@ -49,54 +49,24 @@ export interface TopicHierarchie {
   templateUrl: 'topic-input.component.html',
   styleUrls: ['topic-input.component.scss'],
 })
-@Ha4usFormControl('topic')
-export class TopicInputComponent
-  implements OnInit, AfterViewInit, ControlValueAccessor, OnDestroy {
+@UsFormControl('topic')
+export class TopicInputComponent implements OnInit, ControlValueAccessor {
   public autoCompleteTopics: Observable<string[]>
 
-  public _topic: string
-
-  @Input()
-  public get topic(): string {
-    return this._topic
-  }
-  public set topic(aTopic: string) {
-    if (aTopic) {
-      this._topic = aTopic
-      if (this._onChange) {
-        this._onChange(aTopic)
-      }
-      this.valueChanges.next(aTopic)
-    }
-  }
-
   @ViewChild(MatAutocompleteTrigger) autoTopic: MatAutocompleteTrigger
-
-  @Output() topicChange: EventEmitter<string> = new EventEmitter<string>()
 
   @Input() disabled = false
   @Input() placeholder
   @Input() required
 
-  valueChanges = new Subject<string>()
-
-  _onChange: (val: any) => any
-
-  constructor(
-    protected os: ObjectService,
-    @Optional()
-    @Host()
-    public formControl: NgControl
-  ) {
-    if (this.formControl) {
-      // Note: we provide the value accessor through here, instead of
-      // the `providers` to avoid running into a circular import.
-      this.formControl.valueAccessor = this
+  constructor(protected os: ObjectService, public ngControl: NgControl) {
+    if (ngControl) {
+      ngControl.valueAccessor = this
     }
   }
 
   ngOnInit() {
-    this.autoCompleteTopics = this.valueChanges.pipe(
+    this.autoCompleteTopics = this.ngControl.control.valueChanges.pipe(
       debounceTime(500),
       mergeMap(topic => {
         const topicCount = MqttUtil.split(topic).length - 1
@@ -113,24 +83,9 @@ export class TopicInputComponent
       })
     )
   }
-  selected(event: MatAutocompleteSelectedEvent, input: HTMLInputElement) {
-    this.valueChanges.next(this.topic + '/')
-  }
 
-  ngAfterViewInit() {}
-
-  ngOnDestroy() {
-    this.valueChanges.complete()
-  }
-
-  public writeValue(value: string) {
-    this.topic = value
-  }
-  public registerOnChange(fn: any) {
-    this._onChange = fn
-  }
-
+  // ** the real value accessor is the input in the template so here only fake for the injector */
+  public writeValue(value: string) {}
+  public registerOnChange(fn: any) {}
   public registerOnTouched(fn) {}
-
-  public setDisabledState(isDisabled: boolean) {}
 }

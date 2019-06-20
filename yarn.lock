@@ -92,7 +92,7 @@
     "@angular-devkit/core" "7.3.9"
     rxjs "6.3.3"
 
-"@angular-devkit/core@7.3.9":
+"@angular-devkit/core@7.3.9", "@angular-devkit/core@^7.3.6":
   version "7.3.9"
   resolved "https://registry.yarnpkg.com/@angular-devkit/core/-/core-7.3.9.tgz#bef2aaa0be7219c546fb99ea0ba9dd3a6dcd288a"
   dependencies:
@@ -102,7 +102,7 @@
     rxjs "6.3.3"
     source-map "0.7.3"
 
-"@angular-devkit/schematics@7.3.9":
+"@angular-devkit/schematics@7.3.9", "@angular-devkit/schematics@^7.3.6":
   version "7.3.9"
   resolved "https://registry.yarnpkg.com/@angular-devkit/schematics/-/schematics-7.3.9.tgz#4fe7bc878b116b157a3adf00583c28c951215877"
   dependencies:
@@ -169,9 +169,10 @@
   dependencies:
     tslib "^1.9.0"
 
-"@angular/core@~7.2.0":
+"@angular/core@^7.x":
   version "7.2.15"
   resolved "https://registry.yarnpkg.com/@angular/core/-/core-7.2.15.tgz#c00d4be0ebe95b70f7631154169509cc97934e9a"
+  integrity sha512-XsuYm0jEU/mOqwDOk2utThv8J9kESkAerfuCHClE9rB2TtHUOGCfekF7lJWqjjypu6/J9ygoPFo7hdAE058ZGg==
   dependencies:
     tslib "^1.9.0"
 
@@ -893,6 +894,28 @@
   resolved "https://registry.yarnpkg.com/@concordance/react/-/react-2.0.0.tgz#aef913f27474c53731f4fd79cc2f54897de90fde"
   dependencies:
     arrify "^1.0.1"
+
+"@datorama/akita-ng-router-store@^3.0.0":
+  version "3.1.3"
+  resolved "https://registry.yarnpkg.com/@datorama/akita-ng-router-store/-/akita-ng-router-store-3.1.3.tgz#163ad2711d90760b5d8ab2c7bd4a6b5a7e3a3293"
+  integrity sha512-+dK7cNf1B+p5zWiy8wTKFKKj7m7RgjRqbOdmRxKAmZpFCABNdw+ifc8QERBp0cC5VNgiP/KjcesmqjiwyRL4rg==
+  dependencies:
+    tslib "^1.9.0"
+
+"@datorama/akita-ngdevtools@^3.0.2":
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/@datorama/akita-ngdevtools/-/akita-ngdevtools-3.0.2.tgz#399e0706b33f56a8efea5501d633f11086dc9618"
+  integrity sha512-0pXxI1/4/avsM7KoIuNvkgvrvbbA0HBobCYR9aq3BhnyTo+v+Sle6iVzzqcD8keNB69+GobVeiJWIXF5sLaFhQ==
+  dependencies:
+    tslib "^1.9.0"
+
+"@datorama/akita@^4.0.0":
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/@datorama/akita/-/akita-4.2.1.tgz#73a950218fef5406d4804e7e6439e897beb95c3c"
+  integrity sha512-M6yiWOM3FdyHgQAQFaGQLlWIyzOXfACUtS0MYk6Ej1vpMsz+P+AMdezhv3ZIJ0Pe/s3q+qo2G69UVlmK+fKhaw==
+  dependencies:
+    schematics-utilities "^1.1.1"
+    tslib "^1.9.0"
 
 "@harmonyhub/client-ws@^1.0.4":
   version "1.0.4"
@@ -2029,6 +2052,11 @@
   dependencies:
     "@types/jasmine" "*"
 
+"@types/js-yaml@^3.12.1":
+  version "3.12.1"
+  resolved "https://registry.yarnpkg.com/@types/js-yaml/-/js-yaml-3.12.1.tgz#5c6f4a1eabca84792fbd916f0cb40847f123c656"
+  integrity sha512-SGGAhXLHDx+PK4YLNcNGa6goPf9XRWQNAUUbffkwVGGXIxmDKWyGGL4inzq2sPmExu431Ekb9aEMn9BkPqEYFA==
+
 "@types/jsonwebtoken@^7.2.3", "@types/jsonwebtoken@^7.2.7":
   version "7.2.8"
   resolved "https://registry.yarnpkg.com/@types/jsonwebtoken/-/jsonwebtoken-7.2.8.tgz#8d199dab4ddb5bba3234f8311b804d2027af2b3a"
@@ -2218,12 +2246,6 @@
 "@ulfalfa/angular-draggable-droppable@^3.0.2":
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/@ulfalfa/angular-draggable-droppable/-/angular-draggable-droppable-3.0.2.tgz#3d21a377802f24c9856db23c7a7d8b9a9de1ee75"
-  dependencies:
-    tslib "^1.9.0"
-
-"@ulfalfa/ng-util@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@ulfalfa/ng-util/-/ng-util-0.2.0.tgz#a09ad3ddeedf1583b5c132476bd46a1bc6446e65"
   dependencies:
     tslib "^1.9.0"
 
@@ -2494,6 +2516,13 @@ amdefine@>=0.0.4:
 angular-file@^0.5.4:
   version "0.5.9"
   resolved "https://registry.yarnpkg.com/angular-file/-/angular-file-0.5.9.tgz#f3f809600e911b806c1ba2803d19614d62d36de1"
+
+angular-gridster2@^7.x:
+  version "7.2.0"
+  resolved "https://registry.yarnpkg.com/angular-gridster2/-/angular-gridster2-7.2.0.tgz#123c9b7e37e65055e621e1932b7d5a10e617fae9"
+  integrity sha512-5HkvJbwR1Gu/MZJFBuSc06w0fGhVctr8zV/vhHd/bxDNrVTLxH62TOfImmkqFNa0+Lb1I6v3/YMN/MAnIMRUHg==
+  dependencies:
+    tslib "^1.9.0"
 
 angular-resizable-element@^3.1.0:
   version "3.2.4"
@@ -9345,7 +9374,7 @@ nopt@~1.0.10:
   dependencies:
     abbrev "1"
 
-normalize-package-data@^2.0.0, normalize-package-data@^2.3.0, normalize-package-data@^2.3.2, normalize-package-data@^2.3.4, normalize-package-data@^2.3.5, normalize-package-data@^2.4.0, normalize-package-data@^2.5.0:
+normalize-package-data@^2.0.0, normalize-package-data@^2.3.0, normalize-package-data@^2.3.2, normalize-package-data@^2.3.4, normalize-package-data@^2.3.5, normalize-package-data@^2.4.0, normalize-package-data@^2.5.0, "normalize-package-data@~1.0.1 || ^2.0.0":
   version "2.5.0"
   resolved "https://registry.yarnpkg.com/normalize-package-data/-/normalize-package-data-2.5.0.tgz#e66db1838b200c1dfc233225d12cb36520e234a8"
   dependencies:
@@ -9422,7 +9451,7 @@ npm-logical-tree@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/npm-logical-tree/-/npm-logical-tree-1.2.1.tgz#44610141ca24664cad35d1e607176193fd8f5b88"
 
-npm-package-arg@6.1.0, "npm-package-arg@^4.0.0 || ^5.0.0 || ^6.0.0", npm-package-arg@^6.0.0, npm-package-arg@^6.1.0:
+npm-package-arg@6.1.0, "npm-package-arg@^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0", "npm-package-arg@^4.0.0 || ^5.0.0 || ^6.0.0", npm-package-arg@^6.0.0, npm-package-arg@^6.1.0:
   version "6.1.0"
   resolved "https://registry.yarnpkg.com/npm-package-arg/-/npm-package-arg-6.1.0.tgz#15ae1e2758a5027efb4c250554b85a737db7fcc1"
   dependencies:
@@ -9453,6 +9482,25 @@ npm-profile@^4.0.1:
     aproba "^1.1.2 || 2"
     figgy-pudding "^3.4.1"
     npm-registry-fetch "^3.8.0"
+
+npm-registry-client@^8.5.1:
+  version "8.6.0"
+  resolved "https://registry.yarnpkg.com/npm-registry-client/-/npm-registry-client-8.6.0.tgz#7f1529f91450732e89f8518e0f21459deea3e4c4"
+  integrity sha512-Qs6P6nnopig+Y8gbzpeN/dkt+n7IyVd8f45NTMotGk6Qo7GfBmzwYx6jRLoOOgKiMnaQfYxsuyQlD8Mc3guBhg==
+  dependencies:
+    concat-stream "^1.5.2"
+    graceful-fs "^4.1.6"
+    normalize-package-data "~1.0.1 || ^2.0.0"
+    npm-package-arg "^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0"
+    once "^1.3.3"
+    request "^2.74.0"
+    retry "^0.10.0"
+    safe-buffer "^5.1.1"
+    semver "2 >=2.2.1 || 3.x || 4 || 5"
+    slide "^1.1.3"
+    ssri "^5.2.4"
+  optionalDependencies:
+    npmlog "2 || ^3.1.0 || ^4.0.0"
 
 npm-registry-fetch@^3.8.0, npm-registry-fetch@^3.9.0:
   version "3.9.0"
@@ -9602,7 +9650,7 @@ npm@^6.6.0, npm@^6.8.0:
     worker-farm "^1.6.0"
     write-file-atomic "^2.4.2"
 
-"npmlog@0 || 1 || 2 || 3 || 4", npmlog@^4.0.0, npmlog@^4.0.1, npmlog@^4.0.2, npmlog@^4.1.2, npmlog@~4.1.2:
+"npmlog@0 || 1 || 2 || 3 || 4", "npmlog@2 || ^3.1.0 || ^4.0.0", npmlog@^4.0.0, npmlog@^4.0.1, npmlog@^4.0.2, npmlog@^4.1.2, npmlog@~4.1.2:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/npmlog/-/npmlog-4.1.2.tgz#08a7f2a8bf734604779a9efa4ad5cc717abb954b"
   dependencies:
@@ -9703,7 +9751,7 @@ on-headers@~1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/on-headers/-/on-headers-1.0.2.tgz#772b0ae6aaa525c399e489adfad90c403eb3c28f"
 
-once@^1.3.0, once@^1.3.1, once@^1.4.0, once@~1.4.0:
+once@^1.3.0, once@^1.3.1, once@^1.3.3, once@^1.4.0, once@~1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/once/-/once-1.4.0.tgz#583b1aa775961d4b113ac17d9c50baef9dd76bd1"
   dependencies:
@@ -11011,7 +11059,7 @@ repeating@^2.0.0:
   dependencies:
     is-finite "^1.0.0"
 
-request@^2.81.0, request@^2.83.0, request@^2.87.0, request@^2.88.0:
+request@^2.74.0, request@^2.81.0, request@^2.83.0, request@^2.87.0, request@^2.88.0:
   version "2.88.0"
   resolved "https://registry.yarnpkg.com/request/-/request-2.88.0.tgz#9c2fca4f7d35b592efe57c7f0a55e81052124fef"
   dependencies:
@@ -11321,6 +11369,18 @@ schema-utils@^1.0.0:
     ajv-errors "^1.0.0"
     ajv-keywords "^3.1.0"
 
+schematics-utilities@^1.1.1:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/schematics-utilities/-/schematics-utilities-1.1.2.tgz#5a54bc36bdc9cf2424a33feccc43ae9b61c5c32e"
+  integrity sha512-HhY15I4pugKtzu/g3gnSNPkz3ah8fAm1asp+fbElzp7rpm69PgGWkp4ta0ubyCbpj2qSV4TvZE87n10KpdE9zw==
+  dependencies:
+    "@angular-devkit/core" "^7.3.6"
+    "@angular-devkit/schematics" "^7.3.6"
+    npm-registry-client "^8.5.1"
+    parse5 "^5.0.0"
+    rxjs "^6.4.0"
+    typescript "^3.3.3333"
+
 scss-tokenizer@^0.2.3:
   version "0.2.3"
   resolved "https://registry.yarnpkg.com/scss-tokenizer/-/scss-tokenizer-0.2.3.tgz#8eb06db9a9723333824d3f5530641149847ce5d1"
@@ -11404,7 +11464,7 @@ semver-regex@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/semver-regex/-/semver-regex-2.0.0.tgz#a93c2c5844539a770233379107b38c7b4ac9d338"
 
-"semver@2 || 3 || 4 || 5", "semver@2.x || 3.x || 4 || 5", "semver@^2.3.0 || 3.x || 4 || 5", semver@^5.0.0, semver@^5.0.3, semver@^5.1.0, semver@^5.3.0, semver@^5.4.1, semver@^5.5.0, semver@^5.5.1, semver@^5.6.0:
+"semver@2 >=2.2.1 || 3.x || 4 || 5", "semver@2 || 3 || 4 || 5", "semver@2.x || 3.x || 4 || 5", "semver@^2.3.0 || 3.x || 4 || 5", semver@^5.0.0, semver@^5.0.3, semver@^5.1.0, semver@^5.3.0, semver@^5.4.1, semver@^5.5.0, semver@^5.5.1, semver@^5.6.0:
   version "5.7.0"
   resolved "https://registry.yarnpkg.com/semver/-/semver-5.7.0.tgz#790a7cf6fea5459bac96110b29b60412dc8ff96b"
 
@@ -11702,7 +11762,7 @@ slice-ansi@^1.0.0:
   dependencies:
     is-fullwidth-code-point "^2.0.0"
 
-slide@^1.1.5, slide@^1.1.6, slide@~1.1.3, slide@~1.1.6:
+slide@^1.1.3, slide@^1.1.5, slide@^1.1.6, slide@~1.1.3, slide@~1.1.6:
   version "1.1.6"
   resolved "https://registry.yarnpkg.com/slide/-/slide-1.1.6.tgz#56eb027d65b4d2dce6cb2e2d32c4d4afc9e1d707"
 
@@ -12783,6 +12843,11 @@ typedoc@^0.14.2:
 typescript@3.2.4, typescript@3.2.x, typescript@~3.2.2:
   version "3.2.4"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.2.4.tgz#c585cb952912263d915b462726ce244ba510ef3d"
+
+typescript@^3.3.3333:
+  version "3.5.2"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.5.2.tgz#a09e1dc69bc9551cadf17dba10ee42cf55e5d56c"
+  integrity sha512-7KxJovlYhTX5RaRbUdkAXN1KUZ8PwWlTzQdHV6xNqvuFOs7+WBo10TQUqT19Q/Jz2hk5v9TQDIhyLhhJY4p5AA==
 
 uglify-js@^3.0.7, uglify-js@^3.1.4:
   version "3.5.11"

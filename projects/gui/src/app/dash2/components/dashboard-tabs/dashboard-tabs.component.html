@@ -1,0 +1,25 @@
+<mat-tab-group animationDuration="0ms" *usLet="editMode$ | async as editMode" fxFlex backgroundColor="primary"
+  color="accent" (selectedTabChange)="tabChanged($event)" [selectedIndex]="activeDashboardIdx$ | async">
+  <mat-tab *ngFor="let dashboard of dashboard$ | async; let first = first; let last = last" [label]="dashboard.id">
+    <ng-template mat-tab-label>
+      <button *ngIf="editMode && !first" mat-icon-button (click)="move.emit({ idx: dashboard.id, delta: -1 })">
+        <mat-icon>arrow_left</mat-icon>
+      </button>
+      <ha4us-media *ngIf="dashboard.media" [media]="dashboard.media" size="24" avatar color="white"></ha4us-media>
+      {{ dashboard.label }}
+      <button color="warn" *ngIf="editMode" mat-icon-button (click)="edit.emit(dashboard.id)">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button *ngIf="editMode && !last" mat-icon-button (click)="move.emit({ idx: dashboard.id, delta: 1 })">
+        <mat-icon>arrow_right</mat-icon>
+      </button>
+    </ng-template>
+  </mat-tab>
+  <mat-tab *ngIf="editMode">
+    <ng-template mat-tab-label>
+      <button mat-icon-button (click)="add.emit()">
+        <mat-icon>add</mat-icon>
+      </button>
+    </ng-template>
+  </mat-tab>
+</mat-tab-group>

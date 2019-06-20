@@ -46,9 +46,7 @@ export class MessageService {
       .pipe(pluck<any, boolean>('dismissedByAction'))
       .toPromise()
   }
-  debug(msg: string, ...args: string[]) {
-    console.log(msg, args)
-  }
+  debug(msg: string, ...args: string[]) {}
 
   info(msg: string, ...args: any[]) {
     this.show({ msg, type: MessageType.info }, args)

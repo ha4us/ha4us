@@ -1,0 +1,31 @@
+<ng-container *ngIf="control.expandable; else flat">
+  <mat-expansion-panel [formGroup]="formGroup">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{control.placeholder}}
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <ng-container *ngTemplateOutlet="group"></ng-container>
+  </mat-expansion-panel>
+</ng-container>
+
+<ng-template #flat>
+  <div fxLayout="column" class="mat-elevation-z1 groupcontent">
+    <p *ngIf="control.placeholder" class="mat-body-2">{{control.placeholder}}</p>
+    <ng-container *ngTemplateOutlet="group"></ng-container>
+
+  </div>
+</ng-template>
+
+
+<ng-template #group>
+  <form fxLayout="row wrap" fxLayoutAlign="start center" [formGroup]="formGroup">
+    <div [fxFlex]="formControl.flex" *ngFor="let formControl of control.controls">
+      <ng-container [ngSwitch]="formControl.type">
+        <us-form-group *ngSwitchCase="'group'" [control]="formControl"></us-form-group>
+        <us-form-array *ngSwitchCase="'array'" [control]="formControl"></us-form-array>
+        <us-form-control *ngSwitchDefault fxFlex [control]="formControl"></us-form-control>
+      </ng-container>
+    </div>
+  </form>
+</ng-template>

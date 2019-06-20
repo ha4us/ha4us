@@ -26,7 +26,7 @@ import { MapPipe } from './pipes/map.pipe'
     MatSelectModule,
     MatInputModule,
     MatIconModule,
-    UsFormsModule.forProvider([MapComponent]),
+    UsFormsModule.forFeature([MapComponent]),
   ],
   declarations: [MapEditorComponent, MapPipe, MapComponent],
   entryComponents: [MapEditorComponent, MapComponent],

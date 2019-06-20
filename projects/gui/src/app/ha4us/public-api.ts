@@ -16,7 +16,7 @@ export * from './services/settings.service'
 export * from './services/adapter.service'
 
 export * from './models'
-export * from './store/common'
+
 export * from './guards/candeactivate.guard'
 export * from './guards/auth.guard'
 export * from './guards/preload-media.guard'

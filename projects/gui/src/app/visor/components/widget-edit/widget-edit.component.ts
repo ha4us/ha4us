@@ -75,7 +75,7 @@ export class WidgetEditComponent implements OnInit, OnDestroy {
         ...this.vs.getCommonControls(),
         {
           type: 'group',
-          label: 'Eigenschaften',
+          placeholder: 'Eigenschaften',
           id: 'properties',
           expandable: true,
 

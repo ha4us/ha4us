@@ -1,43 +1,15 @@
+import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
-import {
-  HttpClient,
-  HttpParams,
-  HttpRequest,
-  HttpResponse,
-  HttpEvent,
-  HttpEventType,
-} from '@angular/common/http'
-
-import { DomSanitizer, SafeUrl, SafeHtml } from '@angular/platform-browser'
-
 import { MatIconRegistry } from '@angular/material'
-
-import { Observable, from, Subject, of, combineLatest } from 'rxjs'
-import {
-  map,
-  mergeMap,
-  tap,
-  switchMap,
-  catchError,
-  take,
-  filter,
-} from 'rxjs/operators'
-
-import {
-  IPager,
-  Ha4usError,
-  Ha4usMedia,
-  Ha4usMediaDefinition,
-} from '@ha4us/core'
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser'
+import { Ha4usMedia, Ha4usMediaDefinition } from '@ha4us/core'
+import { combineLatest, Observable, of, Subject } from 'rxjs'
+import { map, mergeMap, take, tap } from 'rxjs/operators'
+import { MediaSearchEvent } from '../models'
+import { MediaQuery } from '../state/media.query'
+import { MediaStore } from '../state/media.store'
 
 import { Ha4usApiService } from './ha4us-api.service'
-import { MediaSearchEvent } from '../models'
-
-import { Store, select } from '@ngrx/store'
-import * as Actions from '../store/media/actions'
-
-import * as Selectors from '../store/media/selectors'
-import { Actions as FxActions, Effect, ofType } from '@ngrx/effects'
 
 const MEDIA_URN_PREFIX = 'urn:ha4us:media:'
 
@@ -51,11 +23,11 @@ export class MediaService {
   //
   public static readonly baseURL = 'api/media/'
 
-  medias$ = this.store.pipe(select(Selectors.selectAllMedia))
-  cache$ = this.store.pipe(select(Selectors.selectMediaCache))
-  search$ = this.store.pipe(select(Selectors.getQuery))
+  medias$ = this.query.selectAll()
+  cache$ = this.query.select(state => state.cache)
+  search$ = this.query.select(state => state.search)
 
-  selectedMedia$ = this.store.pipe(select(Selectors.selectedMedia))
+  selectedMedia$ = this.query.selectActive()
 
   allTags$ = this.medias$.pipe(
     map(medias => {
@@ -148,10 +120,10 @@ export class MediaService {
   constructor(
     protected http: HttpClient,
     protected ds: DomSanitizer,
-    protected store: Store<any>,
-    protected action$: FxActions,
     protected registry: MatIconRegistry,
-    protected api: Ha4usApiService
+    protected api: Ha4usApiService,
+    protected store: MediaStore,
+    protected query: MediaQuery
   ) {}
 
   public getHTMLByHttp(urn: string): Observable<SafeHtml> {
@@ -160,7 +132,10 @@ export class MediaService {
       .pipe(
         map((data: any) => {
           const output = this.ds.bypassSecurityTrustHtml(data)
-          this.store.dispatch(new Actions.Cache(urn, output))
+          const cache = { ...this.query.getValue().cache }
+          cache[urn] = output
+          this.store.update({ cache })
+
           return output
         })
       )
@@ -180,26 +155,32 @@ export class MediaService {
   }
 
   public setSearch(search: MediaSearchEvent) {
-    this.store.dispatch(new Actions.Search(search))
+    this.store.update({ search })
   }
 
   public getOne(urn: string): Observable<Ha4usMedia> {
-    return this.store.pipe(select(Selectors.selectOne(urn)))
+    return this.query.selectEntity(urn)
   }
 
   upsertOne(media: Ha4usMedia) {
-    this.store.dispatch(new Actions.UpsertOne(media))
+    this.api
+      .mediaPut(media)
+      .pipe(tap(result => this.store.update(media.urn, media)))
+      .subscribe()
   }
 
   removeOne(urn: string) {
-    this.store.dispatch(new Actions.RemoveOne(urn))
+    this.api
+      .mediaDelete(urn)
+      .pipe(tap(media => this.store.remove(urn)))
+      .subscribe()
   }
   add(medias: Ha4usMedia[]) {
-    this.store.dispatch(new Actions.Add(medias))
+    this.store.add(medias)
   }
 
   select(urn: string) {
-    this.store.dispatch(new Actions.Select(urn))
+    this.store.setActive(urn)
   }
 
   upload(
@@ -208,6 +189,6 @@ export class MediaService {
   ): Observable<Ha4usMedia> {
     return this.api
       .mediaPost(blob, data)
-      .pipe(tap(newData => this.store.dispatch(new Actions.Add(newData))))
+      .pipe(tap(newData => this.store.add(newData)))
   }
 }

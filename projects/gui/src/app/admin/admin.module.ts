@@ -32,7 +32,7 @@ import { UserListEditComponent } from './users/user-list-edit.component'
   imports: [
     Ha4usModule,
     MainModule,
-    UsFormsModule,
+    UsFormsModule.forFeature(),
     MatButtonToggleModule,
     MatFormFieldModule,
     MatDividerModule,

@@ -51,9 +51,7 @@ export class LineChartComponent implements OnInit {
           )
         ),
         map(series => [{ name: chart.topic, series }]),
-        retryWhen(errors => {
-          return errors.pipe(tap(() => console.log('retrying...')))
-        })
+        retryWhen(errors => errors.pipe(tap(() => console.error)))
       )
 
       this.formatTime = this.stats.getFormatFunction(chart.aggregateBy)

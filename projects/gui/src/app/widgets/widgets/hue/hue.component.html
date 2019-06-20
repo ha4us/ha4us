@@ -1,7 +1,7 @@
 <div fxLayout="column" *ngIf="topic+'/+'|ha4usObject|groupBy:'role' as dps">
+
   <div fxLayout="row" fxLayoutAlign="start center">
     <ha4us-switch fxFlex="20" [topic]="dps|get:'Toggle/PowerState.topic'"></ha4us-switch>
-
     <mat-icon>brightness_low</mat-icon>
     <ha4us-slider fxFlex="80" *ngIf="dps|get:'Range/Brightness' as briObj" [topic]="briObj.topic" [min]="briObj.min"
       [max]="briObj.max"></ha4us-slider>

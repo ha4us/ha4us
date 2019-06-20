@@ -26,7 +26,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   sub: Subscription
   constructor(protected fb: FormBuilder, protected os: ObjectService) {}
   ngOnInit() {
-    console.log(this.settings)
     this.form = this.fb.group({
       tags: [this.settings.tags],
     })

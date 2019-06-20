@@ -51,7 +51,6 @@
             "assets": [
               "projects/gui/src/favicon.ico",
               "projects/gui/src/assets",
-
               {
                 "glob": "**/*",
                 "input": "projects/gui/src/assets",
@@ -96,9 +95,7 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "browserTarget": "gui:build",
-
             "proxyConfig": "proxy.conf.js"
-
           },
           "configurations": {
             "production": {
@@ -173,7 +170,6 @@
         }
       }
     }
-
   },
   "defaultProject": "gui",
   "schematics": {
@@ -199,5 +195,8 @@
     "@schematics/angular:service": {
       "skipTests": true
     }
+  },
+  "cli": {
+    "defaultCollection": "@schematics/angular"
   }
 }

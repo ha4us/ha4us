@@ -7,7 +7,6 @@ import {
   Router,
 } from '@angular/router'
 import { Observable, of, from, combineLatest, EMPTY } from 'rxjs'
-import { Store, select } from '@ngrx/store'
 
 import { PreloadObjectsGuard } from './preload-objects.guard'
 import { AuthGuard } from './auth.guard'
@@ -26,7 +25,6 @@ const debug = require('debug')('ha4us:gui:guard')
 export class Ha4usGuard implements CanActivate, CanActivateChild {
   constructor(
     protected api: Ha4usApiService,
-    protected store: Store<any>,
     protected os: ObjectService,
     protected ms: MediaService,
     protected as: AuthService,
@@ -56,22 +54,7 @@ export class Ha4usGuard implements CanActivate, CanActivateChild {
   }
 
   loadObjects() {
-    return this.os.all$.pipe(
-      switchMap(objects => {
-        if (objects && objects.length > 0) {
-          return of(objects)
-        } else {
-          debug('Pre-Loading objects...')
-          return this.api.objectGet('#').pipe(
-            tap(loadedObjects => {
-              debug(`${loadedObjects.length} objects loaded`)
-              this.os.addMany(loadedObjects)
-            })
-          )
-        }
-      }),
-      map(() => true)
-    )
+    return this.os.getObjects().pipe(map(() => true))
   }
 
   loadMedia() {

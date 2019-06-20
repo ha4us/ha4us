@@ -16,7 +16,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component'
     CommonModule,
     MainModule,
     DragDropModule,
-    UsFormsModule,
+    UsFormsModule.forFeature(),
     Ha4usColorPickerModule,
     SettingsRoutingModule,
   ],
