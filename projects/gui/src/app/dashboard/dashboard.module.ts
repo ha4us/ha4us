@@ -13,7 +13,7 @@ import {
 } from '@angular/material'
 import { Ha4usModule } from '@ha4us/ng'
 import { MomentModule } from 'ngx-moment'
-import { StoreModule } from '@ngrx/store'
+
 
 import { UsLayoutModule } from '@ulfalfa/ng-util'
 import { WidgetsModule, WidgetService } from '@app/widgets'

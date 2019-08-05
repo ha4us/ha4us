@@ -64,7 +64,7 @@ export enum AggUnit {
 
 export function reduceResult() {
   return scan(
-    (acc, val) => {
+    (acc, val:any) => {
       acc.nInserted += val.nInserted
       acc.nModified += val.nModified
 

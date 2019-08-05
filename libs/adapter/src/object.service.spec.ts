@@ -174,12 +174,42 @@ test('Events', async t => {
   ])
 })
 
-test.todo('Getting all tags')
-test.todo('Autocomplete')
+test('Builder', t => {
+  const result = t.context.os.create(
+    [
+      { label: 'ROOT' },
+      {
+        a: {
+          label: '1',
+          can: { read: true, trigger: true },
+        },
+        b: [
+          { label: '2', can: { read: true, write: true, trigger: true } },
+          {
+            I: { label: '2-1', type: Ha4usObjectType.String },
+            II: { label: '2-2' },
+            III: [
+              { label: '2-3' },
+              {
+                i: { topic: 'SHOULDNOTAPPEAR', label: '2-3-1' },
+                ii: { label: '2-3-2' },
+              },
+            ],
+          },
+        ],
+      },
+    ],
+    { root: null, mode: 'update' }
+  )
 
-test.todo('Install new objects')
+  return result.pipe(
+    tap(res => t.log(res.objects)),
+    tap(res => t.deepEqual(res, { inserted: 8, updated: 0 }))
+  )
+})
 
-test.skip('Builder', t => {
+/*
+test('Builder', async  t => {
   const result = t.context.os.create(
     [
       { label: 'ROOT' },
@@ -211,7 +241,7 @@ test.skip('Builder', t => {
     2: { label: 'ROOT2' },
     3: { label: 'ROOT3' },
   })*/
-  /*
+/*
   const result = t.context.os.build('$', [
     { label: 'root' },
     {
@@ -220,12 +250,9 @@ test.skip('Builder', t => {
       3: { label: 'child3' },
     },
   ])*/
+/*
 
-  return result.pipe(
-    tap(res => t.log(res.objects)),
-    tap(res => t.deepEqual(res, { inserted: 8, updated: 0 }))
-  )
-})
+})*/
 
 test('Create objects with builder', async t => {
   let result = await t.context.os

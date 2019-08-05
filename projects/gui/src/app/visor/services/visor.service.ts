@@ -23,7 +23,7 @@ import {
 } from '../models'
 import { WidgetLibEntry } from '@app/widgets'
 import { arrayAdd, arrayRemove } from '@datorama/akita'
-import { Update } from '@ngrx/entity'
+
 const debug = require('debug')('ha4us:gui:visor:service')
 
 @Injectable({
