@@ -33,7 +33,7 @@ export class WidgetComponent implements OnInit, OnChanges {
   @Input() library: string
   @Input() default: string
 
-  @ViewChild('placeholder', { read: ViewContainerRef })
+  @ViewChild('placeholder', { read: ViewContainerRef,static:false })
   protected viewContainerRef: ViewContainerRef
   protected currentComponent: ComponentRef<any>
   protected currentComponentFactory: ComponentFactory<any>

@@ -25,7 +25,7 @@ export class DashboardCardComponent implements OnInit, DoCheck {
   @Output() delete = new EventEmitter<void>()
   @Output() edit = new EventEmitter<void>()
 
-  @ViewChild('card') cardElement: ElementRef<HTMLElement>
+  @ViewChild('card',{static:false}) cardElement: ElementRef<HTMLElement>
   lastHeight = 0
 
   @Output() change = new EventEmitter<void>()

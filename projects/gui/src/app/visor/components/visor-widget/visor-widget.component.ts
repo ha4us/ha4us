@@ -39,7 +39,7 @@ export class VisorWidgetComponent extends AbstractVisorEntity
       this.id$.next(val)
     }
   }
-  @ViewChild('anchor', { read: ViewContainerRef })
+  @ViewChild('anchor', /* TODO: add static flag */ { static:false,read: ViewContainerRef })
   _vcr: ViewContainerRef
 
   public config: Observable<VisorWidget>

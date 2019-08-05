@@ -53,7 +53,7 @@ export interface TopicHierarchie {
 export class TopicInputComponent implements OnInit, ControlValueAccessor {
   public autoCompleteTopics: Observable<string[]>
 
-  @ViewChild(MatAutocompleteTrigger) autoTopic: MatAutocompleteTrigger
+  @ViewChild(MatAutocompleteTrigger, {static:false}) autoTopic: MatAutocompleteTrigger
 
   @Input() disabled = false
   @Input() placeholder

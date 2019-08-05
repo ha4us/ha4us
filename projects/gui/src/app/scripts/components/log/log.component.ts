@@ -19,7 +19,7 @@ export class LogComponent implements OnInit {
   autoscroll = true
   @Input() topic: string
 
-  @ViewChild(CdkScrollable) logList: CdkScrollable
+  @ViewChild(CdkScrollable, /* TODO: add static flag */ {static:false}) logList: CdkScrollable
 
   iconMap = {
     warn: 'warning',
@@ -27,7 +27,7 @@ export class LogComponent implements OnInit {
   }
 
   _logEntries: QueryList<ElementRef<HTMLDivElement>>
-  @ViewChildren('logEntry') set logEntries(
+  @ViewChildren('logEntry',) set logEntries(
     ql: QueryList<ElementRef<HTMLDivElement>>
   ) {
     if (ql && !this._logEntries) {

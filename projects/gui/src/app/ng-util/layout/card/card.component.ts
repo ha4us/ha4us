@@ -10,7 +10,7 @@ export class CardComponent implements DoCheck {
   constructor(private _element: ElementRef<HTMLElement>, protected cdr: ChangeDetectorRef, @Host() protected parent: CardGridComponent) { }
 
   lastHeight = 0
-  @ViewChild('card') card: ElementRef<HTMLElement>
+  @ViewChild('card',{static:false}) card: ElementRef<HTMLElement>
 
   @HostBinding('style.gridRowEnd') gridRowEnd: string
 

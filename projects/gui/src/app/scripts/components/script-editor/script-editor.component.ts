@@ -34,7 +34,7 @@ export class ScriptEditorComponent
     map(params => params.get('topic'))
   )
 
-  @ViewChild(CdkScrollable) logList: CdkScrollable
+  @ViewChild(CdkScrollable, /* TODO: add static flag */ {static:false}) logList: CdkScrollable
 
   _logEntries: QueryList<ElementRef<HTMLDivElement>>
   @ViewChildren('logEntry') set logEntries(

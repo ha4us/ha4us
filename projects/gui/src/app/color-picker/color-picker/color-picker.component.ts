@@ -57,8 +57,8 @@ export class ColorPickerComponent implements OnInit, ControlValueAccessor {
 
   public colorStyle: string
   public color: any
-  @ViewChild(CdkPortal) protected picker: CdkPortal
-  @ViewChild('anchor') protected anchor: ElementRef
+  @ViewChild(CdkPortal, /* TODO: add static flag */ {static: false}) protected picker: CdkPortal
+  @ViewChild('anchor', /* TODO: add static flag */ {static:false}) protected anchor: ElementRef
 
   ovref: OverlayRef
 

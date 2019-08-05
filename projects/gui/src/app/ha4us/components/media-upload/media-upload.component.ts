@@ -63,7 +63,7 @@ export class MediaUploadComponent implements OnInit, AfterViewInit, OnDestroy {
     return !!this.file && !!this.media
   }
 
-  @ViewChild('croppingArea')
+  @ViewChild('croppingArea',{static:false})
   public set image(img: ElementRef) {
     if (img) {
       if (!this.cropper) {

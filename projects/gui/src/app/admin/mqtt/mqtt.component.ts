@@ -56,9 +56,9 @@ export class MqttComponent implements OnInit {
     public rowsToDisplay = 10
     dataSource = new MqttDatasource<Ha4usMessage>(this.states$)
 
-    @ViewChild(MatPaginator) paginator: MatPaginator
-    @ViewChild(MatSort) sort: MatSort
-    @ViewChild('detailView') details
+    @ViewChild(MatPaginator, {static:false}) paginator: MatPaginator
+    @ViewChild(MatSort, {static:false}) sort: MatSort
+    @ViewChild('detailView', {static:false}) details
 
     detailMsg: any
 

@@ -27,7 +27,6 @@ import { FocusMonitor } from '@angular/cdk/a11y'
 import { coerceBooleanProperty } from '@angular/cdk/coercion'
 import { UsFormControl } from '@ulfalfa/ng-util'
 import { YamlInputDirective } from '../../directives/yaml-input.directive'
-import { directiveDef } from '@angular/core/src/view'
 @Component({
   selector: 'ha4us-yaml-input',
   templateUrl: './yaml-input.component.html',
@@ -42,7 +41,7 @@ export class YamlInputComponent implements OnInit, ControlValueAccessor {
 
   formControl: FormControl
 
-  @ViewChild(YamlInputDirective) yid: YamlInputDirective
+  @ViewChild(YamlInputDirective,{static:false}) yid: YamlInputDirective
 
   constructor(protected ngControl: NgControl) {
     if (ngControl) {

@@ -58,7 +58,7 @@ export class TagInputComponent implements OnInit, ControlValueAccessor {
   separatorKeysCodes: number[] = [ENTER, COMMA]
 
   tagInputCtrl = new FormControl()
-  @ViewChild('tagInput') tagInput: ElementRef<HTMLInputElement>
+  @ViewChild('tagInput', /* TODO: add static flag */ {static:false}) tagInput: ElementRef<HTMLInputElement>
 
   disabled = false
   constructor(@Optional() @Host() public formControl: NgControl) {

@@ -9,7 +9,7 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router'
 
 import { ObjectService, SettingsService } from '@ha4us/ng'
 import { map, switchMap, tap, withLatestFrom } from 'rxjs/operators'
-import { PARAMETERS } from '@angular/core/src/util/decorators'
+
 import { MatTabChangeEvent } from '@angular/material'
 import { Subscription } from 'rxjs'
 @Component({

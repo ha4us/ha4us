@@ -41,7 +41,7 @@ import {
 import { DynamicFormControl } from '../../models/forms'
 
 import { FormbuilderService } from '../../services/formbuilder.service'
-import { NG_MODEL_WITH_FORM_CONTROL_WARNING } from '@angular/forms/src/directives'
+
 import { FormLibraryService } from '../../services/formlibrary.service'
 
 export function normalizeValidator(
@@ -61,7 +61,7 @@ export function normalizeValidator(
 export class DynamicControlComponent implements OnInit, OnDestroy {
   @Input() controlDefinition: DynamicFormControl
 
-  @ViewChild('controlplaceholder', { read: ViewContainerRef })
+  @ViewChild('controlplaceholder', /* TODO: add static flag */ { static:false, read: ViewContainerRef })
   vcr: ViewContainerRef
   componentRef: ComponentRef<any>
   component: any

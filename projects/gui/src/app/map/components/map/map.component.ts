@@ -62,7 +62,7 @@ import { UsFormControl } from '@ulfalfa/ng-util'
 @UsFormControl('map[type]')
 export class MapComponent
   implements OnInit, AfterViewInit, ControlValueAccessor, Validator {
-  @ViewChild(MatSelect) private valueAccessor: ControlValueAccessor
+  @ViewChild(MatSelect, /* TODO: add static flag */ {static:false}) private valueAccessor: ControlValueAccessor
 
   @Input() placeholder: string
   @Input() required: boolean
