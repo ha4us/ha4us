@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core'
-import { Ha4usWidget } from '../models'
+import { Ha4usWidget, Ha4usWidgetInterface } from '../models'
 
 @Component({
   selector: 'ha4us-slider',
@@ -23,6 +23,20 @@ import { Ha4usWidget } from '../models'
   library: 'basic',
   height: 148,
   width: 148,
+  config: {
+    topic: 'topic',
+    factor: 'number?',
+    min: 'number?',
+    max: 'number?',
+    vertical: 'boolean?',
+
+  },
+  defaults: {
+    factor: '1',
+    min: '1',
+    max: '1000',
+    vertical: false,
+  },
   props: [
     {
       id: 'topic',

@@ -14,6 +14,7 @@ import {
   InjectionToken,
 } from '@angular/core'
 
+import { ValidatorService } from '@app/ha4us'
 import { WidgetService } from '../../widget.service'
 import { WidgetLibEntry } from '@app/widgets/models'
 import { ControlComponent } from '@ulfalfa/ng-util/forms/components/control/control.component'
@@ -33,7 +34,7 @@ export class WidgetComponent implements OnInit, OnChanges {
   @Input() library: string
   @Input() default: string
 
-  @ViewChild('placeholder', { read: ViewContainerRef,static:false })
+  @ViewChild('placeholder', { read: ViewContainerRef, static: true })
   protected viewContainerRef: ViewContainerRef
   protected currentComponent: ComponentRef<any>
   protected currentComponentFactory: ComponentFactory<any>

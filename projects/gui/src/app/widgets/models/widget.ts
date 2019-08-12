@@ -5,6 +5,10 @@ export interface WidgetPropertyDescription extends DynamicForm {
   default?: any
 }
 
+export interface Ha4usWidgetInterface {
+  setConfig?(config: object): void
+}
+
 export const DEFAULT_WIDGET_DEFINITION: Partial<Ha4usWidgetDefinition> = {
   props: [],
 }
@@ -12,8 +16,9 @@ export interface Ha4usWidgetDefinition {
   selector: string
   label: string
   library?: string
-  preview?: string
   props?: WidgetPropertyDescription
+  config?: object
+  defaults?: object
   height?: number
   width?: number
 }

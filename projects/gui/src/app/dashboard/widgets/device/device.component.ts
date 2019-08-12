@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core'
 
-import { Observable, Subject } from 'rxjs'
+import { Observable, Subject, ReplaySubject } from 'rxjs'
 import { take, map, switchMap } from 'rxjs/operators'
 import { Ha4usObject } from '@ha4us/core'
 
@@ -27,12 +27,13 @@ const NO_SYSTEM_ROLES = /^(Device|.*\/System\/)/i
   ],
 })
 export class DeviceWidgetComponent implements OnInit {
-  topic$: Subject<string> = new Subject()
+  topic$: ReplaySubject<string> = new ReplaySubject()
   @Input() set topic(topic: string) {
+    console.log('Setting Topic', topic)
     this.topic$.next(topic)
   }
 
-  children = this.topic$.pipe(
+  children$ = this.topic$.pipe(
     switchMap(topic => this.os.observe(topic + '/+'))
   )
 

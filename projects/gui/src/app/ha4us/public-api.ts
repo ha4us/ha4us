@@ -14,6 +14,7 @@ export * from './services/media.service'
 export * from './services/ha4us-api.service'
 export * from './services/settings.service'
 export * from './services/adapter.service'
+export * from './services/validator.service'
 
 export * from './models'
 

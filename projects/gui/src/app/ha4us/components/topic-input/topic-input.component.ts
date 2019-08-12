@@ -1,43 +1,23 @@
 import {
   Component,
   Input,
-  Output,
-  EventEmitter,
   OnInit,
-  AfterViewInit,
-  OnDestroy,
-  forwardRef,
   ViewChild,
-  Optional,
-  Host,
-  Self,
+  forwardRef,
   SkipSelf,
-  ElementRef,
+  Optional,
 } from '@angular/core'
 import {
-  AbstractControl,
-  FormControl,
   ControlValueAccessor,
-  ControlContainer,
-  DefaultValueAccessor,
-  NG_VALUE_ACCESSOR,
   NgControl,
+  NG_VALUE_ACCESSOR,
+  FormControl,
 } from '@angular/forms'
-import {
-  MatAutocompleteSelectedEvent,
-  MatAutocompleteTrigger,
-  MatInput,
-} from '@angular/material'
-
-import { Observable, Subject } from 'rxjs'
-import { tap, debounceTime, mergeMap, map, filter } from 'rxjs/operators'
-
-import { SPACE } from '@angular/cdk/keycodes'
-
+import { MatAutocompleteTrigger } from '@angular/material'
 import { MqttUtil } from '@ha4us/core'
-
 import { UsFormControl } from '@ulfalfa/ng-util'
-
+import { Observable } from 'rxjs'
+import { debounceTime, map, mergeMap, tap, filter } from 'rxjs/operators'
 import { ObjectService } from '../../services/object.service'
 
 export interface TopicHierarchie {
@@ -53,7 +33,8 @@ export interface TopicHierarchie {
 export class TopicInputComponent implements OnInit, ControlValueAccessor {
   public autoCompleteTopics: Observable<string[]>
 
-  @ViewChild(MatAutocompleteTrigger, {static:false}) autoTopic: MatAutocompleteTrigger
+  @ViewChild(MatAutocompleteTrigger, { static: false })
+  autoTopic: MatAutocompleteTrigger
 
   @Input() disabled = false
   @Input() placeholder
@@ -67,6 +48,7 @@ export class TopicInputComponent implements OnInit, ControlValueAccessor {
 
   ngOnInit() {
     this.autoCompleteTopics = this.ngControl.control.valueChanges.pipe(
+      // filter(val => !!val),
       debounceTime(500),
       mergeMap(topic => {
         const topicCount = MqttUtil.split(topic).length - 1

@@ -1,8 +1,8 @@
-<ha4us-dashboard-card *ngIf="children | async as children" [object]="topic$ | async | ha4usObject"
-  [controlObject]="children.length===1?children[0]:undefined">
+<ha4us-dashboard-card *ngIf="children$ | async as kids" [object]="topic$ | async | ha4usObject"
+  [controlObject]="kids.length===1?kids[0]:undefined">
   {{children |json}}
-  <ng-container ha4us-card-content *ngIf="children.length > 1">
-    <div *ngFor="let child of children">
+  <ng-container ha4us-card-content *ngIf="kids.length > 1">
+    <div *ngFor="let child of kids">
       <ha4us-listitem-widget [object]="child"></ha4us-listitem-widget>
     </div>
   </ng-container>

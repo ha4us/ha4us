@@ -51,7 +51,8 @@ export class ObjectService {
   }
 
   public updateOne(topic: string, changes: Partial<Ha4usObject>): void {
-    const update$ = this.query.select(topic).pipe(
+    debug(`UpdateOne ${topic}`, changes)
+    const update$ = this.query.selectEntity(topic).pipe(
       take(1),
       switchMap(obj => this.api.objectPut(obj))
     )

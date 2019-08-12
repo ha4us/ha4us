@@ -1,16 +1,18 @@
 <ha4us-toolbar>
   <span title>MQTT</span>
 </ha4us-toolbar>
+
 <div fxFlex fxFlexFill fxLayout="column" fxLayoutGap="10px" [style.padding.px]="15">
   <form (ngSubmit)="subscribe()" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
-    <ha4us-topic-input fxFlex="80" [(ngModel)]="currentTopic" name="topic"></ha4us-topic-input>
+    <ha4us-topic-input fxFlex="80" [formControl]="topicControl" name="topic"></ha4us-topic-input>
     <button type="submit" mat-raised-button>Abbonieren</button>
   </form>
-  <form (ngSubmit)="setValue(currentTopic, targetValue)" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+  <form (ngSubmit)="setValue(topicControl.value, targetValue)" fxLayout="row" fxLayoutAlign="start center"
+    fxLayoutGap="10px">
     <mat-form-field fxFlex="80" floatPlaceholder="always">
       <input matInput placeholder="Setze Wert" [(ngModel)]="targetValue" id="value" name="value">
     </mat-form-field>
-    <button type="submit" [disabled]="setable(currentTopic)" mat-raised-button>Setze</button>
+    <button type="submit" [disabled]="setable(topicControl.value)" mat-raised-button>Setze</button>
   </form>
   <div fxFlex class="scrollable" #scrollMe [scrollTop]="scrollMe.scrollHeight">
     <table mat-table [dataSource]="dataSource" matSort>

@@ -53,6 +53,7 @@ export class Ha4usApiService {
   }
 
   objectPut<T extends Ha4usObject>(obj: T, topic?: string): Observable<T> {
+    debug(`Putting object ${topic}`, obj)
     topic = topic ? topic : obj.topic
     return this.http.put(URL_API_OBJECT + '/' + topic, obj) as Observable<T>
   }

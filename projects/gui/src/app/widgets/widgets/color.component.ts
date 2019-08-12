@@ -17,7 +17,6 @@ import { Ha4usWidget } from '../models'
   selector: 'Input/Color/Rgb',
   library: 'basic',
   label: 'Farbe',
-  preview: './switch.svg',
   props: [
     {
       id: 'topic',

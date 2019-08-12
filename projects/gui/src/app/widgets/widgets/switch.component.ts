@@ -18,7 +18,6 @@ import { Ha4usWidget } from '../models'
   label: 'Switch',
   library: 'basic',
 
-  preview: './switch.svg',
   props: [
     {
       id: 'topic',
