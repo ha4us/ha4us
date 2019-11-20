@@ -1,6 +1,6 @@
 {
   "name": "@ha4us/fritz.adapter",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Ha4us Adapter for the avm fritzbox",
   "main": "dist/index.js",
   "author": "ulfalfa",
@@ -15,7 +15,7 @@
     "lint": "tslint --project tsconfig.json"
   },
   "dependencies": {
-    "@ha4us/adapter": "^1.5.0",
+    "@ha4us/adapter": "^1.5.1",
     "@ha4us/core": "^1.1.0",
     "dav": "^1.8.0",
     "libphonenumber-js": "^1.7.14",

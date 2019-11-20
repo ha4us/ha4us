@@ -1,6 +1,6 @@
 {
   "name": "@ha4us/rfid.adapter",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Adapter for usb based rfid reader in the ha4us universe",
   "main": "dist/index.js",
   "author": "ulfalfa",
@@ -18,7 +18,7 @@
     "watch": "nodemon"
   },
   "dependencies": {
-    "@ha4us/adapter": "^1.5.0",
+    "@ha4us/adapter": "^1.5.1",
     "@ha4us/core": "^1.1.0",
     "@ulfalfa/rfid": "^2.1.0"
   },

@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.2](https://github.com/ha4us/ha4us/compare/@ha4us/history.adapter@1.1.1...@ha4us/history.adapter@1.1.2) (2019-11-20)
+
+**Note:** Version bump only for package @ha4us/history.adapter
+
+
+
+
+
 ## [1.1.1](https://github.com/ha4us/ha4us/compare/@ha4us/history.adapter@1.1.0...@ha4us/history.adapter@1.1.1) (2019-06-12)
 
 
